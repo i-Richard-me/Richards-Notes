@@ -18,6 +18,12 @@ export default defineConfig({
                     ],
                 },
                 {
+                    label: 'Linux',
+                    items: [
+                        {label: '国内镜像源', link: '/linux/mirror-source'},
+                    ],
+                },
+                {
                     label: 'Self Hosted',
                     items: [
                         {
@@ -25,7 +31,6 @@ export default defineConfig({
                                 'VM & Linux',
                             items:
                                 [{label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
-                                    // {label: '国内镜像源', link: '/selfhosted/mirror-source'},
                                     {label: 'CUDA 虚拟机', link: '/selfhosted/vm/cuda-vm'}
                                 ]
                         },
