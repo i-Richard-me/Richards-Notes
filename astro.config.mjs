@@ -3,6 +3,10 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+
+    // Enable sitemap generation
+    site: 'https://docs.irichard.me',
+
     integrations: [
         starlight({
             title: 'My Tech Notes',
