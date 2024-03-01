@@ -35,13 +35,14 @@ export default defineConfig({
                             items:
                                 [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
                         },
-                        // {
-                        // 	label:
-                        // 		'Network',
-                        // 	items:
-                        // 		[{label: 'Nginx Proxy Manager', link: '/selfhosted/nginx-proxy-manager'},
-                        // 			{label: 'frp内网穿透', link: '/selfhosted/frp'},]
-                        // },
+                        {
+                        	label:
+                        		'Network',
+                        	items:
+                        		[{label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
+                        			// {label: 'frp内网穿透', link: '/selfhosted/frp'},
+                                ]
+                        },
                     ],
                 },
                 {
