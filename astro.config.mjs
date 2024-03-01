@@ -40,7 +40,7 @@ export default defineConfig({
                         		'Network',
                         	items:
                         		[{label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
-                        			// {label: 'frp内网穿透', link: '/selfhosted/frp'},
+                        			{label: 'frp内网穿透', link: '/selfhosted/network/frp'},
                                 ]
                         },
                     ],
