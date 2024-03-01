@@ -5,18 +5,14 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
     integrations: [
         starlight({
-            title: 'My Docs',
+            title: 'My Tech Notes',
             social: {
                 github: 'https://github.com/withastro/starlight',
             },
             sidebar: [
-                {
-                    label: 'Guides',
-                    items: [
-                        // Each item here is one entry in the navigation menu.
-                        {label: 'Example Guide', link: '/guides/example/'},
-                    ],
-                },
+
+                {label: 'Welcome', link: '/guides/intro/'},
+
                 {
                     label: 'Linux',
                     items: [
@@ -41,11 +37,11 @@ export default defineConfig({
                                 [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
                         },
                         {
-                        	label:
-                        		'Network',
-                        	items:
-                        		[{label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
-                        			{label: 'frp内网穿透', link: '/selfhosted/network/frp'},
+                            label:
+                                'Network',
+                            items:
+                                [{label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
+                                    {label: 'frp内网穿透', link: '/selfhosted/network/frp'},
                                 ]
                         },
                     ],
