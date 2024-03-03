@@ -32,13 +32,13 @@ frp 是一个高性能的反向代理应用，可以帮助你轻松实现内网�
     
     # 在配置文件中添加以下内容
     [common]
-    bind_port = 7000
-    dashboard_port = 19000
-    token = Password-9@@
-    dashboard_user = admin
-    dashboard_pwd = Password-9@@
-    vhost_http_port = 10080
-    vhost_https_port = 10443
+    bind_port = xxxx
+    dashboard_port = xxxx
+    token = xxxx
+    dashboard_user = xxxx
+    dashboard_pwd = xxxx
+    vhost_http_port = xxxx
+    vhost_https_port = xxxx
     ```
 
 3. 启动 frp 服务并设置开机自启
