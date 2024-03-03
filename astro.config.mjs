@@ -11,7 +11,7 @@ export default defineConfig({
         starlight({
             title: 'My Tech Notes',
             social: {
-                github: 'https://github.com/withastro/starlight',
+                github: 'https://github.com/i-Richard-me/docs',
             },
             sidebar: [
 
