@@ -29,8 +29,12 @@ frp 是一个高性能的反向代理应用，可以帮助你轻松实现内网�
     # 进入 frp 目录并编辑服务器端配置文件
     cd frp
     nano frps.ini
-    
-    # 在配置文件中添加以下内容
+    ```
+    在配置文件中添加以下内容
+   
+   ```
+   // frps.ini
+   
     [common]
     bind_port = xxxx
     dashboard_port = xxxx
