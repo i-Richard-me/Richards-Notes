@@ -19,7 +19,18 @@ export default defineConfig({
                         indexName: 'irichard',
                     },
                 ),
-                starlightBlog(),
+                starlightBlog(
+                    {
+                        authors: {
+                            richard: {
+                                name: 'Richard Wang',
+                                // title: 'CEO',
+                                // picture: '/avatar.png',
+                                url: 'https://docs.irichard.me',
+                            },
+                        },
+                    }
+                ),
             ],
             social: {
                 github: 'https://github.com/i-Richard-me/docs',
@@ -54,12 +65,12 @@ export default defineConfig({
                                     {label: 'frp内网穿透', link: '/selfhosted/network/frp'},
                                 ]
                         },
-                        {
-                            label:
-                                'Hardware',
-                            items:
-                                [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
-                        },
+                        // {
+                        //     label:
+                        //         'Hardware',
+                        //     items:
+                        //         [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
+                        // },
                     ],
                 },
                 {
