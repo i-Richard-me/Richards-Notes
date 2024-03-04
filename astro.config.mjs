@@ -24,8 +24,8 @@ export default defineConfig({
                         authors: {
                             richard: {
                                 name: 'Richard Wang',
-                                // title: 'CEO',
-                                // picture: '/avatar.png',
+                                title: '博主',
+                                picture: '/avatar_128x128.png',
                                 url: 'https://docs.irichard.me',
                             },
                         },
