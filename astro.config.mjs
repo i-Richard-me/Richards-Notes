@@ -32,6 +32,7 @@ export default defineConfig({
                             label: 'Linux',
                             items: [
                                 {label: '国内镜像源', link: '/selfhosted/linux/mirror-source'},
+                                {label: 'NTP时间同步', link: '/selfhosted/linux/ntp'},
                                 {label: 'Docker安装部署', link: '/selfhosted/linux/docker-install'},
                             ],
                         },
