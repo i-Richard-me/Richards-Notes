@@ -31,7 +31,8 @@ export default defineConfig({
                                 'VM & Linux',
                             items:
                                 [{label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
-                                    {label: 'CUDA 虚拟机环境', link: '/selfhosted/vm/cuda-vm'}
+                                    {label: 'CUDA 虚拟机环境', link: '/selfhosted/vm/cuda-vm'},
+                                    {label: '黑群晖', link: '/selfhosted/vm/synology-dsm'},
                                 ]
                         },
                         {
