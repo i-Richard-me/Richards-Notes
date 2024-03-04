@@ -1,6 +1,7 @@
 import {defineConfig} from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightDocSearch from '@astrojs/starlight-docsearch';
+import starlightBlog from 'starlight-blog'
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,10 +14,12 @@ export default defineConfig({
             title: 'My Tech Notes',
             plugins: [
                 starlightDocSearch({
-                    appId: 'PBF4GAL3QH',
-                    apiKey: 'cb8d1d8562fd6d9e77d1556afb91145e',
-                    indexName: 'irichard',
-                }),
+                        appId: 'PBF4GAL3QH',
+                        apiKey: 'cb8d1d8562fd6d9e77d1556afb91145e',
+                        indexName: 'irichard',
+                    },
+                ),
+                starlightBlog(),
             ],
             social: {
                 github: 'https://github.com/i-Richard-me/docs',
