@@ -16,19 +16,12 @@ export default defineConfig({
             sidebar: [
 
                 {label: 'Welcome', link: '/guides/intro/'},
-
-                {
-                    label: 'Linux',
-                    items: [
-                        {label: '国内镜像源', link: '/linux/mirror-source'},
-                    ],
-                },
                 {
                     label: 'Self Hosted',
                     items: [
                         {
                             label:
-                                'VM & Linux',
+                                'VMs',
                             items:
                                 [{label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
                                     {label: 'CUDA 虚拟机环境', link: '/selfhosted/vm/cuda-vm'},
@@ -36,10 +29,11 @@ export default defineConfig({
                                 ]
                         },
                         {
-                            label:
-                                'Hardware',
-                            items:
-                                [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
+                            label: 'Linux',
+                            items: [
+                                {label: '国内镜像源', link: '/selfhosted/linux/mirror-source'},
+                                {label: 'Docker安装部署', link: '/selfhosted/linux/docker-install'},
+                            ],
                         },
                         {
                             label:
@@ -48,6 +42,12 @@ export default defineConfig({
                                 [{label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
                                     {label: 'frp内网穿透', link: '/selfhosted/network/frp'},
                                 ]
+                        },
+                        {
+                            label:
+                                'Hardware',
+                            items:
+                                [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
                         },
                     ],
                 },
