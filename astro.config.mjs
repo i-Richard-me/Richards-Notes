@@ -22,7 +22,6 @@ export default defineConfig({
                 github: 'https://github.com/i-Richard-me/docs',
             },
             sidebar: [
-
                 {label: 'Welcome', link: '/guides/intro/'},
                 {
                     label: 'Self Hosted',
@@ -61,9 +60,17 @@ export default defineConfig({
                     ],
                 },
                 {
-                    label: 'Reference',
-                    autogenerate: {directory: 'reference'},
+                    label:
+                        '实用工具',
+                    items:
+                        [
+                            {label: '实用链接', link: '/utility/links'},
+                        ]
                 },
+                // {
+                //     label: 'Reference',
+                //     autogenerate: {directory: 'reference'},
+                // },
             ],
         }),
     ],
