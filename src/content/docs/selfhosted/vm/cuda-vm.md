@@ -1,6 +1,6 @@
 ---
 title: "搭建 CUDA 环境虚拟机"
-description: "在 Ubuntu 虚拟机系统中安装 NVIDIA 驱动和 CUDA Toolkit，以及如何搭建 CUDA Docker 环境。"
+description: "在 Ubuntu 虚拟机系统中安装 NVIDIA 驱动和 CUDA Toolkit。"
 ---
 
 当前技术领域，深度学习和大型模型应用的开发正变得日益重要，通过在虚拟机系统中安装 NVIDIA 驱动和 CUDA Toolkit，以及搭建
@@ -13,11 +13,12 @@ CUDA Docker 环境，可以在虚拟化的环境中充分利用 GPU 资源，进
 ### 虚拟机创建
 
 1. 确认PVE开启了硬件直通功能。[PVE硬件直通](proxmox-pve#硬件直通)
-2. 创建虚拟机，`Machine` 类型选择 `q35`。
+2. 创建虚拟机，`Machine` 类型选择 `q35`
 3. 添加PCI设备，选择显卡设备。
-    - 勾选 `ALL FUNCTIONS`，
-    - `Advanced` 设置中勾选 `PCI-Express`。
-4. `Display` 设置中选择 `Standard VGA` （否则console无法显示）。
+    - 勾选 `ALL FUNCTIONS`
+    - 勾选 `Primary GPU`
+    - `Advanced` 设置中勾选 `PCI-Express`
+4. `Display` 设置中选择 `Standard VGA` （否则console无法显示）
 
 ### 安装 NVIDIA 驱动
 
@@ -28,30 +29,24 @@ CUDA Docker 环境，可以在虚拟化的环境中充分利用 GPU 资源，进
 执行以下命令以检查虚拟机中是否检测到显卡：
 
 ```bash
-lspci | grep -i vga
+lspci | grep -i nvidia
 ```
 
 如果命令输出显示了 NVIDIA 显卡信息，则表示显卡直通成功。
 
 #### 安装驱动
 
-1. 更新系统包列表，确保所有的软件都是最新版本：
+1. 查看当前系统中可用的 NVIDIA 驱动：
 
     ```bash
-    sudo apt update
-    sudo apt upgrade -y
+    sudo ubuntu-drivers devices
     ```
 
 2. 安装 NVIDIA 驱动：
 
-   可以通过 Ubuntu 的“软件与更新”中的“附加驱动”选项自动查找并安装合适的 NVIDIA 驱动。或者，通过命令行安装特定版本的 NVIDIA
-   驱动：
-
     ```bash
-    sudo apt install nvidia-driver-xxx
+    sudo apt install nvidia-driver-495
     ```
-
-   其中 `xxx` 是驱动版本号，需要根据具体的显卡型号选择合适的版本号。
 
 3. 安装完成后，重启虚拟机以应用驱动安装：
 
@@ -90,6 +85,4 @@ lspci | grep -i vga
    其中 `<version>` 需要替换为实际安装的 CUDA 版本。
 
 4. 重启终端或重新登录，执行 `nvcc --version` 验证 CUDA Toolkit 是否安装成功。
-
-### 搭建 CUDA Docker 环境
 
