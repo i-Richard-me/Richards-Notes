@@ -57,14 +57,9 @@ Plausible 是一个开源、轻量级的网站分析工具，它尊重用户隐�
     docker-compose up -d
     ```
 
-:::note
-注意：Plausible 的默认端口为 8000。如果你需要将 Plausible 服务运行在不同的端口上，请在 `docker-compose.yml`
-文件中找到 `ports` 参数并进行修改。
-:::
-
 ### Astro 博客集成
 
-为了在你的 Astro 博客中使用 Plausible 进行网站访问分析，需要对 `astro.config.mjs` 文件进行如下修改：
+为了在 Astro 博客中使用 Plausible 进行网站访问分析，需要对 `astro.config.mjs` 文件进行如下修改：
 
 ```javascript
 starlight({
@@ -81,7 +76,7 @@ starlight({
 });
 ```
 
-以上代码将 Plausible 的追踪脚本添加到你的 Astro 博客中。请确保替换 `src` 中的 URL 为你的 Plausible 实例
+以上代码将 Plausible 的追踪脚本添加到 Astro 博客中。请确保替换 `src` 中的 URL 为你的 Plausible 实例
 URL，同时将 `'data-domain'` 的值更改为你的域名。
 
 完成这些步骤后，你的 Astro 博客将成功集成 Plausible 分析。现在，你可以在 Plausible 的仪表板上看到你的网站访问数据，从而更好地理解你的访问者行为和偏好。
