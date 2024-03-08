@@ -7,9 +7,9 @@ import {Tabs, TabItem} from '@astrojs/starlight/components';
 
 鉴于国内网络环境的特殊性，访问或下载国外软件及其更新时常常遭遇速度慢的问题。使用国内镜像源是解决这一问题的有效方法。本文档列出了一些常用的国内镜像源，旨在帮助用户在Linux操作系统安装和软件管理过程中，实现更高效的数据下载。
 
-### Linux 系统ISO镜像
+## Linux 系统ISO镜像
 
-利用镜像源下载ISO文件是安装Linux操作系统的第一步。以下是针对RockyLinux和Ubuntu两种流行Linux发行版的镜像源列表。
+
 
 <Tabs>
     <TabItem label="Rockylinux">
@@ -22,19 +22,102 @@ import {Tabs, TabItem} from '@astrojs/starlight/components';
     </TabItem>
 </Tabs>
 
-### Linux 软件镜像源
+## 替换 Linux 软件镜像源
 
 在Linux系统中安装或更新软件时，选择合适的软件镜像源能显著提高下载速度。以下是针对RockyLinux和Ubuntu操作系统的软件镜像源推荐。
 
-<Tabs>
-    <TabItem label="Rockylinux">
-        - [中国科学技术大学镜像](https://mirrors.ustc.edu.cn/rocky/)
-        - [阿里云镜像](https://mirrors.aliyun.com/rockylinux/)
-    </TabItem>
-    <TabItem label="Ubuntu">
-        - [中国科学技术大学镜像](https://mirrors.ustc.edu.cn/ubuntu/)
-        - [阿里云镜像](https://mirrors.aliyun.com/ubuntu/)
-    </TabItem>
-</Tabs>
+### RockyLinux 更换软件源
 
-### 如何使用镜像源
+1. 更换软件源
+
+    <Tabs>
+        <TabItem label="Rockylinux 9">
+            ```bash frame='none'
+            sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+                    -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.cernet.edu.cn/rocky|g' \
+                    -i.bak \
+                    /etc/yum.repos.d/rocky-extras.repo \
+                    /etc/yum.repos.d/rocky.repo
+            ```
+        </TabItem>
+        <TabItem label="RockyLinux 8">
+            ```bash frame='none'
+            sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+                    -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.cernet.edu.cn/rocky|g' \
+                    -i.bak \
+                    /etc/yum.repos.d/Rocky-AppStream.repo \
+                    /etc/yum.repos.d/Rocky-BaseOS.repo \
+                    /etc/yum.repos.d/Rocky-Extras.repo \
+                    /etc/yum.repos.d/Rocky-PowerTools.repo
+            ```
+        </TabItem>
+    </Tabs>
+
+2. 清除历史缓存
+
+    ```bash frame='none'
+    sudo dnf clean all
+    ```
+3. 更新缓存
+
+    ```bash frame='none'
+    sudo dnf makecache
+    ```
+
+### Ubuntu 更换软件源
+
+1. 在安装时替换以下 mirror 地址
+
+    ```bash frame='none'
+    https://mirrors.cernet.edu.cn/ubuntu/
+    ```
+
+2. 若在已经安装的系统中更换软件源，可以通过以下命令进行更换
+    <Tabs>
+        <TabItem label="快速配置命令">
+        ```bash 
+        cat <<'EOF' > /etc/apt/sources.list
+        # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+        deb https://mirrors.cernet.edu.cn/ubuntu/ jammy main restricted universe multiverse
+        # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy main restricted universe multiverse
+        deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+        # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+        deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+        # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+
+        # deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+        # # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+
+        deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+        # deb-src http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+
+        # 预发布软件源，不建议启用
+        # deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+        # # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+        EOF
+        ```
+        </TabItem>
+        <TabItem label="/etc/apt/sources.list">
+        ```bash
+        // /etc/apt/sources.list
+
+        # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+        deb https://mirrors.cernet.edu.cn/ubuntu/ jammy main restricted universe multiverse
+        # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy main restricted universe multiverse
+        deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+        # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+        deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+        # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+
+        # deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+        # # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+
+        deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+        # deb-src http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+
+        # 预发布软件源，不建议启用
+        # deb https://mirrors.cernet.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+        # # deb-src https://mirrors.cernet.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+        ```
+        </TabItem>
+    </Tabs>
