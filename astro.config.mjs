@@ -1,7 +1,8 @@
 import {defineConfig} from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightDocSearch from '@astrojs/starlight-docsearch';
-import starlightBlog from 'starlight-blog'
+import starlightBlog from 'starlight-blog';
+
 
 // https://astro.build/config
 export default defineConfig({

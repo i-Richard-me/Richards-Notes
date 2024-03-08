@@ -1064,6 +1064,11 @@ astring@^1.8.0:
   resolved "https://registry.yarnpkg.com/astring/-/astring-1.8.6.tgz#2c9c157cf1739d67561c56ba896e6948f6b93731"
   integrity sha512-ISvCdHdlTDlH5IpxQJIex7BWBywFWgjJSVdwst+/iQCoEYnyOaQ95+X1JGshuBjGp6nxKUy1jMgE3zPqN7fQdg==
 
+astro-analytics@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/astro-analytics/-/astro-analytics-2.7.0.tgz#5d57efc04f1daa707c74ab550be0729bdab3db2c"
+  integrity sha512-/qctBn7LF9DS3ff2YYFrYtCkLLw2fboPDJUgg3HErygGbEBvebW/eGRftZH4ykDJhlCvwTsSEKz/vff7WllyAw==
+
 astro-expressive-code@^0.33.4:
   version "0.33.4"
   resolved "https://registry.yarnpkg.com/astro-expressive-code/-/astro-expressive-code-0.33.4.tgz#22111d857e373368e27187e0719ac8737ea4916e"
