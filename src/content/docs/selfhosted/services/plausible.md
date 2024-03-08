@@ -3,7 +3,8 @@ title: "Plausible网站分析工具"
 description: "通过Docker安装并部署Plausible Analytics，并集成到Astro博客中。"
 ---
 
-Plausible 是一个开源、轻量级的网站分析工具，它尊重用户隐私并且提供实用的网站访问数据。与其他分析工具相比，Plausible 设计的目的是提供一个简洁、用户友好且不侵犯用户隐私的分析方案。
+Plausible 是一个开源、轻量级的网站分析工具，它尊重用户隐私并且提供实用的网站访问数据。与其他分析工具相比，Plausible
+设计的目的是提供一个简洁、用户友好且不侵犯用户隐私的分析方案。
 
 ### 安装部署 Plausible
 
@@ -35,6 +36,21 @@ Plausible 是一个开源、轻量级的网站分析工具，它尊重用户隐�
 
 4. **启动服务**
 
+   :::caution
+   如果不使用官方提供的 Caddy 服务，你需要自行配置 Nginx 或者其他反向代理服务。并在 `docker-compose.yml` 文件中修改
+   plausible 服务的 `ports` 参数。
+
+   ```diff lang="yaml"
+   // docker-compose.yml
+   
+   plausible:
+     ports:
+   -   - "127.0.0.1:8000:8000" 
+   +   - "8000:8000"
+   ```
+
+   :::
+
    返回到终端，执行以下命令来启动 Plausible 服务：
 
     ```bash
@@ -42,7 +58,8 @@ Plausible 是一个开源、轻量级的网站分析工具，它尊重用户隐�
     ```
 
 :::note
-注意：Plausible 的默认端口为 8000。如果你需要将 Plausible 服务运行在不同的端口上，请在 `docker-compose.yml` 文件中找到 `ports` 参数并进行修改。
+注意：Plausible 的默认端口为 8000。如果你需要将 Plausible 服务运行在不同的端口上，请在 `docker-compose.yml`
+文件中找到 `ports` 参数并进行修改。
 :::
 
 ### Astro 博客集成
@@ -51,19 +68,20 @@ Plausible 是一个开源、轻量级的网站分析工具，它尊重用户隐�
 
 ```javascript
 starlight({
-  head: [
-    {
-      tag: 'script',
-      attrs: {
-        src: 'https://plausible.example.com/js/plausible.js',
-        'data-domain': 'example.com',
-        defer: true,
-      },
-    },
-  ],
+    head: [
+        {
+            tag: 'script',
+            attrs: {
+                src: 'https://plausible.example.com/js/plausible.js',
+                'data-domain': 'example.com',
+                defer: true,
+            },
+        },
+    ],
 });
 ```
 
-以上代码将 Plausible 的追踪脚本添加到你的 Astro 博客中。请确保替换 `src` 中的 URL 为你的 Plausible 实例 URL，同时将 `'data-domain'` 的值更改为你的域名。
+以上代码将 Plausible 的追踪脚本添加到你的 Astro 博客中。请确保替换 `src` 中的 URL 为你的 Plausible 实例
+URL，同时将 `'data-domain'` 的值更改为你的域名。
 
 完成这些步骤后，你的 Astro 博客将成功集成 Plausible 分析。现在，你可以在 Plausible 的仪表板上看到你的网站访问数据，从而更好地理解你的访问者行为和偏好。
