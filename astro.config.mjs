@@ -54,7 +54,7 @@ export default defineConfig({
                             label:
                                 'Services',
                             items:
-                                [{label: 'Plausible', link: '/selfhosted/services/plausible'},
+                                [{label: 'Plausible 网站分析工具', link: '/selfhosted/services/plausible'},
                                 ]
                         },
                         {
@@ -62,14 +62,14 @@ export default defineConfig({
                                 'VMs',
                             items:
                                 [{label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
-                                    {label: 'CUDA 虚拟机环境', link: '/selfhosted/vm/cuda-vm'},
-                                    {label: '黑群晖', link: '/selfhosted/vm/synology-dsm'},
+                                    {label: 'CUDA 虚拟机部署', link: '/selfhosted/vm/cuda-vm'},
+                                    {label: '黑群晖安装指南', link: '/selfhosted/vm/synology-dsm'},
                                 ]
                         },
                         {
                             label: 'Linux',
                             items: [
-                                {label: '国内镜像源', link: '/selfhosted/linux/mirror-source'},
+                                {label: '替换国内镜像源', link: '/selfhosted/linux/mirror-source'},
                                 {label: 'NTP时间同步', link: '/selfhosted/linux/ntp'},
                                 {label: 'Docker安装部署', link: '/selfhosted/linux/docker-install'},
                             ],
