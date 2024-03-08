@@ -32,6 +32,16 @@ export default defineConfig({
                     }
                 ),
             ],
+            head: [
+                {
+                    tag: 'script',
+                    attrs: {
+                        src: 'https://plausible.homelab.wang/js/script.js',
+                        'data-domain': 'docs.irichard.me',
+                        defer: true,
+                    },
+                },
+            ],
             social: {
                 github: 'https://github.com/i-Richard-me/docs',
             },
