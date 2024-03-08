@@ -52,6 +52,13 @@ export default defineConfig({
                     items: [
                         {
                             label:
+                                'Services',
+                            items:
+                                [{label: 'Plausible', link: '/selfhosted/services/plausible'},
+                                ]
+                        },
+                        {
+                            label:
                                 'VMs',
                             items:
                                 [{label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
