@@ -9,8 +9,6 @@ import {Tabs, TabItem} from '@astrojs/starlight/components';
 
 ## Linux 系统ISO镜像
 
-
-
 <Tabs>
     <TabItem label="Rockylinux">
         - [中国科学技术大学镜像 Rocky 9.3](https://mirrors.ustc.edu.cn/rocky/9.3/isos/x86_64/)
@@ -73,9 +71,10 @@ import {Tabs, TabItem} from '@astrojs/starlight/components';
     ```
 
 2. 若在已经安装的系统中更换软件源，可以通过以下命令进行更换
+
     <Tabs>
         <TabItem label="快速配置命令">
-        ```bash 
+        ```bash
         cat <<'EOF' > /etc/apt/sources.list
         # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
         deb https://mirrors.cernet.edu.cn/ubuntu/ jammy main restricted universe multiverse
