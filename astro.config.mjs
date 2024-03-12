@@ -48,20 +48,34 @@ export default defineConfig({
             sidebar: [
                 {label: 'Welcome', link: '/guides/intro/'},
                 {
+                    label: '大模型',
+                    items: [
+                        {
+                            label:
+                                '模型部署',
+                            items:
+                                [
+                                    {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
+                                ]
+                        },]
+                },
+                {
                     label: 'Self Hosted',
                     items: [
                         {
                             label:
                                 'Services',
                             items:
-                                [{label: 'Plausible 网站分析工具', link: '/selfhosted/services/plausible'},
+                                [
+                                    {label: 'Plausible 网站分析工具', link: '/selfhosted/services/plausible'},
                                 ]
                         },
                         {
                             label:
                                 'VMs',
                             items:
-                                [{label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
+                                [
+                                    {label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
                                     {label: 'CUDA 虚拟机部署', link: '/selfhosted/vm/cuda-vm'},
                                     {label: '黑群晖安装指南', link: '/selfhosted/vm/synology-dsm'},
                                 ]
