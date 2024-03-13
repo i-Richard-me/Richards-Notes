@@ -56,6 +56,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
+                                    {label: '开源大模型兼容Openai接口', link: '/llm/openai-api-for-open-llm'},
                                 ]
                         },]
                 },
