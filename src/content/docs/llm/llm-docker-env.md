@@ -10,7 +10,7 @@ NVIDIA Container Toolkit 允许用户以容器形式轻松部署、运行 GPU �
 
 1. **添加 NVIDIA 容器工具包的 GPG 密钥和仓库**。
 
-   ```bash frame=none
+   ```bash
    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
     && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
@@ -19,32 +19,32 @@ NVIDIA Container Toolkit 允许用户以容器形式轻松部署、运行 GPU �
 
 2. **启用实验性支持（可选）**。如果您希望使用最新的实验性功能，可以启用实验性仓库。
 
-   ```bash frame=none
+   ```bash
    sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
    ```
 
 3. **安装 NVIDIA Container Toolkit**。
 
-   ```bash frame=none
+   ```bash
    sudo apt-get update
    sudo apt-get install -y nvidia-container-toolkit
    ```
 
 4. **配置 Docker 以使用 NVIDIA Container Runtime**。这一步骤确保 Docker 能够使用 NVIDIA GPU。
 
-    ```bash frame=none
+    ```bash
     sudo nvidia-ctk runtime configure --runtime=docker
     ```
 
 5. **重启 Docker 服务**。
 
-   ```bash frame=none
+   ```bash
    sudo systemctl restart docker
    ```
 
 ## 构建 Docker 镜像
 
-接下来，我们将构建一个 Docker 镜像，该镜像基于 NVIDIA CUDA，预装了 Miniconda 和大量用于数据科学和机器学习的 Python 包。
+接下来，我们将构建一个 Docker 镜像，该镜像基于 NVIDIA CUDA，预装了 Miniconda 和大量用于数据科学和深度学习的 Python 包，可以直接用于大模型部署和大模型应用的开发。
 
 1. **创建 Dockerfile：**
 
@@ -142,7 +142,7 @@ NVIDIA Container Toolkit 允许用户以容器形式轻松部署、运行 GPU �
    ```
 
 2. **构建镜像：**
-   ```bash frame=none
+   ```bash
    docker build -t cuda_container_chatbot .
    ```
 
@@ -175,16 +175,37 @@ NVIDIA Container Toolkit 允许用户以容器形式轻松部署、运行 GPU �
    ```
 
 2. **启动容器：**
-   ```bash frame=none
+   ```bash
    docker-compose up -d
    ```
 
 3. **启动 SSH 服务（如果需要）：**
-   ```bash frame=none
+   ```bash
    sudo docker exec cuda_container_chatbot service ssh start
    ```
 
 4. **进入容器：**
-   ```bash frame=none
+   ```bash
    docker exec -it cuda_container_chatbot /bin/bash
    ```
+   
+### 启动 JupyterLab 服务（如果需要）
+
+1. **进入容器**
+
+2. **配置密码**
+   ```bash
+   jupyter lab password
+   ```
+
+3. **启动 JupyterLab**
+   ```bash
+   jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --notebook-dir=/ai/
+   ```
+   
+   :::tip
+   - `--no-browser` 参数允许在远程服务器上运行 JupyterLab。
+   - `--allow-root` 参数允许以 root 用户身份运行 JupyterLab。
+   - `--ip` 参数指定了 JupyterLab 的监听地址。
+   - `--notebook-dir` 参数指定了 JupyterLab 的工作目录，可以根据实际情况进行修改。
+   :::
