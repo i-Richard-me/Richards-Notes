@@ -12,6 +12,10 @@ export default defineConfig({
     integrations: [
         starlight({
             title: 'My Tech Notes',
+            customCss: [
+                // 你的自定义 CSS 文件的相对路径
+                './src/styles/custom.css',
+            ],
             plugins: [
                 starlightDocSearch({
                         appId: 'PBF4GAL3QH',
@@ -52,13 +56,22 @@ export default defineConfig({
                     items: [
                         {
                             label:
+                                '模型应用',
+                            items:
+                                [
+                                    {label: '提升情感分类准确性', link: '/llm/application/sentiment_classification'},
+                                ]
+                        },
+                        {
+                            label:
                                 '模型部署',
                             items:
                                 [
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
                                     {label: '开源大模型兼容Openai接口', link: '/llm/openai-api-for-open-llm'},
                                 ]
-                        },]
+                        },
+                    ]
                 },
                 {
                     label: 'Self Hosted',
@@ -98,12 +111,6 @@ export default defineConfig({
                                     {label: 'frp内网穿透', link: '/selfhosted/network/frp'},
                                 ]
                         },
-                        // {
-                        //     label:
-                        //         'Hardware',
-                        //     items:
-                        //         [{label: 'IPMI 风扇转速', link: '/selfhosted/hardware/ipmi-fan'}]
-                        // },
                     ],
                 },
                 {
