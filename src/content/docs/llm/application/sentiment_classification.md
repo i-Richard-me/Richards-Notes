@@ -28,7 +28,7 @@ description: ""
    :::
 
    | 模型  | 平均得分  | 识别错误占比 |
-      |-----|-------|--------|
+   |-----|-------|--------|
    | 大模型 | 0.95  | 0%     |
    | 传统NLP | 0.775 | 15%    |
 
@@ -48,17 +48,16 @@ demo 中代码为 LangChain 0.1.0 版本之前的用法，新版本中可能会�
    提示词的调试在大模型任务尤为重要，例如在这个案例中，让模型分类为`正向`、`负向`、`中性`的分类准确性，就要比分类为`positive`、`negative`、`neutral`的准确性更高。
    :::
 
-   <iframe width="784" style="height: 744px;" src="https://datalore.homelab.wang/report/embed/nTOU55Xf3Rysz8vabIXrXN/TD1JQ75p9dXqm1BbtzfjPL/pu2FOrAvP1iHB0bBl8XPGj?height=744" frameborder="0"></iframe>
+   <iframe width="784" style="height: 744px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/YRbYJiGmvP6WK1eZNqgBRg/pu2FOrAvP1iHB0bBl8XPGj?height=744" frameborder="0"></iframe>
 
 3. **通过大模型进行分类并将标签拼接到原数据集**
 
-   <iframe width="784" style="height: 400px;" src="https://datalore.homelab.wang/report/embed/nTOU55Xf3Rysz8vabIXrXN/TD1JQ75p9dXqm1BbtzfjPL/RnXnn2CAg1bFHHdrweMYdU?height=400" frameborder="0"></iframe>
+   <iframe width="784" style="height: 400px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/YRbYJiGmvP6WK1eZNqgBRg/RnXnn2CAg1bFHHdrweMYdU?height=400" frameborder="0"></iframe>
 
 4. **计算评分**
 
-   <iframe width="784" style="height: 582px;" src="https://datalore.homelab.wang/report/embed/nTOU55Xf3Rysz8vabIXrXN/TD1JQ75p9dXqm1BbtzfjPL/0VW9RTbl4cmOjXbdyWiE7U?height=582" frameborder="0"></iframe>
+   <iframe width="784" style="height: 582px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/YRbYJiGmvP6WK1eZNqgBRg/0VW9RTbl4cmOjXbdyWiE7U?height=582" frameborder="0"></iframe>
 
 5. **输出结果**
 
-   <iframe width="784" style="height: 418px;" src="https://datalore.homelab.wang/report/embed/nTOU55Xf3Rysz8vabIXrXN/TD1JQ75p9dXqm1BbtzfjPL/dBKOTHJrgUyHZ9RvJsbP5N?height=418" frameborder="0"></iframe>
-   
+   <iframe width="784" style="height: 418px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/YRbYJiGmvP6WK1eZNqgBRg/dBKOTHJrgUyHZ9RvJsbP5N?height=418" frameborder="0"></iframe>
