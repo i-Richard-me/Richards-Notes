@@ -11,7 +11,7 @@ export default defineConfig({
 
     integrations: [
         starlight({
-            title: 'My Tech Notes',
+            title: 'Richard\'s Blog',
             customCss: [
                 // 你的自定义 CSS 文件的相对路径
                 './src/styles/custom.css',
