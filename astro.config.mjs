@@ -60,6 +60,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '提升情感分类准确性', link: '/llm/application/sentiment_classification'},
+                                    {label: '不同规模模型效果测试', link: '/llm/application/llm_compare'},
                                     {label: '简单SQL问答系统', link: '/llm/application/sqlbot_basic'},
                                 ]
                         },

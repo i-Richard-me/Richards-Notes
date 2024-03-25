@@ -1,9 +1,9 @@
 ---
-title: "基于SQL数据库的简单问答系统实现"
-description: "探索如何实现一个简单的问答系统，该系统基于SQL数据库执行查询，并通过大模型处理查询结果以生成回答。"
+title: "基于SQL数据库的简单问答功能实现"
+description: "探索如何实现一个简单的问答环节，基于SQL数据库执行查询，并通过大模型处理查询结果以生成回答。"
 ---
 
-本文记录如何实现一个简单的问答系统，基于SQL数据库执行查询，并通过大模型处理查询结果以生成回答。
+本文记录如何实现一个简单的问答功能，基于SQL数据库执行查询，并通过大模型处理查询结果以生成回答。
 
 :::note
 在生产环境中部署时，除了以下基础步骤外，还需要考虑连接数据库的安全性、查询语句的审核、超大表格的处理、多轮对话的支持等，将在后续的实践中逐步完善。
@@ -37,7 +37,7 @@ description: "探索如何实现一个简单的问答系统，该系统基于SQL
     print(table_info)
     ```
     
-    <iframe width="784" style="height: 440px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/KHiIFEm4qyihsqU7yFZ6tR/YA6JCWB6qkdIVdcmxKr2EQ?height=440" frameborder="0"></iframe>
+    <iframe width="784" style="height: 440px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/KHiIFEm4qyihsqU7yFZ6tR/YA6JCWB6qkdIVdcmxKr2EQ" frameborder="0"></iframe>
 
 3. **利用大模型生成查询语句**
 
