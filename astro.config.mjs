@@ -56,6 +56,14 @@ export default defineConfig({
                     items: [
                         {
                             label:
+                                '优化技巧',
+                            items:
+                                [
+                                    {label: '用户问题拆解', link: '/llm/optimizing/rag_with_decomposition'},
+                                ]
+                        },
+                        {
+                            label:
                                 '模型应用',
                             items:
                                 [
