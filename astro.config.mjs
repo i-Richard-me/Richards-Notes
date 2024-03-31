@@ -72,10 +72,11 @@ export default defineConfig({
                                 '模型应用',
                             items:
                                 [
-                                    {label: '提升情感分类准确性', link: '/llm/application/sentiment_classification'},
-                                    {label: '不同规模模型效果测试', link: '/llm/application/llm_compare'},
+                                    {label: '提升情感分类任务准确性', link: '/llm/application/sentiment_classification'},
+                                    {label: '文本分类任务中的模型效果对比', link: '/llm/application/llm_compare'},
+                                    {label: '利用大模型进行实体及属性抽取', link: '/llm/application/performance-eval-analysis'},
                                     {label: '简单实现文档检索和生成', link: '/llm/application/rag_basic'},
-                                    {label: '简单SQL问答系统', link: '/llm/application/sqlbot_basic'},
+                                    {label: '基于SQL数据库的简单问答', link: '/llm/application/sqlbot_basic'},
                                 ]
                         },
                         {
