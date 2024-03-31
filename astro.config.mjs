@@ -55,6 +55,11 @@ export default defineConfig({
                     label: '大模型',
                     items: [
                         {
+                            label: '简介', link: '/llm/llm-intro',
+                            badge: {text: 'Intro', variant: 'success'},
+                            attrs: {style: 'font-size: var(--sl-text-base); font-weight: 600; color: var(--sl-color-white)'},
+                        },
+                        {
                             label:
                                 '优化技巧',
                             items:
