@@ -52,7 +52,7 @@ export default defineConfig({
             sidebar: [
                 {label: 'Welcome', link: '/guides/intro/'},
                 {
-                    label: '大模型',
+                    label: 'AI与大模型',
                     items: [
                         {
                             label: '简介', link: '/llm/llm-intro',
@@ -78,6 +78,7 @@ export default defineConfig({
                                     {label: '利用大模型进行实体及属性抽取', link: '/llm/application/performance-eval-analysis'},
                                     {label: '简单实现文档检索和生成', link: '/llm/application/rag_basic'},
                                     {label: '基于SQL数据库的简单问答', link: '/llm/application/sqlbot_basic'},
+                                    {label: '简单构建岗位与技能知识图谱', link: '/llm/application/knowledge-graph'},
                                 ]
                         },
                         {
