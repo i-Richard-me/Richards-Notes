@@ -64,8 +64,9 @@ export default defineConfig({
                                 '优化技巧',
                             items:
                                 [
-                                    {label: '用户问题拆解', link: '/llm/optimizing/rag_with_decomposition'},
-                                    {label: '多向量检索之假设提问', link: '/llm/optimizing/multivector_retriever_hypothetical_queries'}
+                                    {label: '示例选择器', link: '/llm/optimizing/example-selector'},
+                                    {label: '复杂问题分解', link: '/llm/optimizing/rag-with-decomposition'},
+                                    {label: '多向量检索之假设提问', link: '/llm/optimizing/multivector-retriever-hypothetical-queries'}
                                 ]
                         },
                         {
