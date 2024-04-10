@@ -101,7 +101,9 @@ export default defineConfig({
                                 'Services',
                             items:
                                 [
+                                    {label: 'Milvus 向量数据库', link: '/selfhosted/services/milvus'},
                                     {label: 'Plausible 网站分析工具', link: '/selfhosted/services/plausible'},
+                                    {label: 'Vaultwarden 密码管理服务', link: '/selfhosted/services/vaultwarden'},
                                 ]
                         },
                         {
