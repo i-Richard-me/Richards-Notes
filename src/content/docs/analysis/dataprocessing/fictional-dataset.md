@@ -66,6 +66,8 @@ description: "介绍如何通过构造一个员工晋升数据集来演示数据
     levels = range(1, 7)
     df['员工晋升前级别'] = np.random.choice(levels, p=level_ratios, size=len(df))
     
+    level_duration_means = {1: 1, 2: 1.5, 3: 2, 4: 2.5, 5: 3, 6: 3.5}
+   
     def generate_duration(level):
         mean = level_duration_means[level]
         sigma = 0.2
@@ -82,9 +84,28 @@ description: "介绍如何通过构造一个员工晋升数据集来演示数据
     最后，我们根据员工的停留时长和级别来判断他们是否符合提名条件，是否被提名，以及是否晋升成功，并据此更新他们的级别：
   
     ```python
+    # 判断是否符合提名条件
     nomination_conditions = {1: 0.8, 2: 1.3, 3: 1.8, 4: 2.3, 5: 2.8, 6: float('inf')}
     df['本年度是否符合提名条件'] = df.apply(lambda row: '是' if row['员工晋升前在当前级别的停留时长'] > nomination_conditions[row['员工晋升前级别']] else '否', axis=1)
     
+    # 判断是否被提名以及是否晋升成功
+    nomination_ratios = {1: 0.35, 2: 0.25, 3: 0.2, 4: 0.15, 5: 0.1}
+    promotion_ratios = {1: 0.9, 2: 0.8, 3: 0.7, 4: 0.6, 5: 0.5}
+   
+   def nominate(row):
+     if row['本年度是否符合提名条件'] == '否':
+        return '否'
+     else:
+        level = row['员工晋升前级别']
+        return '是' if np.random.rand() < nomination_ratios.get(level, 0) else '否'
+
+   def promote(row):
+      if row['本年度是否被提名作为候选人'] == '否':
+         return '否'
+      else:
+         level = row['员工晋升前级别']
+      return '是' if np.random.rand() < promotion_ratios.get(level, 0) else '否'
+   
     df['本年度是否被提名作为候选人'] = df.apply(nominate, axis=1)
     df['本年度是否晋升成功'] = df.apply(promote, axis=1)
     df['员工晋升后级别'] = df.apply(lambda row: min(6, row['员工晋升前级别'] + 1) if row['本年度是否晋升成功'] == '是' else row['员工晋升前级别'], axis=1)
