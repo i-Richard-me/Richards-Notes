@@ -147,7 +147,7 @@ volumes:
 
     由于宿主机使用了minimal安装，没有自带Java。若系统中已有，可以跳过该步。
 
-      ```bash
+      ```shell
       dnf install java-17-openjdk
       ```
 
@@ -161,11 +161,11 @@ volumes:
 
     将下面的内容添加到宿主机和容器内的全局变量，添加到 `/etc/profile` 里。
     
-      ```bash
+      ```shell
       vim /etc/profile
       ```
     
-      ```bash
+      ```shell
       export JAVA_OPTS="-javaagent:/opt/agent/atlassian-agent.jar ${JAVA_OPTS}"
       ```
 
@@ -173,7 +173,7 @@ volumes:
 
     重启或运行以下命令。
     
-      ```Bash
+      ```shell
       source /etc/profile
       ```
 
@@ -181,7 +181,7 @@ volumes:
 
 1. 进入容器
 
-      ```Bash
+      ```shell
       # 进入 jira 容器
       docker exec -it jira /bin/bash
     
@@ -235,7 +235,7 @@ volumes:
 - `-s` 为许可编号，根据输入秘钥界面的提示填入。
 :::
 
-```bash
+```shell
 java -jar /opt/agent/atlassian-agent.jar -d -p jira -m admin@example.com -n admin -o https://example.com -s BXAY-7KCQ-MXW2-K6D8
 ```
 
