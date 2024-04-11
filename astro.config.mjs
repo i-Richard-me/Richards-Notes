@@ -103,7 +103,7 @@ export default defineConfig({
                     ]
                 },
                 {
-                    label: '数据可视化',
+                    label: '数据分析',
                     items: [
                         // {
                         //     label: '简介', link: '/llm/llm-intro',
@@ -112,10 +112,18 @@ export default defineConfig({
                         // },
                         {
                             label:
-                                '绘图进阶',
+                                '数据可视化',
                             items:
                                 [
-                                    {label: '箱线图&小提琴图描述数据分布', link: '/visualization/plotly-box-violin'},
+                                    {label: '箱线图&小提琴图描述数据分布', link: '/analysis/plotly-box-violin'},
+                                ]
+                        },
+                        {
+                            label:
+                                '数据处理',
+                            items:
+                                [
+                                    {label: '虚构数据集', link: '/analysis/dataprocessing/fictional-dataset'},
                                 ]
                         },
                     ],
