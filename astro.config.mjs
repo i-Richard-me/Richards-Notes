@@ -116,6 +116,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '箱线图&小提琴图描述数据分布', link: '/analysis/plotly-box-violin'},
+                                    {label: '南丁格尔玫瑰图增强数据趣味性', link: '/analysis/nightingale-chart'},
                                 ]
                         },
                         {
