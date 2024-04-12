@@ -112,20 +112,28 @@ export default defineConfig({
                         // },
                         {
                             label:
+                                '数据处理',
+                            items:
+                                [
+                                    {label: '虚构数据集', link: '/analysis/dataprocessing/fictional-dataset'},
+                                ]
+                        },
+                        {
+                            label:
+                                'Tableau进阶',
+                            items:
+                                [
+                                    {label: '可视化进阶 (一) 页面布局', link: '/analysis/tableau/tableau_layout'},
+                                ]
+                        },
+                        {
+                            label:
                                 '数据可视化',
                             items:
                                 [
                                     {label: '桑基图描述数据流动 (一)', link: '/analysis/plotly-sankey-chart'},
                                     {label: '箱线图&小提琴图描述数据分布', link: '/analysis/plotly-box-violin'},
                                     {label: '南丁格尔玫瑰图增强数据趣味性', link: '/analysis/nightingale-chart'},
-                                ]
-                        },
-                        {
-                            label:
-                                '数据处理',
-                            items:
-                                [
-                                    {label: '虚构数据集', link: '/analysis/dataprocessing/fictional-dataset'},
                                 ]
                         },
                     ],
