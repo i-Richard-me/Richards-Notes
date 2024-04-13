@@ -11,7 +11,7 @@ export default defineConfig({
 
     integrations: [
         starlight({
-            title: 'Richard\'s Blog',
+            title: 'Richard\'s Notes',
             customCss: [
                 // 你的自定义 CSS 文件的相对路径
                 './src/styles/custom.css',
@@ -123,9 +123,11 @@ export default defineConfig({
                                 'Tableau进阶',
                             items:
                                 [
-                                    {label: '可视化进阶 (一) 页面布局', link: '/analysis/tableau/tableau_layout'},
-                                    {label: '可视化进阶 (二) 动态区域可见性', link: '/analysis/tableau/tableau_dynamic_area'},
-                                    // {label: '可视化进阶 (三) ', link: '/analysis/tableau/tableau_dynamic_area'},
+                                    {label: '可视化进阶 (一) 页面布局', link: '/analysis/tableau/tableau-layout'},
+                                    {label: '可视化进阶 (二) 动态区域可见性', link: '/analysis/tableau/tableau-dynamic-area'},
+                                    {label: '可视化进阶 (三) 仪表板图表联动', link: '/analysis/tableau/tableau-link'},
+                                    {label: '可视化进阶 (四) 动态下钻分析', link: '/analysis/tableau/tableau-drill-down'},
+                                    {label: '可视化进阶 (五) 交互式分析', link: '/analysis/tableau/tableau-interactive'},
                                 ]
                         },
                         {
