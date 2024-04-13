@@ -1,5 +1,5 @@
 ---
-title: "Tableau可视化进阶 (一)：页面布局"
+title: "Tableau可视化进阶：页面布局"
 description: "介绍如何通过 Tableau 的容器功能来优化报告的布局结构"
 ---
 

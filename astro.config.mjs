@@ -124,6 +124,8 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '可视化进阶 (一) 页面布局', link: '/analysis/tableau/tableau_layout'},
+                                    {label: '可视化进阶 (二) 动态区域可见性', link: '/analysis/tableau/tableau_dynamic_area'},
+                                    // {label: '可视化进阶 (三) ', link: '/analysis/tableau/tableau_dynamic_area'},
                                 ]
                         },
                         {
