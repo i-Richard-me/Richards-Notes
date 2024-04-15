@@ -69,7 +69,8 @@ export default defineConfig({
                                     {
                                         label: '多向量检索之假设提问',
                                         link: '/llm/optimizing/multivector-retriever-hypothetical-queries'
-                                    }
+                                    },
+                                    {label: 'ReAct模式 SQL Agent', link: '/llm/optimizing/react-sql-agent'},
                                 ]
                         },
                         {
