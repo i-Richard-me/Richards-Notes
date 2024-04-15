@@ -7,6 +7,8 @@ description: "介绍如何应用ReAct模式和Langchain工具库实现一个SQL 
 ReAct模式通过将推理和行动交替进行的方式提高大语言模型的表现。通过生成推理过程和针对特定任务的行动，更有效地管理和更新行动计划，并处理异常情况。
 
 ReAct原文介绍可以参考文章 [ReAct: Synergizing Reasoning and Acting in Language Models](https://react-lm.github.io/)
+
+![ReAct](../../../../assets/alfworld.png)
 :::
 
 在上一篇中，我们探索了使用大语言模型进行SQL问答的基础链路。在实际操作中，我们可能面临一些挑战，例如在用户提问前无法确定使用哪张数据库表，或者模型生成的SQL语句可能执行失败。
