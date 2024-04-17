@@ -144,6 +144,16 @@ export default defineConfig({
                     ],
                 },
                 {
+                    label:
+                        '实用工具',
+                    items:
+                        [
+                            {label: '数据分析工具', link: '/utility/bookmarks-data'},
+                            {label: '效率工具', link: '/utility/bookmarks-efficiency'},
+                            {label: 'Homelab工具', link: '/utility/bookmarks-selfhosted'},
+                        ]
+                },
+                {
                     label: 'Self Hosted',
                     items: [
                         {
@@ -194,14 +204,6 @@ export default defineConfig({
                                 ]
                         },
                     ],
-                },
-                {
-                    label:
-                        '实用工具',
-                    items:
-                        [
-                            {label: '实用链接', link: '/utility/links'},
-                        ]
                 },
                 // {
                 //     label: 'Reference',
