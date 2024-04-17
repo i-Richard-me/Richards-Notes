@@ -1,7 +1,9 @@
 :root {
-    /*iframe {*/
-    /*    width: 100%;*/
-    /*    min-height: 1000px; !* 或使用视口高度，如 height: 100vh; *!*/
-    /*    border: none;*/
-    /*}*/
+    --sl-hue-blue: 200;
+}
+
+.starlight-aside--tip {
+    --sl-color-asides-text-accent: var(--sl-color-green-high);
+    border-color: var(--sl-color-green);
+    background-color: var(--sl-color-green-low);
 }
