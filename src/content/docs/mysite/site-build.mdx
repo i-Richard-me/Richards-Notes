@@ -1,0 +1,74 @@
+---
+title: "使用 Astro 框架构建个人网站"
+description: ""
+---
+
+曾经使用 Docusaurus 构建过个人网站，包括 Langchain 官网也是基于 Docusaurus 构建的。但总觉得审美不在点上，也缺少我所需要的 steps，cards 等内置功能，于是切换到了 Astro 框架。
+
+## 项目构建
+
+import { Steps } from '@astrojs/starlight/components';
+
+<Steps>
+
+    1. 确保电脑上安装了 nodejs 和 npm(或者 yarn)，推荐使用 nodejs 20.x 以上版本。
+
+        MacOS 可以考虑通过 brew 安装 nvm，然后使用 nvm 安装指定版本的 nodejs。
+
+        ```bash
+        brew install nvm
+        nvm install 20
+        ```
+
+    2. 使用 Astro 官方提供的模板创建新项目：
+
+        ```bash
+        yarn create astro --template starlight
+        ```
+
+        进入项目目录，运行以下命令在本地启动开发服务器：
+
+        ```bash
+        yarn dev
+        ```
+</Steps>
+
+## 项目结构概览
+
+使用 Astro 构建的项目目录清晰且结构化，关键文件和目录的作用如下所示
+
+:::note
+- `astro.config.mjs` — Astro 配置文件；包括 Starlight 集成和配置。
+- `src/content/config.ts` — 内容集合配置文件；将 Starlight 的 frontmatter 模式添加到你的项目中。
+- `src/content/docs/` — 内容文件。Starlight 将此目录中的每个 `.md`、`.mdx` 或 `.mdoc` 文件转换为站点上的一个页面。
+- `src/content/i18n/` (可选) — 支持[国际化](/zh-cn/guides/i18n/)的翻译数据。
+- `src/` — 项目的其他源代码和文档（组件、样式、图像等）。
+- `public/` — 静态资源（字体、网站图标、PDF 等）不会被 Astro 处理。
+:::
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+
+    - public/
+    - favicon.svg
+    - src/
+    - assets/
+    - logo.svg
+    - screenshot.jpg
+    - components/
+    - CustomButton.astro
+    - InteractiveWidget.jsx
+    - content/
+    - docs/
+    - guides/
+    - 01-getting-started.md
+    - 02-advanced.md
+    - index.mdx
+    - config.ts
+    - env.d.ts
+    - astro.config.mjs
+    - package.json
+    - tsconfig.json
+
+</FileTree>

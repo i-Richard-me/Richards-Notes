@@ -154,6 +154,15 @@ export default defineConfig({
                         ]
                 },
                 {
+                    label:
+                        '个人网站',
+                    items:
+                        [
+                            {label: '使用 Astro 框架构建个人网站', link: '/mysite/site-build'},
+                            {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
+                        ]
+                },
+                {
                     label: 'Self Hosted',
                     items: [
                         {
@@ -171,7 +180,6 @@ export default defineConfig({
                                 [
                                     {label: 'Milvus 向量数据库', link: '/selfhosted/services/milvus'},
                                     {label: 'Atlassian 套件', link: '/selfhosted/services/atlassian'},
-                                    {label: 'Plausible 网站分析工具', link: '/selfhosted/services/plausible'},
                                     {label: 'Gitlab 代码仓库', link: '/selfhosted/services/gitlab'},
                                     {label: 'Vaultwarden 密码管理服务', link: '/selfhosted/services/vaultwarden'},
                                 ]
