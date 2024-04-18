@@ -3,6 +3,8 @@ title: "ReAct模式实现SQL Agent"
 description: "介绍如何应用ReAct模式和Langchain工具库实现一个SQL Agent。"
 ---
 
+import { Steps } from '@astrojs/starlight/components';
+
 :::tip
 ReAct模式通过将推理和行动交替进行的方式提高大语言模型的表现。通过生成推理过程和针对特定任务的行动，更有效地管理和更新行动计划，并处理异常情况。
 
@@ -51,6 +53,8 @@ from langchain_community.tools.sql_database.tool import (
     QuerySQLDataBaseTool,
 )
 ```
+
+<Steps>
 
 1. `InfoSQLDatabaseTool`：用于列出数据库中所有可用的表格。
 
@@ -120,8 +124,11 @@ from langchain_community.tools.sql_database.tool import (
     
     Final SQL query: SELECT * FROM emp_data LIMIT 3
     ```
+</Steps>
 
 ### 构建提示词
+
+<Steps>
 
 1. 撰写工具函数的说明描述
 
@@ -196,6 +203,7 @@ from langchain_community.tools.sql_database.tool import (
    Question: {input}
    Thought:{agent_scratchpad}
    ```
+</Steps>
 
 ### 构建任务
 

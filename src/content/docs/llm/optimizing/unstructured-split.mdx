@@ -1,0 +1,172 @@
+---
+title: "利用Unstructured按元素切分文档"
+description: "通过Unstructured工具库按元素切分文档数据，从而改善RAG模型的数据质量和效果。"
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+在处理 RAG（Retrieval-Augmented Generation）过程中，数据质量直接影响生成结果的质量。
+
+在之前案例的演示中，我们均使用Langchain提供的document loader在默认参数下加载数据。不过，实际应用中常常面临一些问题，例如在读取和分块过程中表格被切割、段落被断裂等，虽然通过overlap策略可以在一定程度上弥补，但这并总能解决问题。
+
+:::note
+原本打算写一篇介绍在文档载入和切分过程中的一些技巧，但正巧发现了 [Unstructured](https://unstructured.io/) 这个工具库，宣称能够从多种格式的数据源中获取数据，并将其转换为适合大语言模型理解的JSON文件。
+:::
+
+我们通过一个示例演示如何使用Unstructured库来优化文档载入和数据切分的过程。
+
+## 部署Unstructured本地服务
+
+:::tip
+Unstructured 的优势在于使用同一接口处理多种格式数据源，并提供元素识别和视觉生成模型，优化 PDF、图片等非结构化数据的处理。
+
+Unstructured 提供线上付费接口和开源的本地部署版本。鉴于国内企业对安全性的要求，我们选择本地部署版本进行效果演示。
+
+当然，如果没有安全性担忧的话，线上付费接口提供了效果更佳的识别模型且不依赖于本地硬件资源。
+:::
+
+## 使用Unstructured处理数据
+
+<Steps>
+
+1. 安装 Python SDK
+
+    首先，通过pip安装Unstructured的Python SDK：
+
+    ```bash
+    pip install unstructured-client
+    ```
+
+2. 默认参数载入数据
+
+    我们依然选取之前的腾讯财报案例数据，展示数据处理流程：
+
+    ```python
+    from unstructured_client import UnstructuredClient
+    from unstructured_client.models import shared
+
+    s = UnstructuredClient(api_key_auth="", server_url="http://ip:8000/general/v0/general")
+
+    filename = "../demo/data/腾讯2023年第四季度及全年业绩.pdf"
+    file = open(filename, "rb")
+
+    req = shared.PartitionParameters(
+        files=shared.Files(
+            content=file.read(),
+            file_name=filename,
+        ),
+    )
+
+    res = s.general.partition(req)
+    ```
+
+    Unstructured 返回的结果是一个元素列表，每个元素包含了文本内容、元数据等信息。
+
+    ```python
+    len(res.elements)
+    ```
+
+    ```text title="输出"
+    823
+    ```
+
+    :::tip
+    我们通过查看返回列表的长度，可以发现Unstructured将PDF文件切分为了823个块，这也是Unstructured最显著的特点，它会将文档中的每个元素（标题、表格、图片等）识别并切分为一个独立的元素。
+    :::
+
+3. 观察切分结果
+
+    我们挑选几个元素来查看其内容：
+
+    ```text title="res.elements[0]"
+    {'type': 'NarrativeText',
+     'element_id': 'be8ac291bbf76eb22d465dca4a103dca',
+     'text': '香港交易及結算所有限公司及香港聯合交易所有限公司對本公佈的內容概不負責，對其準確性或完 整性亦不發表任何聲明，並明確表示，概不對因本公佈全部或任何部份內容而產生或因倚賴該等內 容而引致的任何損失承擔任何責任。',
+     'metadata': {'filetype': 'application/pdf',
+      'languages': ['eng'],
+      'page_number': 1,
+      'filename': '腾讯2023年第四季度及全年业绩.pdf'}}
+    ```
+
+    ```text title="res.elements[7]"
+    {'type': 'Title',
+     'element_id': 'f3fe705e91a4a52d0665a15bdcc078d8',
+     'text': '財務表現摘要',
+     'metadata': {'filetype': 'application/pdf',
+      'languages': ['eng'],
+      'page_number': 1,
+      'filename': '腾讯2023年第四季度及全年业绩.pdf'}}
+    ```
+
+    ```text title="res.elements[9]"
+    {'type': 'Table',
+     'element_id': 'a29be236f96722cd90bcbb2e3dd09bef',
+     'text': '二零二三年 十二月三十一日 二零二二年 二零二三年 九月三十日 經重列 * 十二月三十一日 同比變動 經重列 * （人民幣百萬元，另有指明者除外） 收入 毛利 經營盈利（前期經重列） 期內盈利 本公司權益持有人應佔盈利 每股盈利（每股人民幣元） －基本 －攤薄 155,196 77,564 41,401 27,850 27,025 2.873 2.807 144,954 61,822 29,163* 106,904 106,268 11.173 10.977 7% 25% 42% -74% -75% -74% -74% 154,625 76,523 44,348* 36,781 36,182 3.828 3.752 非國際財務報告準則經營盈利 （前期經重列） 非國際財務報告準則本公司 權益持有人應佔盈利 非國際財務報告準則每股盈利 （每股人民幣元） －基本 －攤薄 49,135 42,681 4.537 4.443 36,424* 29,711 3.124 3.042 35% 44% 45% 46% 51,668* 44,921 4.753 4.657 環比變動 0.4% 1% -7% -24% -25% -25% -25% -5% -5% -5% -5%',
+     'metadata': {'filetype': 'application/pdf',
+      'languages': ['eng'],
+      'page_number': 1,
+      'parent_id': 'eab9ecf6b1536f2b564e1d348acbe580',
+      'filename': '腾讯2023年第四季度及全年业绩.pdf'}}
+    ```
+
+    可以看到Unstructured将文档中的标题、表格等内容识别出来，并将其切分为独立的元素，每个元素的长度是不同的，这与我们之前按字数切分的方式有显著区别。
+
+4. 合并元素
+
+    :::note
+    虽然Unstructured能精确识别和切分文档元素，但如此细粒度的切分会导致严重缺失上下文信息。这也是Unstructured另一个特点，其思路不是载入整个文档再进行切分，而是识别每一个元素，对元素进行组合。
+    :::
+
+    通过设置 `combine_under_n_chars` 参数，我们可以将长度小于指定值的元素进行合并，达到类似于切分文档的效果。
+
+    ```python
+    req = shared.PartitionParameters(
+        # Note that this currently only supports a single file
+        files=shared.Files(
+            content=file.read(),
+            file_name=filename,
+        ),
+        # Other partition params
+        strategy="hi_res",
+        hi_res_model_name="yolox",
+        chunking_strategy="by_title",
+        combine_under_n_chars=500,
+    )
+
+    res = s.general.partition(req)
+
+    len(res.elements)
+    ```
+
+    ```text title="输出"
+    229
+    ```
+
+    此时可以看到元素数量减少到了229个。
+
+5. 最终效果
+
+    我们再次查看第一个元素的内容：
+    
+    ```text title="res.elements[0]"
+    {'type': 'CompositeElement',
+     'element_id': '5ce42c46926efcf6b455cb04e0b68bff',
+     'text': '香港交易及結算所有限公司及香港聯合交易所有限公司對本公佈的內容概不負責，對其準確性或完 整性亦不發表任何聲明，並明確表示，概不對因本公佈全部或任何部份內容而產生或因倚賴該等內 容而引致的任何損失承擔任何責任。\n\nTencent f&itl TENCENT HOLDINGS LIMITED\n\nBRIZERBRALDT\n\nRN A2 R 1 2 87 19 T R 7))\n\n（股份代號：700（港幣櫃台）及 80700（人民幣櫃台））\n\n截 至 二 零 二 三 年 十 二 月 三 十 一 日 止 年 度 全 年 業 績 公 佈\n\n董事會欣然宣佈本集團截至二零二三年十二月三十一日止年度的經審核綜合業績。本 集團綜合財務報表已經由核數師根據國際審計準則進行審核，並經審核委員會審閱。\n\n財務表現摘要\n\n未經審核 截至下列日期止三個月',
+     'metadata': {'filetype': 'application/pdf',
+      'languages': ['eng'],
+      'page_number': 1,
+      'orig_elements': 'eJy1V21vGzcM/isHfxhQoDhI1Pu+tWuwBWizIvWnJkUg6XipgcQJkvPWoth/HyndJU7svcSw/UFnPiIlSiSlR2c/ZniF17gcLhbd7OdmltDHDEGm1DuLCaDT1nQ56iiFou/sdTO7xiF2cYik/2OWb27uusUyDnhf5Kv4/WY1XHzFxeXXgRBQKpDNCP+56IavhEprNKG3N4vlwHZnZzJAS5C0thVfXjeTDGGSyY8WtgDVgpDZ/ff7Aa95FR8X3/Dq023MOPuLOjocMA+Lm+VFvor39xe3dzeJ1EQblARPCv3iCofvt1hsP36YFYeXl6t4WVZ1NsPl5YynuCXkYrm6TnjHq+DBB/zG65ydrwL9zlcWoT9faYya/lupzldG5Xi+cp0R1KbgCAdN/60TpB8s40bazJq9n/TXR/PCUmu08E9H/o9xsui4F/KE614T7qzXBSFPTEo8S/DAI7O+z1GUlvT7XuRpHCOdZX8Ctc4n8tAKKGuRlsfxuSHBOD11kKN2GtRZRwN5b8sC+sSuGMMLc8CLEThNphHshNRpqpULKk466+6OzlkU25ZK/6kNAv3k6PrsFSeke7odXvAszgBwK/uHRZZZjJDsVe5ppT6y/y7pUEdong5hesmLlKxad319equL65SEPIHjaXT3TKfGoSJKCODUnDL1JN7dxWHxB845BSkXnxdzJ6zxTgtB42KKNuXsjMh9hN5qHcPBillrzcVL2i1wrY6ydrr1pXZBaq7dDaBa7FbM4J2XeyrmOS4z7WPT/7QYrpr50ckvRyfz5rff3787Pvn1U/P++MPx/OjdejDmpIjbgiCsRJlVyk76PogedAfW+873mrKjEwcLAlVh3XTbKt7jUaY0bV3Zc6FDK7cA1WK3IBgng9pTEN6eHn8+On17+ub9u/mL8h4h+AgiQOpi74xPokNtjO2hw5APuOWGLidSNOBbyzs6yUZXWQoTSgw2gGKx45Zr5fWetvz0pHkDzWkjG2i8a2Ro5iS5V69etP8piNArFDZEadCnJKPD6LRREBwadbhzR9aMttCGcu5U2Qo6fuoxo6D1W4Bqsdv+66BM2BuJoBvO8/UR5XQzaUS66r01PffSVgoxqVV2YNAyF4i5cI2+9obKIxq6YR/1NZZ7O0v5z1bcvqzaMmQRLRqX6cIWdFErmXySzkUg7oiHi7awJZgaWlOiXWUH460jwXguvw2gWuwWbfJN7y/aFiA2hSGohsNTSFSwvX2UiOYEphXoNH+Ulo99xPz8msrUJ0ShYmj4kyysmRMnayotegRtsB19HCqsfWVa4k8vSgNhUjRgY4JgZPD08S6D65IAmx3AAV8OdF1RlO14z42yN3KMuraa82IDqBa7pYEPRMD3lgZecy1SUFOJKddlAmqdVIVbRzUR2kpxg82ME6OoKVQzqKZFzZ/pP6dGDXTNjwnnzHnoHXE+JzhratI8WBUaX9mr6wKfFgn5zeCVL0ieXiacRzWNKlet3jZP3V03IHLLBxF07IRnGly5vul6mCZzptDjMhm9LrgXIRUkFMIceWSReJaQJud8rMcjP1YMaMdcXwGPr/PTBay/OjaXZwITcqNRToGpvcEkuQMh71WPThgMkh7UtG5hraErMnU5C0eU8KA1Qore+5FvVzlMJ6NWrnWbctXfkZZ4vc8KWUuV8UFIe8kJYDiRgpf/i4xjTAFzb5M0iuhgMpZC2yntY05o/OGYoXeF51GO1gCMMvE/MTIRCaK125Bq869B2NNl5CBuFkHz/IjhWjMg3cNh4coLuRwZ44EiRD3I/JagfPkbkb5zRA==',
+      'filename': '腾讯2023年第四季度及全年业绩.pdf'}}
+    ```
+    
+    此时，文章开头的一段文字被合并到了一起，已经是可以向量化进行 RAG 应用的效果了。
+
+</Steps>
+
+## 总结
+
+:::tip
+通过Unstructured的处理方式，可以有效避免文档切分不当导致的数据质量问题，提高召回准确度和大模型问答效果。
+
+当然这并不意味着我们可以抛弃其他技巧，依然可以叠加使用overlap策略、文档预处理等方法，以进一步提升效果。
+:::
