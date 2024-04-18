@@ -160,6 +160,7 @@ export default defineConfig({
                         [
                             {label: '使用 Astro 框架构建个人网站', link: '/mysite/site-build'},
                             {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
+                            {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
                         ]
                 },
                 {
