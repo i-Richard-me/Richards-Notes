@@ -3,6 +3,8 @@ title: "基于SQL数据库的简单问答功能实现"
 description: "探索如何实现一个简单的问答环节，基于SQL数据库执行查询，并通过大模型处理查询结果以生成回答。"
 ---
 
+import { Steps } from '@astrojs/starlight/components';
+
 本文记录如何实现一个简单的问答功能，基于SQL数据库执行查询，并通过大模型处理查询结果以生成回答。
 
 :::note
@@ -11,6 +13,7 @@ description: "探索如何实现一个简单的问答环节，基于SQL数据库
 
 ## 分步执行
 
+<Steps>
 1. **连接数据库**
 
     首先通过数据库的URI，建立与数据库的连接。方便起见，这里使用 `langchain_community.utilities` 中的 `SQLDatabase` 类，其封装了一系列便捷的方法获取数据库与表格信息。
@@ -19,7 +22,7 @@ description: "探索如何实现一个简单的问答环节，基于SQL数据库
     
     :::note
     案例中的数据集是一个虚构的员工数据集，包含了员工的基本信息、部门信息、入离职时间等。
-    若对虚构数据集感兴趣，可以参考这篇笔记[虚构员工数据集]()。
+    若对虚构数据集感兴趣，可以参考这篇笔记[虚构数据集](../../analysis/dataprocessing/fictional-dataset)。
     :::
 
 2. **获取表格信息**
@@ -36,8 +39,28 @@ description: "探索如何实现一个简单的问答环节，基于SQL数据库
     table_info = db.get_table_info(table_names=["emp_data"])
     print(table_info)
     ```
-    
-    <iframe width="784" style="height: 440px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/KHiIFEm4qyihsqU7yFZ6tR/YA6JCWB6qkdIVdcmxKr2EQ" frameborder="0"></iframe>
+
+    ```text title="table_info"
+    CREATE TABLE emp_data (
+        `Employee ID` TEXT,
+        `Name` TEXT,
+        `Gender` TEXT,
+        `Job Level` TEXT,
+        `Age` INTEGER,
+        `Department` TEXT,
+        `Hire Date` TEXT,
+        `Resigned` TEXT,
+        `Leave Date` TEXT
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_0900_ai_ci
+
+    /*
+    3 rows from emp_data table:
+    Employee ID	Name	Gender	Job Level	Age	Department	Hire Date	Resigned	Leave Date
+    ID00001	Donald Bailey	女	P7	30	人力	2021-03-24	True	2023-09-06
+    ID00002	Lisa Webster	女	P8	34	产品	2019-07-08	False	None
+    ID00003	Brooke Fischer	女	P8	34	研发	2020-05-24	False	None
+    */
+    ```
 
 3. **利用大模型生成查询语句**
 
@@ -72,12 +95,14 @@ description: "探索如何实现一个简单的问答环节，基于SQL数据库
     query
     ```
     
-    <iframe width="784" style="height: 98px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/KHiIFEm4qyihsqU7yFZ6tR/1ZAmNLuIL99JujU0tqRzrr?height=98" frameborder="0"></iframe>
+    ```text title="query"
+    'SELECT AVG(`Age`) AS Average_Age\nFROM emp_data;\n'
+    ```
 
    :::tip[关于提示词]
    1. **使用英文描述**：根据测试效果，在生成sql语句的场景下，英文提示词在sql语句的标准化，以及格式化输出方面有更好的表现。
    2. **提供SQL语法规范**：在提示词中提供SQL语法规范，能够指导模型遵循特定的格式和规则生成查询语句，提高成功率。比如有些企业的数据库字段全部存储为文本格式，就要提示大模型在使用日期或数字字段时，进行类型转换。
-   3. **输出控制**：让模型接着<\```sql>生成SQL代码，在遇到标记<\```>时停止输出，能够精确地控制输出内容，使其直接结束于SQL语句的闭合标记。这样做不仅避免了不必要的额外输出，而且生成的内容格式更加符合要求。
+   3. **输出控制**：让模型接着\```sql生成SQL代码，在遇到标记\```时停止输出，能够精确地控制输出内容，使其直接结束于SQL语句的闭合标记。这样做不仅避免了不必要的额外输出，而且生成的内容格式更加符合要求。
    :::
 
 4. **执行查询**
@@ -87,7 +112,9 @@ description: "探索如何实现一个简单的问答环节，基于SQL数据库
     result
     ```
     
-    <iframe width="784" style="height: 98px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/KHiIFEm4qyihsqU7yFZ6tR/nLjizbUFGu7gA7mY1N9Oyv?height=98" frameborder="0"></iframe>
+    ```text title="result"
+    "[(Decimal('31.3183'),)]"
+    ```
 
 5. **结果处理**
 
@@ -114,8 +141,11 @@ description: "探索如何实现一个简单的问答环节，基于SQL数据库
         "result": result
     })
     ```
-    
-    <iframe width="784" style="height: 98px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/KHiIFEm4qyihsqU7yFZ6tR/HdvpFit12rmwCJ6cL17pDT?height=98" frameborder="0"></iframe>
+
+    ```text title="answer"
+    '员工的平均年龄是31.3183岁。'
+    ```
+</Steps>
 
 ## 集成Chain
 
@@ -143,4 +173,6 @@ full_chain = RunnablePassthrough.assign(
 full_chain.invoke({"question": "请问员工的平均年龄是多少岁?"})
 ```
 
-<iframe width="784" style="height: 98px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/AZBvFt3zTTgkcQEKr7ETjp/SDLggXQxmZ16nzlkpRNaFe?height=98" frameborder="0"></iframe>
+```text title="answer"
+'员工的平均年龄是31.3183岁。'
+```

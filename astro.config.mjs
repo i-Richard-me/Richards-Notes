@@ -71,6 +71,7 @@ export default defineConfig({
                                         link: '/llm/optimizing/multivector-retriever-hypothetical-queries'
                                     },
                                     {label: 'ReAct模式 SQL Agent', link: '/llm/optimizing/react-sql-agent'},
+                                    {label: 'Unstructured多格式数据加载', link: '/llm/optimizing/unstructured-loder'},
                                     {label: 'Unstructured按元素切分文档', link: '/llm/optimizing/unstructured-split'},
                                 ]
                         },
