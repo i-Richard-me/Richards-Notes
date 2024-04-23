@@ -171,6 +171,7 @@ export default defineConfig({
                             {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
                             {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
                             {label: '自定义Astro文档样式', link: '/mysite/site-css'},
+                            {label: '通过 Vercel 部署网站', link: '/mysite/vercel-deploy'},
                         ]
                 },
                 {
