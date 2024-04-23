@@ -139,4 +139,4 @@ option = {
 
 最后，可以访问[eECharts 官网示例编辑器](https://echarts.apache.org/examples/zh/editor.html?c=pie-roseType)查看效果。将上面的 option 配置复制到左侧的代码框中，点击运行，即可看到南丁格尔玫瑰图的效果。
 
-![南丁格尔玫瑰图](../../../assets/Nightingale_Chart.png)
+![南丁格尔玫瑰图](../../../../assets/visualization/Nightingale_Chart.png)

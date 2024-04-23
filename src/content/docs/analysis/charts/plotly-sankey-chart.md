@@ -111,4 +111,4 @@ employees['第二年绩效'] = employees['第一年绩效'].apply(second_year_pe
 由于桑基图对于节点的排列顺序是按照权重从大到小排列的，若希望指定节点顺序，如本例中我们希望按照绩效高中低排列，可以通过在交互式图表中拖拽调整。
 :::
 
-![员工绩效桑基图](../../../assets/plotly-sankey-chart.png)
+![员工绩效桑基图](../../../../assets/visualization/plotly-sankey-chart.png)
