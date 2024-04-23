@@ -198,6 +198,7 @@ export default defineConfig({
                                     {label: 'Atlassian 套件', link: '/selfhosted/services/atlassian'},
                                     {label: 'Gitlab 代码仓库', link: '/selfhosted/services/gitlab'},
                                     {label: 'Vaultwarden 密码管理服务', link: '/selfhosted/services/vaultwarden'},
+                                    {label: 'NocoDB 数据库前端', link: '/selfhosted/services/nocodb'},
                                 ]
                         },
                         {
