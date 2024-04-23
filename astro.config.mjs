@@ -55,9 +55,9 @@ export default defineConfig({
                     label: 'AI与大模型',
                     items: [
                         {
-                            label: '简介', link: '/llm/llm-intro',
+                            label: 'Introduction', link: '/llm/llm-intro',
                             badge: {text: 'Intro', variant: 'success'},
-                            attrs: {style: 'font-size: var(--sl-text-base); font-weight: 600; color: var(--sl-color-white)'},
+                            // attrs: {style: 'font-size: var(--sl-text-base); font-weight: 600; color: var(--sl-color-white)'},
                         },
                         {
                             label:
@@ -108,11 +108,10 @@ export default defineConfig({
                 {
                     label: '数据分析',
                     items: [
-                        // {
-                        //     label: '简介', link: '/llm/llm-intro',
-                        //     badge: {text: 'Intro', variant: 'success'},
-                        //     attrs: {style: 'font-size: var(--sl-text-base); font-weight: 600; color: var(--sl-color-white)'},
-                        // },
+                        {
+                            label: 'Introduction', link: '/analysis/analysis-intro',
+                            badge: {text: 'Intro', variant: 'success'},
+                        },
                         {
                             label:
                                 '数据处理',
@@ -138,9 +137,9 @@ export default defineConfig({
                                 '数据可视化',
                             items:
                                 [
-                                    {label: '桑基图描述数据流动 (一)', link: '/analysis/plotly-sankey-chart'},
-                                    {label: '箱线图&小提琴图描述数据分布', link: '/analysis/plotly-box-violin'},
-                                    {label: '南丁格尔玫瑰图增强数据趣味性', link: '/analysis/nightingale-chart'},
+                                    {label: '桑基图描述数据流动 (一)', link: '/analysis/charts/plotly-sankey-chart'},
+                                    {label: '箱线图&小提琴图描述数据分布', link: '/analysis/charts/plotly-box-violin'},
+                                    {label: '南丁格尔玫瑰图增强数据趣味性', link: '/analysis/charts/nightingale-chart'},
                                 ]
                         },
                     ],
@@ -150,6 +149,10 @@ export default defineConfig({
                         '实用工具',
                     items:
                         [
+                            {
+                                label: 'Introduction', link: '/utility/utility-intro',
+                                badge: {text: 'Intro', variant: 'success'},
+                            },
                             {label: '数据分析工具', link: '/utility/bookmarks-data'},
                             {label: '效率工具', link: '/utility/bookmarks-efficiency'},
                             {label: 'Homelab工具', link: '/utility/bookmarks-selfhosted'},
@@ -160,6 +163,10 @@ export default defineConfig({
                         '个人网站',
                     items:
                         [
+                            {
+                                label: 'Introduction', link: '/mysite/mysite-intro',
+                                badge: {text: 'Intro', variant: 'success'},
+                            },
                             {label: '使用 Astro 框架构建个人网站', link: '/mysite/site-build'},
                             {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
                             {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
@@ -169,6 +176,10 @@ export default defineConfig({
                 {
                     label: 'Self Hosted',
                     items: [
+                        {
+                            label: 'Introduction', link: '/selfhosted/homelab-intro',
+                            badge: {text: 'Intro', variant: 'success'},
+                        },
                         {
                             label:
                                 'Bigdata',
