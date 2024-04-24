@@ -70,6 +70,10 @@ export default defineConfig({
                                         label: '多向量检索之假设提问',
                                         link: '/llm/optimizing/multivector-retriever-hypothetical-queries'
                                     },
+                                    {
+                                        label: '多向量检索之段落摘要',
+                                        link: '/llm/optimizing/multivector-retriever-summarize'
+                                    },
                                     {label: 'ReAct模式 SQL Agent', link: '/llm/optimizing/react-sql-agent'},
                                     {label: 'Unstructured多格式数据加载', link: '/llm/optimizing/unstructured-loder'},
                                     {label: 'Unstructured按元素切分文档', link: '/llm/optimizing/unstructured-split'},

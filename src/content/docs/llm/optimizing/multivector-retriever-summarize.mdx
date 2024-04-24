@@ -1,0 +1,203 @@
+---
+title: "利用段落摘要检索技巧提升问答效果"
+description: "介绍另一种多向量检索的维度——段落摘要。"
+---
+
+import {Steps} from '@astrojs/starlight/components';
+
+在上一篇中，介绍了利用大语言模型生成的假设提问，优化检索过程，提高问题匹配的准确性和效率。本篇将介绍另一种多向量检索的维度——段落摘要。
+
+## 段落摘要在多向量检索中的应用
+
+利用大语言模型进行段落摘要，可以生成更加精准的内容摘要，作为检索的关键依据。这种方法不仅节约了资源，同时在处理大量数据时，能一定程度上提升召回的质量和相关性。
+
+### 生成段落摘要
+
+<Steps>
+    1. **文档导入**
+
+        > 文档导入和切分步骤请参考[简单实现RAG文档检索和生成](/llm/application/rag_basic#关键步骤)
+
+    2. **构建生成段落摘要的任务**
+
+        ```python
+        from langchain_core.prompts import ChatPromptTemplate
+        from langchain_openai import ChatOpenAI
+        from langchain_core.output_parsers import StrOutputParser
+
+        chain = (
+                {"doc": lambda x: x.page_content}
+                | ChatPromptTemplate.from_template("Summarize the following document in Chinese:\n\n{doc}")
+                | model
+                | StrOutputParser()
+        )
+        ```
+
+    3. **批量完成文档的假设问题生成**
+
+        实际应用中都要对大量文本进行处理，这里直接演示批量并行运行的代码。
+
+        ```python
+        summaries = chain.batch(data, {"max_concurrency": 5})
+        ```
+
+        :::tip
+        可以调整最大并发数以适应具体硬件资源和任务需求。
+        :::
+
+        我们选取原文中的一段，展示原文和总结后的效果：
+
+        ```python
+        data[5].page_content
+        ```
+
+        ```text title="原文"
+        '管理層討論及分析\n截至二零二三年十二月三十一日止年度與截至二零二二年十二月三十一日止年度的\n比較\n下表載列截至二零二三年及二零二二年十二月三十
+        一日止年度的比較數字：\n截至十二月三十一日止年度\n二零二三年 二零二二年\n經重列*\n（人民幣百萬元）\n收入 609,015 554,552\n收入成本 (315,906)
+        (315,806)\n毛利 293,109 238,746\n銷售及市場推廣開支 (34,211) (29,229)\n一般及行政開支 (103,525) (106,696)\n其他收益╱（虧損）淨額
+        4,701 8,006*\n經營盈利 160,074 110,827*\n投資收益╱（虧損）淨額及其他 (6,090) 116,287*\n利息收入 13,808 8,592*\n財務成本 (12,268)
+        (9,352)\n分佔聯營公司及合營公司盈利╱（虧損）淨額 5,800 (16,129)\n除稅前盈利 161,324 210,225\n所得稅開支 (43,276) (21,516)\n年度盈利
+        118,048 188,709\n下列人士應佔：\n本公司權益持有人 115,216 188,243\n非控制性權益 2,832 466\n118,048 188,709\n非國際財務報告準則經營盈利
+        191,886 143,203*\n非國際財務報告準則本公司權益持有人應佔盈利 157,688 115,649\n* 若干項目已自經營盈利以上重新分類至經營盈利以下，且前期的比較
+        數字已相應重列。詳見綜\n合財務報表附註1。\n6\n'
+        ```
+
+        ```python
+        summaries[5]
+        ```
+
+        ```text title="总结"
+        '以下是关于2022年和2023年财务数据的比较摘要（单位：百万元人民币）：\n\n- 2023年收入为609,015百万元，2022年为554,552百万元，增长了约10%。
+        \n- 毛利从2022年的238,746百万元增加到2023年的293,109百万元。\n- 经营利润2023年为160,074百万元，2022年为110,827百万元，增长了约45%。\n-
+        投资收益2023年为-6,090百万元，2022年为116,287百万元，大幅下降。\n- 纯利润2023年为118,048百万元，2022年为188,709百万元，下降约37%。\n-
+        2023年归属于本公司权益持有人的净利润为115,216百万元，2022年为188,243百万元。\n- 非国际财务报告准则下的经营利润和净利润也有所调整，2023年分
+        别为191,886百万元和157,688百万元。\n\n详细信息请参阅综合财务报表附注1，其中涉及某些项目的重分类和调整。'
+        ```
+</Steps>
+
+### 问答效果检验
+
+<Steps>
+    1. **实例化用到的工具**
+
+        ```python
+        vectorstore = Chroma(
+            collection_name="summaries", embedding_function=embeddings)
+        ```
+
+        实例化一个内存存储对象，用于存储原始文档片段和与段落摘要的关联ID
+
+        ```python
+        from langchain.storage import InMemoryByteStore
+
+        # The storage layer for the parent documents
+        store = InMemoryByteStore()
+        id_key = "doc_id"
+        ```
+
+        实例化一个 langchain 封装好的多向量检索器
+
+        ```python
+        from langchain.retrievers.multi_vector import MultiVectorRetriever
+
+        retriever = MultiVectorRetriever(
+            vectorstore=vectorstore,
+            byte_store=store,
+            id_key=id_key,
+        )
+        ```
+
+    2. **准备数据**
+
+        为每个文本片段创建一个唯一的ID
+
+        ```python
+        import uuid
+
+        doc_ids = [str(uuid.uuid4()) for _ in data]
+        ```
+
+        将段落摘要和 `doc_id` 一起封装为 Document 对象
+
+        ```python
+        summary_docs = [
+            Document(page_content=s, metadata={id_key: doc_ids[i]})
+            for i, s in enumerate(summaries)
+        ]
+        ```
+
+    3. **段落摘要向量化**
+
+        ```python
+        retriever.vectorstore.add_documents(summary_docs)
+        ```
+
+        建立段落摘要与原文的关联
+
+        ```python
+        retriever.docstore.mset(list(zip(doc_ids, data)))
+        ```
+
+    4. **召回演示**
+
+        根据用户问题召回段落摘要
+
+        ```python
+        retriever.vectorstore.similarity_search("2023年收入比2022年高多少")[0]
+        ```
+
+        ```text title="召回结果"
+        Document(page_content='以下是关于2022年和2023年财务数据的比较摘要（单位：百万元人民币）：\n\n- 2023年收入为609,015百万元，2022年为
+        554,552百万元，增长了约10%。\n- 毛利从2022年的238,746百万元增加到2023年的293,109百万元。\n- 经营利润2023年为160,074百万元，2022年为
+        110,827百万元，增长了约45%。\n- 投资收益2023年为-6,090百万元，2022年为116,287百万元，大幅下降。\n- 纯利润2023年为118,048百万元，2022年
+        为188,709百万元，下降约37%。\n- 2023年归属于本公司权益持有人的净利润为115,216百万元，2022年为188,243百万元。\n- 非国际财务报告准则下的经
+        营利润和净利润也有所调整，2023年分别为191,886百万元和157,688百万元。\n\n详细信息请参阅综合财务报表附注1，其中涉及某些项目的重分类和调整。',
+        metadata={'doc_id': 'fa029d38-8f16-4d7f-af36-b3687da6da3c'})
+        ```
+
+    5. **问答效果**
+
+        构建问答功能，代码与以前介绍的简单 RAG 基本一致。
+
+        ```python
+        from langchain_core.prompts import PromptTemplate
+
+        template = """
+        You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
+
+        Context: {context}
+
+        Question: {question}
+
+        Answer:
+        """
+
+        rag_prompt = PromptTemplate.from_template(template)
+
+        def format_docs(docs):
+            return "\n\n".join(doc.page_content for doc in docs)
+
+        from langchain_core.runnables import RunnablePassthrough
+        from langchain_core.output_parsers import StrOutputParser
+
+        rag_chain = (
+                {"context": retriever | format_docs, "question": RunnablePassthrough()}
+                | rag_prompt
+                | model
+                | StrOutputParser()
+        )
+        ```
+
+        最终效果：
+
+        ```python
+        question = "2023年收入比2022年高多少？"
+
+        print(f'\nQuestion: {question} \n Answer: {rag_chain.invoke(question)}')
+        ```
+
+        ```text title="问答效果"
+        Question: 2023年收入比2022年高多少？
+         Answer: 2023年的收入为609,015百万元，比2022年的554,552百万元增长了约10%。
+        ```
+</Steps>
