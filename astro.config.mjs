@@ -2,6 +2,7 @@ import {defineConfig} from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightDocSearch from '@astrojs/starlight-docsearch';
 import starlightBlog from 'starlight-blog';
+import starlightImageZoom from 'starlight-image-zoom'
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
                         indexName: 'irichard',
                     },
                 ),
+                starlightImageZoom(),
                 starlightBlog(
                     {
                         authors: {
