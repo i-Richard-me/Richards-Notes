@@ -174,10 +174,11 @@ export default defineConfig({
                                 badge: {text: 'Intro', variant: 'success'},
                             },
                             {label: '使用 Astro 框架构建个人网站', link: '/mysite/site-build'},
+                            {label: '通过 Vercel 部署网站', link: '/mysite/vercel-deploy'},
                             {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
                             {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
-                            {label: '自定义Astro文档样式', link: '/mysite/site-css'},
-                            {label: '通过 Vercel 部署网站', link: '/mysite/vercel-deploy'},
+                            {label: '自定义 Astro 文档样式', link: '/mysite/site-css'},
+                            {label: '在文档中添加图片缩放功能', link: '/mysite/image-zoom'},
                         ]
                 },
                 {
