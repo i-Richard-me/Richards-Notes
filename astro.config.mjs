@@ -144,6 +144,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '桑基图描述数据流动 (一)', link: '/analysis/charts/plotly-sankey-chart'},
+                                    {label: '带有指向的散点图描述数据变化', link: '/analysis/charts/tableau-scatter'},
                                     {label: '箱线图&小提琴图描述数据分布', link: '/analysis/charts/plotly-box-violin'},
                                     {label: '南丁格尔玫瑰图增强数据趣味性', link: '/analysis/charts/nightingale-chart'},
                                 ]
