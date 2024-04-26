@@ -1,0 +1,320 @@
+---
+title: "Hive on Spark 部署"
+description: ""
+---
+
+:::caution
+接上篇，同样是早年学习大数据知识时的笔记，记录了根据某培训机构的教程实操的过程。由于时间较早，部分内容可能已经过时，仅供参考。
+:::
+
+import { Steps } from '@astrojs/starlight/components';
+
+## Hive 安装
+
+### 准备程序文件
+
+<Steps>
+1. 上传 `apache-hive-3.1.3-bin.tar.gz` 到 `/opt/software` 目录下
+
+2. 解压
+
+    ```bash
+    tar -zxvf /opt/software/apache-hive-3.1.3-bin.tar.gz -C /opt/bigdata
+       ```
+
+3. 创建软链接
+
+    ```bash
+     ln -s /opt/bigdata/apache-hive-3.1.3-bin /opt/bigdata/hive
+       ```
+</Steps>
+
+### 安装步骤
+
+<Steps>
+1. 配置环境变量
+
+    ```bash
+    vim /etc/profile.d/bigdata.sh
+    ```
+
+    ```bash
+    #HIVE_HOME
+    export HIVE_HOME=/opt/bigdata/hive
+    export PATH=$PATH:$HIVE_HOME/bin
+    ```
+
+    ```bash
+    source /etc/profile.d/bigdata.sh
+    ```
+
+2. 解决日志 Jar 包冲突
+
+    ```bash
+    mv /opt/bigdata/hive/lib/log4j-slf4j-impl-2.17.1.jar /opt/bigdata/hive/lib/log4j-slf4j-impl-2.17.1.jar.bak
+    ```
+
+3. 上传 mysql 驱动包
+
+    1. 上传 mysql 驱动包 `mysql-connector-j-8.0.33.jar` 到 `/opt/software` 目录
+
+    2. 将 mysql 驱动包复制到 Hive 的 lib 目录下
+
+        ```bash
+        cp /opt/software/mysql-connector-j-8.0.33.jar /opt/bigdata/hive/lib/
+           ```
+
+4. 配置 hive-site.xml
+
+    ```bash
+    vim /opt/bigdata/hive/conf/hive-site.xml
+    ```
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?><!--
+       Licensed to the Apache Software Foundation (ASF) under one or more
+       contributor license agreements.  See the NOTICE file distributed with
+       this work for additional information regarding copyright ownership.
+       The ASF licenses this file to You under the Apache License, Version 2.0
+       (the "License"); you may not use this file except in compliance with
+       the License.  You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+    -->
+    <configuration>
+        <!-- 配置 Hive 保存元数据的数据库 -->
+        <property>
+            <name>javax.jdo.option.ConnectionURL</name>
+            <value>jdbc:mysql://hadoop01:3306/hive?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;allowPublicKeyRetrieval=true</value>
+        </property>
+        <!-- 配置 Hive 连接 mysql 的驱动 -->
+        <property>
+            <name>javax.jdo.option.ConnectionDriverName</name>
+            <value>com.mysql.cj.jdbc.Driver</value>
+        </property>
+        <!-- 配置 Hive 连接 mysql 的用户名 -->
+        <property>
+            <name>javax.jdo.option.ConnectionUserName</name>
+            <value>root</value>
+        </property>
+        <!-- 配置 Hive 连接 mysql 的密码 -->
+        <property>
+            <name>javax.jdo.option.ConnectionPassword</name>
+            <value>Password-9@@</value>
+        </property>
+        <!-- 配置 Hive 保存元数据的位置 -->
+        <property>
+            <name>hive.metastore.warehouse.dir</name>
+            <value>/user/hive/warehouse</value>
+        </property>
+        <!-- 配置 Hive schema 验证 -->
+        <property>
+            <name>hive.metastore.schema.verification</name>
+            <value>false</value>
+        </property>
+        <!-- 配置 sever2 端口 -->
+        <property>
+            <name>hive.server2.thrift.port</name>
+            <value>10000</value>
+        </property>
+        <!-- 配置 sever2 服务器的地址 -->
+        <property>
+            <name>hive.server2.thrift.bind.host</name>
+            <value>hadoop01</value>
+        </property>
+        <!-- 关闭 notifaction api authentication -->
+        <property>
+            <name>hive.metastore.event.db.notification.api.auth</name>
+            <value>false</value>
+        </property>
+        <!-- 开启 print header -->
+        <property>
+            <name>hive.cli.print.header</name>
+            <value>true</value>
+        </property>
+        <!-- 开启 print current database -->
+        <property>
+            <name>hive.cli.print.current.db</name>
+            <value>true</value>
+        </property>
+    </configuration>
+    ```
+
+5. 配置 hive-env.sh
+
+    ```bash
+    mv /opt/bigdata/hive/conf/hive-env.sh.template /opt/bigdata/hive/conf/hive-env.sh
+    vim /opt/bigdata/hive/conf/hive-env.sh
+    ```
+
+    ```bash
+    # 取消注释
+    export HADOOP_HEAPSIZE=1024
+    ```
+</Steps>
+
+### 初始化并启动
+
+<Steps>
+1. 初始化 Hive 元数据
+
+    ```bash
+    schematool -initSchema -dbType mysql -verbose
+    ```
+
+2. 修改元数据字符集
+
+    ```bash
+    mysql -uroot -p
+    ```
+
+    ```sql
+    use hive;
+    alter table COLUMNS_V2 modify column COMMENT varchar(256) character set utf8mb4;
+    alter table TABLE_PARAMS modify column PARAM_VALUE mediumtext character set utf8mb4;
+    ```
+
+3. 启动 Hive
+
+    ```bash
+    hive
+    ```
+</Steps>
+
+## Hive on Spark 部署
+
+### 准备工作
+
+<Steps>
+1. 上传 `spark-3.3.1-bin-hadoop3.tgz` 到 `/opt/software` 目录下
+
+2. 解压
+
+    ```bash
+    tar -zxvf /opt/software/spark-3.3.1-bin-hadoop3.tgz -C /opt/bigdata
+       ```
+
+3. 创建软链接
+
+    ```bash
+     ln -s /opt/bigdata/spark-3.3.1-bin-hadoop3 /opt/bigdata/spark
+        ```
+</Steps>
+
+### 部署步骤
+
+<Steps>
+1. 配置环境变量
+
+    ```bash
+    vim /etc/profile.d/bigdata.sh
+    ```
+
+    ```bash
+    #SPARK_HOME
+    export SPARK_HOME=/opt/bigdata/spark
+    export PATH=$PATH:$SPARK_HOME/bin
+    ```
+
+    ```bash
+    source /etc/profile.d/bigdata.sh
+    ```
+
+2. 修改 spark-env.sh
+
+    ```bash
+    cp /opt/bigdata/spark/conf/spark-env.sh.template /opt/bigdata/spark/conf/spark-env.sh
+    vim /opt/bigdata/spark/conf/spark-env.sh
+    ```
+
+    ```bash
+    export HADOOP_CONF_DIR=/opt/bigdata/hadoop/etc/hadoop/
+    ```
+
+3. 修改 hive 中的 spark-defaults.conf
+
+    ```bash
+    vim /opt/bigdata/hive/conf/spark-defaults.conf
+    ```
+
+    ```bash
+    spark.master                 yarn
+    spark.eventLog.enabled       true
+    spark.eventLog.dir           hdfs://hadoop01:8020/spark-history
+    spark.executor.memory        4g
+    spark.driver.memory          2g
+    spark.yarn.populateHadoopClasspath true
+    ```
+
+4. 在 hdfs 中创建 spark-history 目录
+
+    ```bash
+    hdfs dfs -mkdir -p /spark-history
+    ```
+
+5. 向 hdfs 中上传纯净版的 spark
+
+    1. 创建路径
+
+         ```bash
+         hdfs dfs -mkdir -p /spark-jars
+            ```
+
+    2. 解压纯净版的 spark
+
+         ```bash
+         tar -zxvf /opt/software/spark-3.3.1-bin-without-hadoop.tgz -C /opt/software
+            ```
+
+    3. 上传
+
+         ```bash
+         hdfs dfs -put /opt/software/spark-3.3.1-bin-without-hadoop/jars/* /spark-jars
+            ```
+
+6. 修改 hive-site.xml
+
+    ```bash
+    vim /opt/bigdata/hive/conf/hive-site.xml
+    ```
+
+    ```xml
+        <!-- Hive 执行引擎 -->
+        <property>
+            <name>hive.execution.engine</name>
+            <value>spark</value>
+        </property>
+        <!-- Spark 依赖位置 -->
+        <property>
+            <name>spark.yarn.jars</name>
+            <value>hdfs://hadoop01:8020/spark-jars/*</value>
+        </property>
+    ```
+
+7. Yarn 环境设置运行多个 Spark 任务
+
+    ```bash
+    vim /opt/bigdata/hadoop/etc/hadoop/capacity-scheduler.xml
+    ```
+
+    ```xml
+        <!-- 设置 Application Master 的最大资源占比 -->
+        <property>
+            <name>yarn.scheduler.capacity.maximum-am-resource-percent</name>
+            <value>0.5</value>
+        </property>
+    ```
+
+8. 启动 Hive Server2
+
+    ```bash
+    hive --service hiveserver2
+    ```
+</Steps>

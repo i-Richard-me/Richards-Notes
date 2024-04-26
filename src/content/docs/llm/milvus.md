@@ -115,8 +115,8 @@ Attu 提供了一个用户友好的可视化界面，通过 `http://ip:8000` 即
 
 通过 Attu 来查看一下刚才导入的数据：
 
-![Attu](../../../../assets/milvus_screenshot_1.png)
+![Attu](../../../assets/milvus_screenshot_1.png)
 
 以及可以在线进行向量搜索
 
-![Attu](../../../../assets/milvus_screenshot_2.png)
+![Attu](../../../assets/milvus_screenshot_2.png)

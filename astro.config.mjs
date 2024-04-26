@@ -212,6 +212,7 @@ export default defineConfig({
                                     {label: 'DolphinScheduler 调度平台', link: '/selfhosted/bigdata/dolphinscheduler-install'},
                                     {label: 'Metabase 开源BI工具', link: '/selfhosted/bigdata/metabase'},
                                     {label: 'Hadoop 集群部署', link: '/selfhosted/bigdata/hadoop-deploy'},
+                                    {label: 'Hive on Spark 部署', link: '/selfhosted/bigdata/hive-on-spark-deploy'},
                                 ]
                         },
                         {
