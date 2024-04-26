@@ -106,6 +106,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
+                                    {label: 'Milvus 向量数据库', link: '/llm/milvus'},
                                     {label: '开源大模型兼容Openai接口', link: '/llm/openai-api-for-open-llm'},
                                 ]
                         },
@@ -174,12 +175,26 @@ export default defineConfig({
                                 label: 'Introduction', link: '/mysite/mysite-intro',
                                 badge: {text: 'Intro', variant: 'success'},
                             },
-                            {label: '使用 Astro 框架构建个人网站', link: '/mysite/site-build'},
-                            {label: '通过 Vercel 部署网站', link: '/mysite/vercel-deploy'},
-                            {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
-                            {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
-                            {label: '自定义 Astro 文档样式', link: '/mysite/site-css'},
-                            {label: '在文档中添加图片缩放功能', link: '/mysite/image-zoom'},
+                            {
+                                label:
+                                    '网站构建',
+                                items:
+                                    [
+                                        {label: '使用 Astro 框架构建个人网站', link: '/mysite/site-build'},
+                                        {label: '通过 Vercel 部署网站', link: '/mysite/vercel-deploy'},
+                                        {label: 'Plausible 网站分析工具', link: '/mysite/plausible'},
+                                    ]
+                            },
+                            {
+                                label:
+                                    '插件与优化',
+                                items:
+                                    [
+                                        {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
+                                        {label: '自定义 Astro 文档样式', link: '/mysite/site-css'},
+                                        {label: '在文档中添加图片缩放功能', link: '/mysite/image-zoom'},
+                                    ]
+                            },
                         ]
                 },
                 {
@@ -195,6 +210,8 @@ export default defineConfig({
                             items:
                                 [
                                     {label: 'DolphinScheduler 调度平台', link: '/selfhosted/bigdata/dolphinscheduler-install'},
+                                    {label: 'Metabase 开源BI工具', link: '/selfhosted/bigdata/metabase'},
+                                    {label: 'Hadoop 集群部署', link: '/selfhosted/bigdata/hadoop-deploy'},
                                 ]
                         },
                         {
@@ -202,7 +219,6 @@ export default defineConfig({
                                 'Services',
                             items:
                                 [
-                                    {label: 'Milvus 向量数据库', link: '/selfhosted/services/milvus'},
                                     {label: 'Atlassian 套件', link: '/selfhosted/services/atlassian'},
                                     {label: 'Gitlab 代码仓库', link: '/selfhosted/services/gitlab'},
                                     {label: 'Vaultwarden 密码管理服务', link: '/selfhosted/services/vaultwarden'},
