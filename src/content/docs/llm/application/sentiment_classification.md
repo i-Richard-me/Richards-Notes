@@ -108,7 +108,9 @@ demo 中代码为 LangChain 0.1.0 版本之前的用法，新版本中可能会�
    result_final = subjective_answers_df.merge(result_llm, on='ID', how='left')
    ```
 
-   <iframe width="784" style="height: 98px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/YRbYJiGmvP6WK1eZNqgBRg/RnXnn2CAg1bFHHdrweMYdU?height=98" frameborder="0"></iframe>
+   ```text title="Output"
+   100%|██████████| 20/20 [00:25<00:00,  1.28s/it]
+   ```   
 
 4. **计算评分**
    
@@ -158,4 +160,11 @@ demo 中代码为 LangChain 0.1.0 版本之前的用法，新版本中可能会�
    print(table)
    ```
 
-   <iframe width="784" style="height: 188px;" src="https://datalore.jetbrains.com/report/embed/IRsLD9S3oA5isRQeLedT3y/YRbYJiGmvP6WK1eZNqgBRg/dBKOTHJrgUyHZ9RvJsbP5N" frameborder="0"></iframe>
+    ```text title="Output"
+   +--------+----------+--------------+
+   |  模型  | 平均得分 | 识别错误占比 |
+   +--------+----------+--------------+
+   | 大模型 |  0.950   |      0%      |
+   |  NLP   |  0.775   |     15%      |
+   +--------+----------+--------------+
+    ```
