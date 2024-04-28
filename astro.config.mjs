@@ -77,6 +77,7 @@ export default defineConfig({
                                         link: '/llm/optimizing/multivector-retriever-summarize'
                                     },
                                     {label: 'ReAct模式 SQL Agent', link: '/llm/optimizing/react-sql-agent'},
+                                    {label: '提升大语言模型生成SQL准确性', link: '/llm/optimizing/nl2sql-optimizing'},
                                     {label: 'Unstructured多格式数据加载', link: '/llm/optimizing/unstructured-loder'},
                                     {label: 'Unstructured按元素切分文档', link: '/llm/optimizing/unstructured-split'},
                                 ]
@@ -163,8 +164,8 @@ export default defineConfig({
                                 label: 'Introduction', link: '/utility/utility-intro',
                                 badge: {text: 'Intro', variant: 'success'},
                             },
-                            {label: '数据分析工具', link: '/utility/bookmarks-data'},
-                            {label: '效率工具', link: '/utility/bookmarks-efficiency'},
+                            {label: '工作辅助工具', link: '/utility/bookmarks-data'},
+                            {label: '系统效率工具', link: '/utility/bookmarks-efficiency'},
                             {label: 'Homelab工具', link: '/utility/bookmarks-selfhosted'},
                         ]
                 },
@@ -213,7 +214,7 @@ export default defineConfig({
                                 [
                                     {label: 'DolphinScheduler 调度平台', link: '/selfhosted/bigdata/dolphinscheduler-install'},
                                     {label: 'Metabase 开源BI工具', link: '/selfhosted/bigdata/metabase'},
-                                    {label: 'Datalore 在线 Jupyter Notebook', link: '/selfhosted/bigdata/datalore'},
+                                    {label: 'Datalore 在线 Notebook', link: '/selfhosted/bigdata/datalore'},
                                     {label: 'Hadoop 集群部署', link: '/selfhosted/bigdata/hadoop-deploy'},
                                     {label: 'Hive on Spark 部署', link: '/selfhosted/bigdata/hive-on-spark-deploy'},
                                 ]
