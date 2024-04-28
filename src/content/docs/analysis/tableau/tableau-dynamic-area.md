@@ -9,6 +9,12 @@ description: ""
 
 ## 效果演示
 
+:::caution
+笔记中所有数据和图表均为虚构，请勿作为真实数据参考。如有雷同，纯属巧合。
+
+本案例的数据集生成过程请参考[以员工晋升记录为例虚构数据集](../../analysis/dataprocessing/fictional-promotion-dataset)。
+:::
+
 ![tableau_dynamic_area](../../../../assets/visualization/tableau_dynamic_area.gif)
 
 在这个案例当中，一共有三个地方用到了动态区域可见性功能：

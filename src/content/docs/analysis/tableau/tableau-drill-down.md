@@ -9,5 +9,11 @@ description: ""
 
 ## 效果演示
 
+:::caution
+笔记中所有数据和图表均为虚构，请勿作为真实数据参考。如有雷同，纯属巧合。
+
+本案例的数据集生成过程请参考[以员工晋升记录为例虚构数据集](../../analysis/dataprocessing/fictional-promotion-dataset)。
+:::
+
 ![tableau-drill-down](../../../../assets/visualization/tableau-drill-down.gif)
 

@@ -124,7 +124,8 @@ export default defineConfig({
                                 '数据处理',
                             items:
                                 [
-                                    {label: '虚构数据集', link: '/analysis/dataprocessing/fictional-dataset'},
+                                    {label: '虚构数据集集合', link: '/analysis/dataprocessing/fictional-dataset'},
+                                    {label: '以员工晋升记录为例虚构数据集', link: '/analysis/dataprocessing/fictional-promotion-dataset'},
                                 ]
                         },
                         {
@@ -144,6 +145,7 @@ export default defineConfig({
                                 '数据可视化',
                             items:
                                 [
+                                    {label: '组织网络图观测协作模式', link: '/analysis/charts/network-diagram'},
                                     {label: '桑基图描述数据流动 (一)', link: '/analysis/charts/plotly-sankey-chart'},
                                     {label: '带有指向的散点图描述数据变化', link: '/analysis/charts/tableau-scatter'},
                                     {label: '箱线图&小提琴图描述数据分布', link: '/analysis/charts/plotly-box-violin'},
@@ -211,6 +213,7 @@ export default defineConfig({
                                 [
                                     {label: 'DolphinScheduler 调度平台', link: '/selfhosted/bigdata/dolphinscheduler-install'},
                                     {label: 'Metabase 开源BI工具', link: '/selfhosted/bigdata/metabase'},
+                                    {label: 'Datalore 在线 Jupyter Notebook', link: '/selfhosted/bigdata/datalore'},
                                     {label: 'Hadoop 集群部署', link: '/selfhosted/bigdata/hadoop-deploy'},
                                     {label: 'Hive on Spark 部署', link: '/selfhosted/bigdata/hive-on-spark-deploy'},
                                 ]
@@ -238,21 +241,15 @@ export default defineConfig({
                                 ]
                         },
                         {
-                            label: 'Linux',
+                            label: '环境配置',
                             items: [
-                                {label: '替换国内镜像源', link: '/selfhosted/linux/mirror-source'},
-                                {label: '必备软件包', link: '/selfhosted/linux/package-install'},
-                                {label: 'NTP时间同步', link: '/selfhosted/linux/ntp'},
-                                {label: 'Docker安装部署', link: '/selfhosted/linux/docker-install'},
-                            ],
-                        },
-                        {
-                            label:
-                                'Network',
-                            items:
-                                [{label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
+                                    {label: '替换国内镜像源', link: '/selfhosted/linux/mirror-source'},
+                                    {label: '必备软件包', link: '/selfhosted/linux/package-install'},
+                                    {label: 'NTP时间同步', link: '/selfhosted/linux/ntp'},
+                                    {label: 'Docker安装部署', link: '/selfhosted/linux/docker-install'},
+                                    {label: 'Nginx Proxy Manager', link: '/selfhosted/network/nginx-proxy-manager'},
                                     {label: 'frp内网穿透', link: '/selfhosted/network/frp'},
-                                ]
+                            ],
                         },
                     ],
                 },

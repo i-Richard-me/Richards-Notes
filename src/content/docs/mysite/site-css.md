@@ -68,7 +68,7 @@ export default defineConfig({
 
 对于文档中的提示框（callout），可以通过修改 CSS 变量来定制其配色。以下是一个调整提示框配色的示例，主要通过修改 CSS 根变量来改变颜色：
 
-```js
+```css
 :root {
     --sl-hue-blue: 200;
     --sl-hue-green: 85;
@@ -78,5 +78,15 @@ export default defineConfig({
     --sl-color-asides-text-accent: var(--sl-color-green-high);
     border-color: var(--sl-color-green);
     background-color: var(--sl-color-green-low);
+}
+```
+
+## 调整 pagination 字体大小
+
+默认页脚的上一页和下一页链接的字体过大，我调小了一个尺寸。
+
+```css
+.link-title {
+    font-size: var(--sl-text-xl);
 }
 ```

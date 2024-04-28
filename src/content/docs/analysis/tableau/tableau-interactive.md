@@ -9,6 +9,12 @@ Tablau的宣传中，首先定位是一个分析工具，而不仅是一个可�
 
 ## 效果演示
 
+:::caution
+笔记中所有数据和图表均为虚构，请勿作为真实数据参考。如有雷同，纯属巧合。
+
+本案例的数据集生成过程请参考[以员工晋升记录为例虚构数据集](../../analysis/dataprocessing/fictional-promotion-dataset)。
+:::
+
 ![tableau_interactive](../../../../assets/visualization/tableau_interactive.gif)
 
 可以看到，在仪表板中，我们把各个级别的晋升标准参数用滑块的方式展示出来，用户可以通过调整滑块，实时查看右侧图表在不同标准下的指标预测结果，辅助决策。

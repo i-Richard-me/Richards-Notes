@@ -15,6 +15,12 @@ description: "介绍如何通过 Tableau 的容器功能来优化报告的布局
 
 **页面二**
 
+:::caution
+笔记中所有数据和图表均为虚构，请勿作为真实数据参考。如有雷同，纯属巧合。
+
+本案例的数据集生成过程请参考[以员工晋升记录为例虚构数据集](../../analysis/dataprocessing/fictional-promotion-dataset)。
+:::
+
 ![tableau_layout_2](../../../../assets/visualization/tableau_layout_2.png)
 
 **页面三**
