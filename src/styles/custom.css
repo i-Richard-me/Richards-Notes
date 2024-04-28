@@ -33,9 +33,12 @@
     --sl-color-black: #ffffff;
 }
 
-
 .starlight-aside--tip {
     --sl-color-asides-text-accent: var(--sl-color-green-high);
     border-color: var(--sl-color-green);
     background-color: var(--sl-color-green-low);
+}
+
+.link-title {
+    font-size: var(--sl-text-xl);
 }
