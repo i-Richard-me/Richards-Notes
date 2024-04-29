@@ -217,6 +217,7 @@ export default defineConfig({
                                     {label: 'Datalore 在线 Notebook', link: '/selfhosted/bigdata/datalore'},
                                     {label: 'Hadoop 集群部署', link: '/selfhosted/bigdata/hadoop-deploy'},
                                     {label: 'Hive on Spark 部署', link: '/selfhosted/bigdata/hive-on-spark-deploy'},
+                                    {label: 'Doris 集群部署', link: '/selfhosted/bigdata/doris-deploy'},
                                 ]
                         },
                         {
