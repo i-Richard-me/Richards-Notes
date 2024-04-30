@@ -1,0 +1,157 @@
+---
+title: "模拟员工入职三年的成长与保留"
+description: "记录用于模拟员工三年内职级晋升与离职情况的数据集过程"
+---
+
+在绘制桑基图的案例中（[通过绘制桑基图描述员工发展与保留](../charts/echarts-sankey-chart)），我们选用了描述员工在三年间的职级晋升和离职情况的场景。这里记录一下数据集的构造过程。
+
+:::caution
+数据集构造中模拟的参数依常识设定，请勿作为真实数据和结论参考。如有雷同，纯属巧合。
+:::
+
+# 数据集基本构造要求
+
+1. **时间跨度**：员工入职后第一年，第二年，第三年，三个时间点的级别与在职状态。
+2. **数据结构**：每个员工一行数据。
+3. **员工数量**：1000名员工，总计1000行数据。
+4. **第一年状态**：
+    - 预设离职率为5%，如果离职，则状态标记为“Level 1 离职”，否则标记为“Level 1 在职”。
+5. **第二年状态**：
+    - 依据第一年的结果，决定员工的第二年状态。已经离职的员工状态为“已离职”。
+    - 对于第一年在职的员工，有30%的机率晋升到下一职级。晋升后的员工有5%的流失。
+    - 未晋升的员工按15%的离职率来确定是否离职。
+6. **第三年状态**：
+    - 依据第二年的结果，决定员工的第三年状态。已经离职的员工状态为“已离职”。
+    - 对于第二年在职的员工，同样有30%的机率晋升到下一职级。晋升后的员工有5%的流失。
+    - 未晋升的员工按25%的离职率来确定是否离职。
+
+# 数据集构造过程
+
+import { Steps } from '@astrojs/starlight/components';
+
+<Steps>
+
+1. 设定参数
+
+    ```python
+    # 参数设置
+    n_employees = 1000  # 模拟的员工数量
+    quit_rate_y1 = 0.05  # 第1年的离职率
+    quit_rate_y2 = 0.15  # 第2年的离职率
+    quit_rate_y3 = 0.25  # 第3年的离职率
+    promotion_rate = 0.30  # 晋升比例
+    quit_rate_after_promotion = 0.05  # 晋升后的离职率
+    ```
+
+2. 创建 DataFrame 并生成员工ID
+
+    ```python
+    employees = pd.DataFrame({
+        "Employee ID": [f"E{str(i).zfill(4)}" for i in range(1, n_employees + 1)]
+    })
+    ```
+
+3. 初始员工状态为“Level 1 入职”
+
+    ```python
+    employees['Year 0'] = 'Level 1 入职'
+    ```
+
+4. 第一年状态
+
+    这里巧用 `np.random.rand()` 生成在 0-1 之间正态分布的随机数，来模拟某个离职率下的在职和离职情况。后面涉及到比例的模拟也是类似的处理。
+    
+    ```python
+    employees['Year 1'] = np.where(np.random.rand(n_employees) < quit_rate_y1, 'Level 1 离职', 'Level 1 在职')
+    ```
+   
+5. 第二年状态
+
+    ```python
+    def year_2_status(row):
+        if '离职' in row['Year 1']:
+            return '已离职'
+        elif np.random.rand() < promotion_rate:
+            # Promoted to Level 2
+            return 'Level 2 离职' if np.random.rand() < quit_rate_after_promotion else 'Level 2 在职'
+        else:
+            # Stay at Level 1
+            return 'Level 1 离职' if np.random.rand() < quit_rate_y2 else 'Level 1 在职'
+    
+    
+    employees['Year 2'] = employees.apply(year_2_status, axis=1)
+    ```
+   
+6. 第三年状态
+
+    ```python
+    def year_3_status(row):
+        if '离职' in row['Year 2']:
+            return '已离职'
+        elif 'Level 1' in row['Year 2']:
+            # Level 1 to Level 2
+            if np.random.rand() < promotion_rate:
+                return 'Level 2 离职' if np.random.rand() < quit_rate_after_promotion else 'Level 2 在职'
+            else:
+                return 'Level 1 离职' if np.random.rand() < quit_rate_y2 else 'Level 1 在职'
+        elif 'Level 2' in row['Year 2']:
+            # Level 2 to Level 3
+            if np.random.rand() < promotion_rate:
+                return 'Level 3 离职' if np.random.rand() < quit_rate_after_promotion else 'Level 3 在职'
+            else:
+                return 'Level 2 离职' if np.random.rand() < quit_rate_y3 else 'Level 2 在职'
+    ```
+
+7. 数据集预览
+
+   | Employee ID | Year 0     | Year 1     | Year 2     | Year 3     |
+   |-------------|------------|------------|------------|------------|
+   | E0001       | Level 1 入职 | Level 1 在职 | Level 2 在职 | Level 2 在职 |
+   | E0002       | Level 1 入职 | Level 1 在职 | Level 1 在职 | Level 2 在职 |
+   | E0003       | Level 1 入职 | Level 1 在职 | Level 1 在职 | Level 1 在职 |
+   | E0004       | Level 1 入职 | Level 1 在职 | Level 1 在职 | Level 1 离职 |
+   | E0005       | Level 1 入职 | Level 1 在职 | Level 2 在职 | Level 3 在职 |
+   | E0006       | Level 1 入职 | Level 1 在职 | Level 2 在职 | Level 3 在职 |
+   | E0007       | Level 1 入职 | Level 1 在职 | Level 1 离职 | 已离职        |
+   | E0008       | Level 1 入职 | Level 1 在职 | Level 1 在职 | Level 1 离职 |
+   | E0009       | Level 1 入职 | Level 1 在职 | Level 2 在职 | Level 2 离职 |
+   | E0010       | Level 1 入职 | Level 1 在职 | Level 1 离职 | 已离职        |
+
+</Steps>
+
+## 进一步抽象
+
+在构造中，其实第2-3年的数据生成逻辑是基本一致的，可以进一步抽象成一个函数。执行后效果是一样的，但代码更简洁。
+
+```python
+# 参数设置
+n_employees = 1000
+quit_rates = [0.05, 0.15, 0.25]     # 按年份顺序的离职率，写几年就会生成几年的数据
+promotion_rate = 0.30               # 晋升比例
+quit_rate_after_promotion = 0.05    # 晋升后的离职率
+
+# 创建 DataFrame 并生成员工ID
+employees = pd.DataFrame({
+    "Employee ID": [f"E{str(i).zfill(4)}" for i in range(1, n_employees + 1)],
+    "Year 0": "Level 1 入职"
+})
+
+# 定义函数用于生成每一年时间节点的状态
+def simulate_year(current_year, next_year, quit_rate):
+    # Generate random outcomes for each employee
+    def next_status(row):
+        if '离职' in row[current_year]:
+            return '已离职'
+        else:
+            level = int(row[current_year].split()[1])  # Extract level number correctly
+            promoted = np.random.rand() < promotion_rate
+            promoted_level = level + 1 if promoted else level
+            quit = np.random.rand() < (quit_rate_after_promotion if promoted else quit_rate)
+            return f'Level {promoted_level} {"离职" if quit else "在职"}'
+
+    employees[next_year] = employees.apply(next_status, axis=1)
+
+# 使用循环生成三年的数据
+for i in range(len(quit_rates)):
+    simulate_year(f'Year {i}', f'Year {i+1}', quit_rates[i])
+```
