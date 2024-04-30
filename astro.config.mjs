@@ -127,6 +127,7 @@ export default defineConfig({
                                 [
                                     {label: '虚构数据集集合', link: '/analysis/dataprocessing/fictional-dataset'},
                                     {label: '以员工晋升记录为例虚构数据集', link: '/analysis/dataprocessing/fictional-promotion-dataset'},
+                                    {label: '模拟员工入职三年的成长与保留', link: '/analysis/dataprocessing/fictional-employee-development-dataset'},
                                 ]
                         },
                         {
@@ -148,6 +149,7 @@ export default defineConfig({
                                 [
                                     {label: '组织网络图观测协作模式', link: '/analysis/charts/network-diagram'},
                                     {label: '桑基图描述数据流动 (一)', link: '/analysis/charts/plotly-sankey-chart'},
+                                    {label: '桑基图描述数据流动 (二)', link: '/analysis/charts/echarts-sankey-chart'},
                                     {label: '带有指向的散点图描述数据变化', link: '/analysis/charts/tableau-scatter'},
                                     {label: '箱线图&小提琴图描述数据分布', link: '/analysis/charts/plotly-box-violin'},
                                     {label: '南丁格尔玫瑰图增强数据趣味性', link: '/analysis/charts/nightingale-chart'},
