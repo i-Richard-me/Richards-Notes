@@ -106,6 +106,7 @@ export default defineConfig({
                                 '模型部署',
                             items:
                                 [
+                                    {label: '使用Ollama部署Qwen-110B', link: '/llm/ollama-deploy'},
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
                                     {label: 'Milvus 向量数据库', link: '/llm/milvus'},
                                     {label: '开源大模型兼容Openai接口', link: '/llm/openai-api-for-open-llm'},

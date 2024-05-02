@@ -1,12 +1,11 @@
 ---
 title: "搭建大模型部署容器环境"
-description: "本教程指导您如何搭建一个支持大模型部署的容器环境，包括安装 NVIDIA Container Toolkit、构建 Docker 镜像、配置和使用容器。"
+description: "介绍如何搭建一个支持大模型部署的容器环境，包括安装 NVIDIA Container Toolkit、构建 Docker 镜像、配置和使用容器。"
 ---
 
 ## 安装 NVIDIA Container Toolkit
 
-NVIDIA Container Toolkit 允许用户以容器形式轻松部署、运行 GPU 加速的应用。在开始之前，请确保您的系统已安装 Docker 和 NVIDIA
-驱动。
+NVIDIA Container Toolkit 允许用户以容器形式轻松部署、运行 GPU 加速的应用。在开始之前，请确保您的系统已安装 Docker 和 NVIDIA 驱动。
 
 1. **添加 NVIDIA 容器工具包的 GPG 密钥和仓库**。
 
