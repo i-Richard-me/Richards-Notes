@@ -242,6 +242,7 @@ export default defineConfig({
                                 [
                                     {label: 'Proxmox PVE', link: '/selfhosted/vm/proxmox-pve'},
                                     {label: 'CUDA 虚拟机部署', link: '/selfhosted/vm/cuda-vm'},
+                                    {label: 'iStoreOS 软路由', link: '/selfhosted/vm/istoreos'},
                                     {label: '黑群晖安装指南', link: '/selfhosted/vm/synology-dsm'},
                                 ]
                         },
