@@ -63,7 +63,28 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '优化技巧',
+                                '模型应用',
+                            items:
+                                [
+                                    {
+                                        label: '提升情感分类任务准确性',
+                                        link: '/llm/application/sentiment_classification'
+                                    },
+                                    {label: '文本分类任务中的模型效果对比', link: '/llm/application/llm_compare'},
+                                    {
+                                        label: '利用大模型进行实体及属性抽取',
+                                        link: '/llm/application/performance-eval-analysis'
+                                    },
+                                    {label: '爬虫&大模型获取行业动态 (一)', link: '/llm/application/spider-and-llm-part-one'},
+                                    {label: '爬虫&大模型获取行业动态 (二)', link: '/llm/application/spider-and-llm-part-two'},
+                                    {label: '简单实现文档检索和生成', link: '/llm/application/rag_basic'},
+                                    {label: '基于SQL数据库的简单问答', link: '/llm/application/sqlbot_basic'},
+                                    {label: '简单构建岗位与技能知识图谱', link: '/llm/application/knowledge-graph'},
+                                ]
+                        },
+                        {
+                            label:
+                                '进阶技巧',
                             items:
                                 [
                                     {label: '示例选择器动态调整提示词', link: '/llm/optimizing/example-selector'},
@@ -80,25 +101,6 @@ export default defineConfig({
                                     {label: '提升大语言模型生成SQL准确性', link: '/llm/optimizing/nl2sql-optimizing'},
                                     {label: 'Unstructured多格式数据加载', link: '/llm/optimizing/unstructured-loder'},
                                     {label: 'Unstructured按元素切分文档', link: '/llm/optimizing/unstructured-split'},
-                                ]
-                        },
-                        {
-                            label:
-                                '模型应用',
-                            items:
-                                [
-                                    {
-                                        label: '提升情感分类任务准确性',
-                                        link: '/llm/application/sentiment_classification'
-                                    },
-                                    {label: '文本分类任务中的模型效果对比', link: '/llm/application/llm_compare'},
-                                    {
-                                        label: '利用大模型进行实体及属性抽取',
-                                        link: '/llm/application/performance-eval-analysis'
-                                    },
-                                    {label: '简单实现文档检索和生成', link: '/llm/application/rag_basic'},
-                                    {label: '基于SQL数据库的简单问答', link: '/llm/application/sqlbot_basic'},
-                                    {label: '简单构建岗位与技能知识图谱', link: '/llm/application/knowledge-graph'},
                                 ]
                         },
                         {

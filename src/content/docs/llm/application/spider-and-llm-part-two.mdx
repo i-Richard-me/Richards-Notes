@@ -1,0 +1,182 @@
+---
+title: "利用爬虫&大模型获取行业动态 (二)"
+description: "介绍如何加载网页内容以及如何借助大模型提取关键信息。"
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+上一篇（[利用爬虫&大模型获取行业动态 (一)](spider-and-llm-part-one)）介绍了从资讯网站上获取最新消息链接的基本思路，本文将继续探讨如何加载获取到的链接网页内容，以及如何借助大模型的技术优势提取新闻的关键信息。
+
+## 应用参考
+
+:::note
+结合使用场景，我们可以借助大模型的能力提取新闻的关键信息，例如：
+1. 对给定的竞对公司清单进行检查，判断新闻中是否涉及这些公司。
+2. 分析是否提供了本行业的相关消息，例如对人力资源管理行业来说，关注新闻是否提到了其他公司的组织架构调整、高层人事任免、以及人力资源管理政策等。
+:::
+
+## 获取新闻内容
+
+在获取到新闻链接后，下一步是提取网页中的有效内容。常见的方法有：
+
+### Html2Text
+
+Html2Text 是一个简单的方法，用于将 HTML 内容转换为纯文本，但它的主要缺点是无法有效区分重要内容和非重要内容，如广告和导航栏。
+
+```python
+from langchain_community.document_loaders import AsyncHtmlLoader
+
+urls = ["https://www.latepost.com/news/dj_detail?id=2257"] # 我们以其中一篇新闻链接为例
+loader = AsyncHtmlLoader(urls)
+docs = loader.load()
+
+from langchain_community.document_transformers import Html2TextTransformer
+
+html2text = Html2TextTransformer()
+docs_transformed = html2text.transform_documents(docs)
+docs_transformed[0].page_content[0:300]
+```
+
+我们看一下提取出来的前 300 个字符，发现开头很多内容都是无效信息。
+
+```text title="Output"
+'晚一点，好一点 **Later better**\n\n搜索晚点独家商业新闻\n\n我要爆料\n\n联系晚点\n\n  *
+关于晚点\n  * 加入我们\n  * 广告联系\n\n· 大众\n\n· 酷睿程\n\n晚点独家丨大众中国原 CTO
+韩鸿铭将成为酷睿程的 CEO\n\n文 司雯雯\n\n编辑 王海璐\n\n04月29日 23:04\n\n__\n\n__\n\n
+阅读 22764\n\n酷睿程是大众在中国智能化转型的希望，但并不是唯一希望。\n\n大众汽车集团（中国）
+前首席技术官韩鸿铭（Marcus Hafkemeyer）将加入酷睿程，担任 CEO。这个消息在今天酷睿程的一个
+会议中被宣布。\n\n  \n\n2023 年成立的酷睿程是大众汽车在中国的核心智'
+```
+
+### Jina Reader
+
+近两年在大模型技术发展后，有很多开源工具提供了更好的网页内容提取方法，例如 Jina Reader，FireCrawl，Spider 等等。
+
+其中 Jina Reader 的使用方法最为简单，在任何链接前面加上 `https://r.jina.ai/` 即可。
+
+```python
+import requests
+
+reader_url = f"https://r.jina.ai/https://www.latepost.com/news/dj_detail?id=2257"
+response = requests.get(reader_url)
+content = response.text
+content[0:300]
+```
+
+我们看一下 Jina Reader 提取出来的前 300 个字符，发现很规整的处理为标题、链接、正文三个部分，并去掉了无效信息。
+
+```text title="Output"
+'Title: 晚点独家丨大众中国原 CTO 韩鸿铭将成为酷睿程的 CEO\n\nURL Source: https://www.latepost.com/news/dj_detail?id=2257\n\n
+Markdown Content:\n大众汽车集团（中国）前首席技术官韩鸿铭（Marcus Hafkemeyer）将加入酷睿程，
+担任 CEO。这个消息在今天酷睿程的一个会议中被宣布。\n\n2023 年成立的酷睿程是大众汽车在中国的核心
+智能驾驶系统供应商，由大众旗下软件公司 CARIAD 与地平线共同出资设立。大众 CARIAD 投资地平线和酷睿
+程总计 24 亿欧元，其中投资酷睿程的金额约为 13 亿欧元'
+```
+
+### 封装任务
+
+在上一篇中，我们将爬取的新闻链接保存在了一个字典当中，因此在执行任务时可以将获取新闻内容的代码封装成一个函数，以便批量执行。
+
+```python
+import requests
+
+def fetch_content(url):
+    reader_url = f"https://r.jina.ai/{url}"
+    response = requests.get(reader_url)
+    return response.text
+
+for url, title in articles.items():
+    content = fetch_content(url)
+    # 接下来可以将内容传递给大模型进行进一步处理
+    # ...
+```
+
+## 大模型任务
+
+在获取到新闻内容之后，我们可以将其传入大模型进行处理，高效的阅读内容并提取关键标签和信息。
+
+实现逻辑与以往介绍的案例无异，我们构建一个极简的任务做演示。
+
+<Steps>
+    1. **构建任务提示词**
+
+        ```python
+        articles_analysis_prompt = """
+            作为企业管理顾问，你的任务是分析给定的新闻文章，判断其中是否提到以下公司管理方面的内容：组织架构设计、高层人事任免、人力资源管理政策。
+
+            1. 阅读文章内容：仔细阅读所提供的新闻文章。
+            2. 判断关键内容：根据对文章内容，判断是否明确提到以下定义的管理层面：
+                - 组织架构设计：涉及到公司内部组织或部门的创建、调整或解散，包括部门名称、部门职能以及部门间的层级关系的变化。
+                - 高层人事任免：公司高层管理人员（如CEO、高级副总裁、某业务负责人等）的任命、离职或职位变动。
+                - 人力资源管理政策：公司人力资源管理的有关政策，如薪酬、福利、绩效考核、晋升的政策制定或修改。
+               **不包含**提及业务模式、产品策略、生产流程等与人力资源管理政策无直接关联的内容。
+            3. 给出理由：如果文章中提及了以上内容，请引用原文内容指出属于上述定义的管理层面的内容。确保理由精确，并且直接相关。
+            4. 输出格式：将分析结果以JSON格式输出，确保格式的准确性和易读性。
+                例如: {output_example}
+
+            请根据提供的新闻文章进行分析，确保分析结果客观、准确。
+
+            注意事项：
+            - 仔细阅读文章内容，确保分析准确性。
+            - 确保根据提供的定义来判断是否包含特定内容。
+            - 如果包含，提供具体理由，确保理由与文章内容直接相关，避免推测或臆测。
+            - 确保输出格式正确，便于阅读和理解。
+
+            新闻文章 >>>{content}<<<
+
+            \n{format_instructions}
+            """
+        ```
+
+    2. **定义任务输出格式**
+
+        ```python
+        from langchain_core.output_parsers import JsonOutputParser
+        from langchain_core.pydantic_v1 import BaseModel, Field
+
+        class ArticlesAnalysis(BaseModel):
+            """
+            定义公司管理分析的输出格式
+            """
+            组织架构设计: dict = Field(description="包含`是否存在`和`理由`。")
+            高层人事任免: dict = Field(description="包含`是否存在`和`理由`。")
+            人力资源管理政策: dict = Field(description="包含`是否存在`和`理由`。")
+
+        parser = JsonOutputParser(pydantic_object=ArticlesAnalysis)
+
+        output_example = """
+        {"组织架构设计": {"是否存在": true, "理由": "文章中提到公司将进行部门重组，调整组织架构以提高效率。"}}
+        """
+        ```
+
+    3. **构建任务**
+
+        ```python
+        from langchain.prompts import PromptTemplate
+
+        prompt = PromptTemplate(
+            template=articles_analysis_prompt,
+            input_variables=["content"],
+            partial_variables={
+                "output_example": output_example,
+                "format_instructions": parser.get_format_instructions()},
+        )
+
+        chain = prompt | model | parser
+
+        chain.invoke({"content": content})
+        ```
+
+    4. **效果展示**
+
+        ```text title="Output"
+        {'组织架构设计': {'是否存在': True,
+          '理由': '文章提到VCTC（大众汽车（中国）科技有限公司）的成立，总部位于安徽合肥，负责大众在中国的智能电动车研发和采购等业务，包括开发本土电动汽车平台，这涉及组织架构的调整和新公司的设立。'},
+         '高层人事任免': {'是否存在': True,
+          '理由': '韩鸿铭将从大众中国CTO的职位上卸任，担任酷睿程CEO，这是高层人事的变动。同时提到酷睿程原CEO楚力任职不到半年，也体现了人事调整。'},
+         '人力资源管理政策': {'是否存在': True,
+          '理由': '文章提到酷睿程的组织架构中，大众派驻高管主导，地平线高管辅助，以及员工人数的变化，体现了人力资源的配置和管理。另外，提到的VCTC的人员招聘和团队建设也与人力资源政策相关。'}}
+        ```
+
+        可以看到大模型基本上实现了给定的要求，当然实际应用中还需要对具体要求和提示词进行更多的优化，才能达到可在企业中起到真正作用的效果。
+</Steps>
