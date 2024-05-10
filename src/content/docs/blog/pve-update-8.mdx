@@ -1,0 +1,74 @@
+---
+title: 升级Proxmox虚拟机升级到8.0
+date: 2023-06-25
+excerpt: 记录了从 Proxmox VE 7.x 版本升级到 8.0 的详细步骤，包括源的配置和集群升级的注意事项。
+---
+
+:::note
+最近发现Proxmox VE 8.0已经发布了，作为尝鲜档忍不住升级了一下，记录一下升级过程。
+:::
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<LinkCard title="官方升级文档" description="Upgrade from 7 to 8 - Proxmox VE" href="https://pve.proxmox.com/wiki/Upgrade_from_7_to_8"></LinkCard>
+
+
+1. 清理旧的软件源
+
+   搭建初期使用过pvetools，在`/etc/apt/sources.list.d`目录下生成过软件源的文件，由于 Proxmox VE 8.0 升级后基于 Debian 12（Bookworm），需要将旧的软件源移除，避免版本冲突。
+
+    ```
+    rm /etc/apt/sources.list.d/*
+    ```
+
+2. 修改 `/etc/apt/sources.list` 文件为官方源
+
+   如果没有特殊网络环境的话，此处可以替换为国内源。
+
+    ```bash
+    vi /etc/apt/sources.list
+    ```
+
+    ```
+    deb http://ftp.debian.org/debian bookworm main contrib
+    deb http://ftp.debian.org/debian bookworm-updates main contrib
+
+    # Proxmox VE pve-no-subscription repository provided by proxmox.com,
+    # NOT recommended for production use
+    deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+
+    # security updates
+    deb http://security.debian.org/debian-security bookworm-security main contrib
+    ```
+
+3. 添加 Ceph 源
+
+   这个源不添加会可能会报错
+
+    ```bash
+    vi /etc/apt/sources.list.d/ceph.list
+    ```
+
+    ```
+    deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription
+    ```
+
+4. 开始升级
+
+    使用以下命令更新软件包列表并升级系统。过程中可能会有多次提示，按 OK 或 Y 确认。
+
+    ```bash
+    apt update
+    apt dist-upgrade
+    ```
+
+    完成后，检查 Proxmox VE 的版本，确认升级是否成功。
+
+    ```bash
+    pveversion
+    ```
+
+5. 集群升级
+
+   我这里是一共三个节点构成的集群，一台是软路由平台，一台服务部署的正式环境，另一台作为测试环境的主机。
+   如果像我一样由3台以上主机建立了PVE集群，那么需要将集群中的每台主机完成以上升级，才能在集群界面中看到最新的版本号。
