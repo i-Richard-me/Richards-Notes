@@ -143,6 +143,7 @@ export default defineConfig({
                                     {label: '可视化进阶 (三) 仪表板图表联动', link: '/analysis/tableau/tableau-link'},
                                     {label: '可视化进阶 (四) 动态下钻分析', link: '/analysis/tableau/tableau-drill-down'},
                                     {label: '可视化进阶 (五) 交互式分析', link: '/analysis/tableau/tableau-interactive'},
+                                    {label: 'Tableau 自定义调色板', link: '/analysis/tableau/tableau-palette'},
                                 ]
                         },
                         {
