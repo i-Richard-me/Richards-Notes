@@ -87,6 +87,7 @@ export default defineConfig({
                                 '进阶技巧',
                             items:
                                 [
+                                    {label: '大模型高效微调-训练集准备', link: '/llm/optimizing/fine-tuning-data-preparation'},
                                     {label: '示例选择器动态调整提示词', link: '/llm/optimizing/example-selector'},
                                     {label: '复杂问题分解', link: '/llm/optimizing/rag-with-decomposition'},
                                     {
