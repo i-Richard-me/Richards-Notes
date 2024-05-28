@@ -119,6 +119,20 @@ export default defineConfig({
                     ]
                 },
                 {
+                    label:
+                        '机器学习',
+                    items:
+                        [
+                            {
+                                label: 'Introduction', link: '/machine-learning/machine-learning-intro',
+                                badge: {text: 'Intro', variant: 'success'},
+                            },
+                            {label: '建模目标与数据质量', link: '/machine-learning/data-preprocessing'},
+                            // {label: '探索性分析', link: '/machine-learning/data-exploration'},
+                            // {label: '特征筛选', link: '/machine-learning/feature-selection'},
+                        ]
+                },
+                {
                     label: '数据分析',
                     items: [
                         {
