@@ -1,0 +1,272 @@
+---
+title: "(二) 大模型任务构建"
+description: "重点介绍三个核心的大模型任务的构建过程，包括如何使用Pydantic定义数据模型和创建提示词（prompt），实现对学校名称的标准化处理、匹配评估和网络搜索结果分析。"
+---
+
+利用大模型来处理学校名称的标准化是项目的关键环节，最终输出标准化的学校名称，我们定义了三个核心大模型任务：
+
+1. 决策与识别标准名称任务（decision_and_standardization）
+
+    主要功能是分析给出的不规范的学校名称，并决定是直接检索标准化名称还是进行网络搜索。如果大模型原生认识并确认该学校，将引导工作流程到检索环节，匹配出数据库中的标准名称；否则，引导至网络搜索环节，以获取更多关于该学校的信息。
+
+2. 名称匹配评估任务（school_name_match_grader）
+
+    用于评估从向量数据库中检索到的学校名称是否和提供的学校名称是同一所学校，验证检索后得到的学校是否准确。
+
+3. 网络搜索结果分析任务（web_search_analysis）
+
+    在需要进行网络搜索时，该任务负责分析搜索引擎返回的文本内容，从中提取出最可能的学校官方名称。
+
+
+## 决策并识别标准名称
+
+import { Steps } from '@astrojs/starlight/components';
+
+<Steps>
+1. **数据模型定义（Pydantic）**
+
+    我们使用Pydantic定义数据模型，作为大模型的输出格式要求：
+    
+    ```python
+    from typing import List, Literal
+    from pydantic import BaseModel, Field
+    
+    class RoutingAndStandardization(BaseModel):
+        """Determines routing action and identifies the official school name."""
+        action: Literal["direct_retrieval", "perform_search"] = Field(
+            ...,
+            description="Decide whether to use 'direct_retrieval' function or 'perform_search'."
+        )
+        official_names: List[str] = Field(
+            default=[],
+            description="A list of the official Chinese and English names of the school for direct retrieval."
+        )
+    ```
+    
+    要求大模型输出两个字段：
+    
+    - action：表示决策结果，是选择直接检索（`direct_retrieval`）还是执行网络搜索（`perform_search`）。
+    - official_names：一个包含大模型认为的官方学校名称的列表，用于直接检索。
+
+2. **提示词构建**
+    
+    ```python
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.output_parsers import PydanticOutputParser
+    
+    # 初始化解析器
+    parser = PydanticOutputParser(pydantic_object=RoutingAndStandardization)
+    
+    # 定义系统提示和指示
+    system_message = """You are an expert in identifying and standardizing school names.
+    Your task is to analyze the given query, correct any misspellings, recognize common
+    abbreviations, or infer the school name based on additional information provided.
+    Ensure the provided name is the widely recognized official name in both Chinese and English.
+    
+    Additionally, you need to decide if the query should be handled by 'direct_retrieval'
+    or 'perform_search'. If the provided school name is clear and unambiguous, choose
+    'direct_retrieval' and provide the official name. If the query is vague or requires
+    more information, choose 'perform_search'."""
+    
+    format_instructions = """
+    Output your answer as JSON that matches the given schema: ```json\n{schema}\n```.
+    Make sure to wrap the answer in ```json and ``` tags
+    """
+    
+    # 创建提示模板
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", system_message + format_instructions),
+            ("human", "Please analyze the query and provide the official school name, then \
+                        decide whether to 'direct_retrieval' or 'perform_search': {user_query}"),
+        ]
+    ).partial(schema=RoutingAndStandardization.schema())
+    ```
+
+3. **任务构建和演示**
+    
+    ```python
+    from langchain_community.chat_models.tongyi import ChatTongyi
+    
+    # 使用 ChatTongyi 进行任务处理
+    llm = ChatTongyi(model="qwen1.5-72b-chat", temperature=0.0)
+    
+    # 组合提示模板和大模型
+    decision_and_standardization = prompt | llm | parser
+    
+    # 示例调用
+    initial_state = {
+        "user_query": "通大"
+    }
+    
+    result = decision_and_standardization.invoke({"user_query": initial_state["user_query"]})
+    action = result.action
+    official_names = result.official_names
+    
+    print(f"Action: {action}")
+    print(f"Official Names: {official_names}")
+    ```
+    
+    ```text title="output"
+
+    ```
+</Steps>
+
+## 名称匹配评估任务
+
+<Steps>
+1. **数据模型定义（Pydantic）**
+
+    ```python
+    class GradeSchoolNameMatch(BaseModel):
+        """Grading the match between retrieved school name and original input."""
+        match_status: Literal["match", "no_match"] = Field(
+            ...,
+            description="Indicate whether the retrieved school name matches the original input query, 'match' or 'no_match'",
+        )
+    ```
+
+    要求大模型输出一个字段：
+
+    - match_status：表示匹配结果，是`match`（匹配）还是`no_match`（不匹配）。
+
+2. **提示词构建**
+
+    ```python
+    # 初始化解析器
+    parser_match = PydanticOutputParser(pydantic_object=GradeSchoolNameMatch)
+
+    # 定义系统提示和指示
+    system_message_grade = """You are an expert in verifying school name matches. Your
+    task is to assess whether the retrieved school name accurately corresponds to the
+    user's potentially misspelled or informally written query. If the retrieved name
+    clearly refers to the same school despite differences in spelling or formality, grade
+    it as 'match'. Otherwise, grade it as 'no_match'. Remember, the focus is on identifying
+    the intended school, not on literal string comparison.
+
+    If the query involves web search results, consider these results in your assessment."""
+
+    format_instructions_grade = """
+    Output your answer as JSON adhering to the given schema: ```json\n{schema}\n```.
+    Ensure the output is wrapped within ```json and ``` tags.
+    """
+
+    # 创建提示模板
+    grade_school_name_match_prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", system_message_grade + format_instructions_grade),
+            ("human", "Retrieved school name: {retrieved_name} \n Original user query: {original_query} \n Search results: {search_results}"),
+        ]
+    ).partial(schema=GradeSchoolNameMatch.schema())
+    ```
+
+3. **任务构建和演示**
+
+    ```python
+    # 组合提示模板和大模型
+    school_name_match_grader = grade_school_name_match_prompt | llm | parser_match
+
+    # 示例调用
+    initial_state = {
+        "retrieved_name": "南京大学",
+        "original_query": "通大",
+        "search_results": "南通大学，简称'通大'，..."
+    }
+
+    result = school_name_match_grader.invoke({
+        "retrieved_name": initial_state["retrieved_name"],
+        "original_query": initial_state["original_query"],
+        "search_results": initial_state["search_results"]
+    })
+
+    match_status = result.match_status
+
+    print(f"Match Status: {match_status}")
+    ```
+
+    ```text title="output"
+
+    ```
+</Steps>
+
+
+## 网络搜索结果分析任务
+
+<Steps>
+1. **数据模型定义（Pydantic）**
+
+    ```python
+    class WebSearchBasedSchoolNameRecognition(BaseModel):
+        """Recognition result for top-level school names from web search."""
+        identified_school_name: str = Field(
+            ...,
+            description="The recognized top-level official name of the school, extracted from the search results."
+        )
+        status: Literal["known", "unknown"] = Field(
+            ...,
+            description="Indicates whether the top-level school name was successfully identified ('known') or not ('unknown')."
+        )
+    ```
+
+    要求大模型输出两个字段：
+
+    - identified_school_name：表示从搜索结果中识别出的顶级官方学校名称。
+    - status：表示识别结果的状态，可以是`known`（已知）或`unknown`（未知）。
+
+2. 提示词构建
+
+    ```python
+    # 初始化解析器
+    parser_web_search_based_recognition = PydanticOutputParser(pydantic_object=WebSearchBasedSchoolNameRecognition)
+
+    # 定义系统提示和指示
+    system_message_web_search_analysis = """您负责依据网络搜索结果，精准辨识与原始查询完全一致的
+    顶层学校名称，排除学院或专业等详细信息。仔细审查搜索片段，确保提取的学校名称不仅出现在结果中，而且
+    确切无误地指代查询初衷的院校。若存在任何疑问或搜索结果主要讨论另一所院校，即便提及了正确的学校名称，
+    也应标记为'unknown'，并且不提供学校名称。回复内容须包含确切的顶层学校名称且不含学院或专业（若完全
+    匹配）以及清晰的“状态”指示（'known'或'unknown'）。"""
+
+    format_instructions = """
+    Output your answer as JSON adhering to the given schema: ```json\n{schema}\n```.
+    Ensure your response is encapsulated within ```json and ``` tags.
+    """
+
+    # 创建提示模板
+    prompt_for_analyzing_search_results = ChatPromptTemplate.from_messages(
+        [
+            ("system", system_message_web_search_analysis + format_instructions),
+            ("human", "针对特定查询'{user_query}'，请仔细评估以下网络搜索片段。\
+                仅当能确切确认与查询意图完全相符的顶层官方学校名称时，提供该名称（不含学院或专业）并标注状态为'known'。\
+                如搜索片段未能明确指向查询中的学校，应反馈'unknown'作为状态，并省略学校名称：{snippets}"),
+        ]
+    ).partial(schema=WebSearchBasedSchoolNameRecognition.schema())
+    ```
+
+3. **任务构建和演示**
+
+    ```python
+    # 组合提示模板和大模型
+    web_search_analysis = prompt_for_analyzing_search_results | llm | parser_web_search_based_recognition
+
+    # 示例调用
+    initial_state = {
+        "user_query": "光华商学院",
+        "search_results": "北京大学光华管理学院，..."
+    }
+
+    result = web_search_analysis.invoke({
+        "user_query": initial_state["user_query"],
+        "snippets": initial_state["search_results"]
+    })
+
+    identified_school_name = result.identified_school_name
+    status = result.status
+
+    print(f"Identified School Name: {identified_school_name}")
+    print(f"Status: {status}")
+    ```
+
+    ```text title="output"
+
+    ```
+</Steps>

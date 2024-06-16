@@ -1,0 +1,251 @@
+---
+title: "(三) 函数封装与决策路由逻辑"
+description: "介绍项目中所有函数的封装，包括大模型任务节点函数、决策路由节点函数和结果汇总节点函数的构建。"
+---
+
+在做好了数据准备和核心大模型任务的构建后，下一步就是将这些任务封装为节点函数，并构建决策路由节点和结果汇总节点。
+
+## 大模型任务节点函数封装
+
+在上一节中，我们已经构建了三个大模型任务的核心任务，但还需要将这些节点封装为函数，以便于LangGraph调用。
+
+### 封装决策并识别标准名称任务
+
+```python
+from typing import Dict
+
+def determine_routing_and_standardize(state: Dict) -> Dict:
+    """
+    Determine the routing action, identify the official school name, and update the state.
+
+    Args:
+        state (Dict): The current state of the process
+
+    Returns:
+        Dict: The updated state
+    """
+    print("---DETERMINE ROUTING AND STANDARDIZE---")
+    # 调用大模型任务
+    result = decision_and_standardization.invoke({"user_query": state["user_query"]})
+    # 更新状态
+    state["routing_action"] = result.action
+    state["standardized_name"] = result.official_names
+
+    return state
+```
+
+:::note
+可以发现，在节点函数中，函数的输入和输出都是状态字典，而字段中包含的字段是我们在第一篇文章中定义的状态字段。
+:::
+
+接下来，我们测试一下这个函数：
+
+```
+# 示例调用
+initial_state = {
+    "user_query": "通大"
+}
+
+updated_state = determine_routing_and_standardize(initial_state)
+print(updated_state)
+```
+
+### 封装名称匹配评估任务
+
+```python
+from typing import Dict
+
+def evaluate_name_match(state: Dict) -> Dict:
+    """
+    Evaluate if the retrieved school name accurately matches the original user query.
+    If the routing_action is 'perform_search', also consider the search results.
+    Updates the state with the match status.
+
+    Args:
+        state (Dict): The current state of the process
+
+    Returns:
+        Dict: The updated state with match status
+    """
+    print("---EVALUATE NAME MATCH---")
+
+    # 准备评估任务的输入
+    grade_result = school_name_match_grader.invoke({
+        "retrieved_name": state["retrieved_school_name"],
+        "original_query": state["user_query"],
+        "search_results": state.get("search_results")
+    })
+
+    # 更新状态中的match_status属性
+    state["match_status"] = grade_result.match_status
+
+    return state
+
+# 示例调用
+initial_state = {
+    "user_query": "通大",
+    "routing_action": "direct_retrieval",
+    "retrieved_school_name": "南京大学"
+}
+
+updated_state = evaluate_name_match(initial_state)
+print(updated_state)
+```
+
+### 封装网络搜索结果分析任务
+
+```python
+from typing import Dict
+
+def analyze_search_results(state: Dict) -> Dict:
+    """
+    Analyze the web search results to identify and confirm the top-level school name.
+
+    Args:
+        state (Dict): The current state of the process
+
+    Returns:
+        Dict: The updated state
+    """
+    print("---ANALYZE SEARCH RESULTS---")
+    # 获取搜索结果片段
+    snippets = state["search_results"]
+
+    # 调用大模型任务分析搜索结果
+    analysis_result = web_search_analysis.invoke({
+        "user_query": state["user_query"],
+        "snippets": snippets
+    })
+
+    # 更新状态中的standardized_name和search_status属性
+    state["standardized_name"] = analysis_result.identified_school_name if analysis_result.status == "known" else None
+    state["search_status"] = analysis_result.status
+
+    print(f"---SEARCH ANALYSIS RESULT: {analysis_result.status}---")
+    return state
+
+# 示例调用
+initial_state = {
+    "user_query": "通大",
+    "routing_action": "perform_search",
+    "search_results": ["南通大学，简称'通大'，...", "南京大学，简称'南大'，..."]
+}
+
+updated_state = analyze_search_results(initial_state)
+print(updated_state)
+```
+
+## 决策路由节点构建
+
+另一个节点类型是决策路由节点，这些节点用于在工作流中根据不同的条件和结果，决定下一步的执行路径，但不会在流程图中体现为执行节点，其作用是输出下一个执行节点的名称。
+
+### 决策节点：determine_next_step
+
+determine_next_step节点接在determine_routing_and_standardize任务之后，接受当前的状态作为输入，根据routing_action属性的值，决定下一步是调用perform_web_search节点还是direct_retrieval节点。
+
+```python
+def determine_next_step(state: Dict) -> str:
+    """
+    Decide the next node to call based on the routing action.
+
+    Args:
+        state (Dict): The current state of the process
+
+    Returns:
+        str: The next node to call
+    """
+    action = state["routing_action"]
+    if action == "perform_search":
+        print("---ROUTING TO PERFORM SEARCH---")
+        return "perform_web_search"
+    else:
+        print("---ROUTING TO DIRECT RETRIEVAL---")
+        return "direct_retrieval"
+
+# 示例调用
+initial_state = {
+    "user_query": "通大",
+    "routing_action": "perform_search"
+}
+
+next_node = determine_next_step(initial_state)
+print(next_node)
+```
+
+### 处理匹配评估结果节点：handle_match_evaluation
+
+handle_match_evaluation节点用于处理名称匹配评估的结果，并决定下一步的执行路径。根据match_status属性的值，决定下一步是调用generate_final_output节点还是perform_web_search节点。
+
+```python
+def handle_match_evaluation(state: Dict) -> str:
+    """
+    Handle the result of the name match evaluation and determine the next step.
+
+    Args:
+        state (Dict): The current state of the process
+
+    Returns:
+        str: The next node to call based on the evaluation result
+    """
+    match_status = state["match_status"]
+
+    if match_status == "match":
+        print("---EVALUATION RESULT: MATCH---")
+        return "generate_final_output"
+    else:
+        if state["routing_action"] == "direct_retrieval":
+            print("---EVALUATION RESULT: NO MATCH, ROUTING TO PERFORM SEARCH---")
+            return "perform_web_search"
+        else:
+            print("---EVALUATION RESULT: NO MATCH, FINALIZING---")
+            return "generate_final_output"
+
+# 示例调用
+initial_state = {
+    "user_query": "通大",
+    "routing_action": "direct_retrieval",
+    "match_status": "no_match"
+}
+
+next_node = handle_match_evaluation(initial_state)
+print(next_node)
+```
+
+### 分析搜索结果后的决策节点：determine_post_search_step
+
+determine_post_search_step节点用于在分析搜索结果后，根据search_status属性的值，决定下一步是调用generate_final_output节点还是direct_retrieval节点。
+
+```python
+def determine_post_search_step(state: Dict) -> str:
+    """
+    Determine the next step after analyzing search results based on the routing action.
+    If the routing action was 'direct_retrieval' and then flowed to 'analyze_search_results',
+    guide to 'generate_final_output'. If the routing action was 'perform_search' directly,
+    guide to 'direct_retrieval'.
+
+    Args:
+        state (Dict): The current state of the process
+
+    Returns:
+        str: The next node to call
+    """
+    if state["search_status"] == "unknown":
+        print("---POST SEARCH: STATUS UNKNOWN, ROUTING TO FINAL OUTPUT---")
+        return "generate_final_output"
+    elif state["routing_action"] == "direct_retrieval":
+        print("---POST SEARCH: ROUTING TO FINAL OUTPUT---")
+        return "generate_final_output"
+    else:
+        print("---POST SEARCH: ROUTING TO DIRECT RETRIEVAL---")
+        return "direct_retrieval"
+
+# 示例调用
+initial_state = {
+    "user_query": "茅台学院",
+    "routing_action": "direct_retrieval",
+    "search_status": "known"
+}
+
+next_node = determine_post_search_step(initial_state)
+print(next_node)  # 输出: generate_final_output
+```

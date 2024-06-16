@@ -5,8 +5,58 @@ description: ""
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-## 大模型应用
+## 进阶项目
+---
+<CardGrid>
+    <LinkCard
+        title="(一) 项目概览与工具节点实现"
+        description="概述项目的整体思路和流程逻辑，Langgraph框架的基本规范，并完成项目的准备工作，重点关注图状态的定义和工具节点函数的实现。"
+        href="/llm/project/school-name-standardization-part-1"
+    />
+    <LinkCard
+        title="(二) 大模型任务构建"
+        description="重点介绍三个核心的大模型任务的构建过程，包括如何使用Pydantic定义数据模型和创建提示词（prompt）。"
+        href="/llm/project/school-name-standardization-part-2"
+    />
+    <LinkCard
+        title="(三) 函数封装与决策路由逻辑"
+        description="介绍项目中所有函数的封装，包括大模型任务节点函数、决策路由节点函数和结果汇总节点函数的构建。"
+        href="/llm/project/school-name-standardization-part-3"
+    />
+    <LinkCard
+        title="(四) Graph构建与效果演示"
+        description="介绍如何创建最终的图，并展示多个实际案例的效果演示。"
+        href="/llm/project/school-name-standardization-part-4"
+    />
+</CardGrid>
 
+## 模型部署
+---
+<CardGrid>
+    <LinkCard
+        title="使用Ollama部署Qwen-110B大模型"
+        description="介绍如何在 Linux 系统中使用 Ollama 部署模型，包括安装、配置和运行过程。"
+        href="/llm/ollama-deploy"
+    />
+    <LinkCard
+        title="搭建大模型部署容器环境"
+        description="介绍如何搭建一个支持大模型部署的容器环境，包括安装 NVIDIA Container Toolkit、构建 Docker 镜像、配置和使用容器。"
+        href="/llm/llm-docker-env"
+    />
+    <LinkCard
+        title="Milvus向量数据库"
+        description="介绍如何使用Docker部署Milvus向量数据库，并通过实际案例演示其存储和查询功能。"
+        href="/llm/milvus"
+    />
+    <LinkCard
+        title="开源大模型兼容Openai接口"
+        description="介绍如何通过 api-for-open-llm 项目部署并调用开源大模型，实现与 OpenAI API 兼容的后端接口。"
+        href="/llm/openai-api-for-open-llm"
+    />
+</CardGrid>
+
+## 大模型应用
+---
 <CardGrid>
     <LinkCard
         title="利用大模型提升情感分类任务准确性"
@@ -51,7 +101,7 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 </CardGrid>
 
 ## 优化技巧
-
+---
 <CardGrid>
     <LinkCard
         title="大模型高效微调（一）训练集准备"
@@ -106,7 +156,7 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 </CardGrid>
 
 ## 模型部署
-
+---
 <CardGrid>
     <LinkCard
         title="使用Ollama部署Qwen-110B大模型"
