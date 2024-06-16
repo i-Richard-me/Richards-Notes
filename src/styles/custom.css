@@ -42,3 +42,76 @@
 .link-title {
     font-size: var(--sl-text-xl);
 }
+
+:root {
+    /*--sl-font: "cera-round-pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;*/
+    /*--sl-nav-pad-y: 1rem;*/
+    /*--sl-content-pad-x: var(--spacing-lg-fa);*/
+    /*--sl-sidebar-pad-x: var(--spacing-lg-fa);*/
+    --border-radius-fa: .5rem;
+    --border-width-fa: 2px;
+    --box-shadow-depth-fa: .385rem;
+    --spacing-sm-fa: .5rem;
+    --spacing-md-fa: 1rem;
+    --spacing-lg-fa: 1.5rem;
+    --spacing-xl-fa: 2.5rem;
+    --balloon-border-radius: 2px;
+    --balloon-font-size: 12px;
+    --balloon-move: 4px
+}
+
+.content-panel .sl-link-card {
+    --card-bg-fa: var(--sl-color-black);
+    background-color:var(--card-bg-fa);
+    border:var(--border-width-fa) solid var(--sl-color-gray-5);
+    border-radius:var(--border-radius-fa);
+    box-shadow:0 var(--box-shadow-depth-fa) 0 var(--sl-color-gray-5);
+    padding:var(--spacing-md-fa)
+}
+.content-panel :not(.card-grid)>.sl-link-card {
+    margin-block-end:var(--spacing-lg-fa)
+}
+.content-panel .sl-link-card:hover {
+    --card-bg-fa: var(--sl-color-black);
+    background-color:var(--card-bg-fa);
+    border:var(--border-width-fa) solid var(--sl-color-blue);
+    box-shadow:0 var(--box-shadow-depth-fa) 0 var(--sl-color-blue)
+}
+.content-panel .sl-link-card:active {
+    transform:translateY(var(--box-shadow-depth-fa));
+    box-shadow:none
+}
+
+.action,
+.button-fa {
+    border-radius:var(--border-radius-fa);
+    border:var(--border-width-fa) solid var(--sl-color-white);
+    box-shadow:0 var(--box-shadow-depth-fa) 0 var(--sl-color-white);
+    background-color:var(--sl-color-black);
+    color:var(--sl-color-white);
+    font-weight:600;
+    transition:all .15s ease-in-out
+}
+.action.primary,
+.button-fa.primary {
+    background-color:var(--sl-color-black);
+    color:var(--sl-color-white)
+}
+.action.primary:hover,
+.button-fa.primary:hover {
+    background-color:var(--sl-color-gray-5)
+}
+.action.primary:active,
+.button-fa.primary:active {
+    box-shadow:none;
+    transform:translateY(6px)
+}
+
+/* pagination */
+
+.pagination-links a {
+    box-shadow:none
+}
+.pagination-links .link-title {
+    font-size:var(--sl-text-lg)
+}
