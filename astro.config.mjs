@@ -16,6 +16,7 @@ export default defineConfig({
             customCss: [
                 // 你的自定义 CSS 文件的相对路径
                 './src/styles/custom.css',
+                // './src/styles/fontawesome.css'
             ],
             plugins: [
                 starlightDocSearch({
@@ -63,6 +64,17 @@ export default defineConfig({
                         },
                         {
                             label:
+                                '进阶项目',
+                            items:
+                                [
+                                    {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
+                                    {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
+                                    {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
+                                    {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
+                                ]
+                        },
+                        {
+                            label:
                                 '模型应用',
                             items:
                                 [
@@ -84,7 +96,7 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '进阶技巧',
+                                '优化技巧',
                             items:
                                 [
                                     {label: '大模型高效微调-训练集准备', link: '/llm/optimizing/fine-tuning-data-preparation'},
