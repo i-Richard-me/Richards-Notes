@@ -80,8 +80,8 @@
 .content-panel .sl-link-card:hover {
     --card-bg-fa: var(--sl-color-black);
     background-color:var(--card-bg-fa);
-    border:var(--border-width-fa) solid var(--sl-color-blue);
-    box-shadow:0 var(--box-shadow-depth-fa) 0 var(--sl-color-blue)
+    border:var(--border-width-fa) solid var(--sl-color-accent);
+    box-shadow:0 var(--box-shadow-depth-fa) 0 var(--sl-color-accent)
 }
 .content-panel .sl-link-card:active {
     transform:translateY(var(--box-shadow-depth-fa));
@@ -125,6 +125,6 @@
 
 /* img */
 .sl-markdown-content img {
-    border: var(--border-width-fa) solid var(--sl-color-gray-3);
+    border: var(--border-width-fa) solid var(--sl-color-gray-4);
     border-radius: var(--border-radius-fa)
 }
