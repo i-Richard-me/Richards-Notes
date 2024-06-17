@@ -64,17 +64,6 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '进阶项目',
-                            items:
-                                [
-                                    {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
-                                    {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
-                                    {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
-                                    {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
-                                ]
-                        },
-                        {
-                            label:
                                 '模型应用',
                             items:
                                 [
@@ -115,6 +104,18 @@ export default defineConfig({
                                     {label: '提升大语言模型生成SQL准确性', link: '/llm/optimizing/nl2sql-optimizing'},
                                     {label: 'Unstructured多格式数据加载', link: '/llm/optimizing/unstructured-loder'},
                                     {label: 'Unstructured按元素切分文档', link: '/llm/optimizing/unstructured-split'},
+                                ]
+                        },
+                        {
+                            label:
+                                '进阶项目',
+                            badge: {text: 'Premium', variant: 'caution'},
+                            items:
+                                [
+                                    {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
+                                    {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
+                                    {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
+                                    {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
                                 ]
                         },
                         {
@@ -230,6 +231,7 @@ export default defineConfig({
                                         {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
                                         {label: '自定义 Astro 文档样式', link: '/mysite/site-css'},
                                         {label: '在文档中添加图片缩放功能', link: '/mysite/image-zoom'},
+                                        {label: '自定义 CSS 进阶', link: '/mysite/advanced-css',},
                                     ]
                             },
                         ]
@@ -290,10 +292,6 @@ export default defineConfig({
                         },
                     ],
                 },
-                // {
-                //     label: 'Reference',
-                //     autogenerate: {directory: 'reference'},
-                // },
             ],
         }),
     ],

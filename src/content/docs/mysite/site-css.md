@@ -87,6 +87,6 @@ export default defineConfig({
 
 ```css
 .link-title {
-    font-size: var(--sl-text-xl);
+    font-size: var(--sl-text-lg);
 }
 ```
