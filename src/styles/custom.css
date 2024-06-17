@@ -39,8 +39,14 @@
     background-color: var(--sl-color-green-low);
 }
 
-.link-title {
-    font-size: var(--sl-text-xl);
+.success:where(.astro-avdet4wd) {
+    --sl-color-bg-badge: mediumseagreen;
+    --sl-color-border-badge: mediumseagreen;
+}
+
+.caution:where(.astro-avdet4wd) {
+    --sl-color-bg-badge: orange;
+    --sl-color-border-badge: orange;
 }
 
 :root {
@@ -114,4 +120,11 @@
 }
 .pagination-links .link-title {
     font-size:var(--sl-text-lg)
+}
+
+
+/* img */
+.sl-markdown-content img {
+    border: var(--border-width-fa) solid var(--sl-color-gray-3);
+    border-radius: var(--border-radius-fa)
 }
