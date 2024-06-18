@@ -17,7 +17,11 @@ import {Tabs, TabItem} from '@astrojs/starlight/components';
 
 ## 标签分布
 
-从标签分布可以看出，这是一个严重的偏态分布问题，离职的人数远远少于在职的人数。
+拿到数据集的首要任务就是看一下标签的分布情况，有助于了解标签类别数量以及样本是否平衡等。
+
+柱状图和饼状图是最常用的两种最常用的观测标签分布的图表。
+
+从该数据集的标签分布可以看出，这是一个严重的偏态分布问题，离职的人数远远少于在职的人数。
 
 ---
 
@@ -105,6 +109,84 @@ axes[1].set_title('Attrition Distribution')
 
 # 显示图表
 plt.tight_layout()
+plt.show()
+```
+</TabItem>
+</Tabs>
+
+## 相关性系数
+
+在直观的观察特征在不同标签上的分布情况之前，我们可以先通过计算特征与标签之间的相关性系数来量化特征对标签的影响程度。
+
+:::tip
+在读图时，不仅要关注左侧正相关的特征，也要关注末尾负相关的特征，正负相关都是对标签有重要影响的特征。因此有时也会给相关性取绝对值，来观察特征对标签的影响程度。
+:::
+
+---
+
+<Tabs>
+<TabItem label="Plotly" icon="seti:python">
+![correlation_coefficient_plotly](../../../assets/ml-assets/exploration/correlation_coefficient_plotly.webp)
+
+```python
+# 将分类变量转换为数值变量
+train_df_encoded = pd.get_dummies(train_df)
+
+# 计算相关性矩阵并移除 'Attrition' 自己
+corr_with_label = train_df_encoded.corr()['Attrition'].drop('Attrition').sort_values(ascending=False)
+
+# 创建条形图
+fig = go.Figure()
+
+fig.add_trace(go.Bar(
+    x=corr_with_label.index,
+    y=corr_with_label.values,
+    marker_color=['#C02B34' if x > 0 else '#CDBBA7' for x in corr_with_label.values]
+))
+
+# 更新布局
+fig.update_layout(
+    title='Correlation of Features with Attrition',
+    xaxis_title='Features',
+    yaxis_title='Correlation Coefficient',
+    plot_bgcolor='#F4F2F0',
+    paper_bgcolor='#F4F2F0',
+    height=800,
+    width=1500
+)
+
+# 显示图表
+fig.show()
+```
+
+</TabItem>
+<TabItem label="Matplotlib" icon="seti:python">
+
+![correlation_coefficient_matplotlib](../../../assets/ml-assets/exploration/correlation_coefficient_matplotlib.webp)
+
+```python
+# 将分类变量转换为数值变量
+train_df_encoded = pd.get_dummies(train_df)
+
+# 设置背景颜色
+plt.rcParams['figure.facecolor'] = '#F4F2F0'
+plt.rcParams['axes.facecolor'] = '#F4F2F0'
+
+# 计算相关性矩阵并移除 'Attrition' 自己
+corr_with_label = train_df_encoded.corr()['Attrition'].drop('Attrition').sort_values(ascending=False)
+
+# 创建画布
+plt.figure(figsize=(18, 6))
+
+# 绘制相关性条形图
+corr_with_label.plot(kind='bar', color=['#C02B34' if x > 0 else '#CDBBA7' for x in corr_with_label])
+
+# 设置标题和标签
+plt.title('Correlation of Features with Attrition')
+plt.xlabel('Features')
+plt.ylabel('Correlation Coefficient')
+
+# 显示图表
 plt.show()
 ```
 </TabItem>
@@ -309,6 +391,8 @@ plt.show()
 
 ## 组合特征在不同标签上的分布
 
+### 离散特征&连续特征组合
+
 进一步的，我们可以将特征两两结合，探索组合特征在不同标签上的分布情况。这里以 `MaritalStatus` 和 `DistanceFromHome` 两个特征为例，绘制了在职和离职员工的 `DistanceFromHome` 分布箱线图。
 
 可以看出，单身和离异的员工在距离公司较远时有更高的离职概率，在特征工程环节我们依然可以据此来构造新的特征。
@@ -373,3 +457,111 @@ plt.show()
 ```
 </TabItem>
 </Tabs>
+
+当然，对于连续变量与离散变量组合的情况，我们也可以绘制每个维度下的概率密度曲线。
+
+![feature_combination_kde_plotly](../../../assets/ml-assets/exploration/feature_combination_kde_plotly.webp)
+
+```python
+# 选择特征和标签
+feature_categorical = 'MaritalStatus'
+feature_continuous = 'DistanceFromHome'
+target = 'Attrition'
+
+# 获取不同MaritalStatus的值
+marital_statuses = train_df[feature_categorical].unique()
+
+# 创建子图布局
+fig = make_subplots(rows=1, cols=3, subplot_titles=marital_statuses, horizontal_spacing=0.1)
+
+# 设置颜色映射
+colors = {0: '#CDBBA7', 1: '#C02B34'}
+
+# 为每个MaritalStatus创建KDE分布图
+for i, status in enumerate(marital_statuses):
+    subset = train_df[train_df[feature_categorical] == status]
+    hist_data = [subset[subset[target] == 0][feature_continuous], subset[subset[target] == 1][feature_continuous]]
+    group_labels = [0, 1]
+
+    # 使用 create_distplot 创建KDE分布图
+    distplot = ff.create_distplot(hist_data, group_labels, show_hist=False, show_rug=False, colors=[colors[0], colors[1]])
+
+    # 添加KDE分布曲线到子图
+    for trace in distplot['data']:
+        fig.add_trace(trace, row=1, col=i+1)
+
+# 更新布局
+fig.update_layout(
+    title_text=f'{feature_continuous} KDE Distribution by {feature_categorical} and {target}',
+    plot_bgcolor='#F4F2F0',
+    paper_bgcolor='#F4F2F0', width=1000, height=500
+)
+
+# 显示图表
+fig.show()
+```
+
+### 连续特征&连续特征组合
+
+对于两个连续特征的组合，我们可以绘制等高线图来观察两个特征之间的关系。这里以 `Age` 和 `MonthlyIncome` 两个特征为例，绘制了在职和离职员工的 `Age` 和 `MonthlyIncome` 的等高线图。
+
+---
+
+![feature_combination_contour_plotly](../../../assets/ml-assets/exploration/feature_combination_contour_plotly.webp)
+
+```python
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+# 选择特征和标签
+feature_x = 'Age'
+feature_y = 'MonthlyIncome'
+target = 'Attrition'
+
+# 创建子图布局
+fig = make_subplots(rows=1, cols=2, subplot_titles=['Attrition: No', 'Attrition: Yes'], shared_yaxes=True)
+
+# 绘制在职等高线图
+no_attrition = train_df[train_df[target] == 0]
+fig.add_trace(
+    go.Histogram2dContour(
+        x=no_attrition[feature_x],
+        y=no_attrition[feature_y],
+        colorscale='Blues',
+        contours=dict(showlines=False),
+        showscale=False
+    ),
+    row=1, col=1
+)
+
+# 绘制离职等高线图
+yes_attrition = train_df[train_df[target] == 1]
+fig.add_trace(
+    go.Histogram2dContour(
+        x=yes_attrition[feature_x],
+        y=yes_attrition[feature_y],
+        colorscale='Reds',
+        contours=dict(showlines=False),
+        showscale=False
+    ),
+    row=1, col=2
+)
+
+# 获取特征的最大和最小值，用于设置相同的坐标轴比例尺
+x_range = [train_df[feature_x].min(), train_df[feature_x].max()]
+y_range = [-2000, train_df[feature_y].max()]
+
+# 更新布局
+fig.update_layout(
+    title_text=f'{feature_x} vs {feature_y} Contour Plot by {target}',
+    xaxis_title=feature_x,
+    yaxis_title=feature_y,
+    xaxis=dict(range=x_range),
+    yaxis=dict(range=y_range),
+    plot_bgcolor='#F4F2F0',
+    paper_bgcolor='#F4F2F0', width=800, height=500
+)
+
+# 显示图表
+fig.show()
+```
