@@ -3,6 +3,13 @@
     --sl-hue-green: 85;
 }
 
+:root, :root[data-theme='light'] {
+    --sl-badge-success-border: mediumseagreen;
+    --sl-badge-success-bg: mediumseagreen;
+    --sl-badge-caution-border: darkorange;
+    --sl-badge-caution-bg: darkorange;
+}
+
 /* Dark mode colors. */
 :root {
     --sl-color-accent-low: #00273d;
@@ -37,16 +44,6 @@
     --sl-color-asides-text-accent: var(--sl-color-green-high);
     border-color: var(--sl-color-green);
     background-color: var(--sl-color-green-low);
-}
-
-.success:where(.astro-avdet4wd) {
-    --sl-color-bg-badge: mediumseagreen;
-    --sl-color-border-badge: mediumseagreen;
-}
-
-.caution:where(.astro-avdet4wd) {
-    --sl-color-bg-badge: orange;
-    --sl-color-border-badge: orange;
 }
 
 :root {
@@ -127,4 +124,41 @@
 .sl-markdown-content img {
     border: var(--border-width-fa) solid var(--sl-color-gray-4);
     border-radius: var(--border-radius-fa)
+}
+
+
+/* .starlight-aside */
+
+.starlight-aside {
+    border-radius: var(--border-radius-fa);
+    border: var(--border-width-fa) solid;
+    margin-block:var(--spacing-lg-fa)}
+
+.starlight-aside--note {
+    border-color: var(--sl-color-blue);
+    background-color: var(--sl-color-blue-low)
+}
+
+.starlight-aside--info {
+    border-color: var(--sl-color-blue);
+    background-color: var(--sl-color-blue-low)
+}
+
+.starlight-aside--tip {
+    border-color: var(--sl-color-green);
+    background-color: var(--sl-color-green-low)
+}
+
+.starlight-aside--caution {
+    border-color: var(--sl-color-orange);
+    background-color: var(--sl-color-orange-low)
+}
+
+.starlight-aside--danger {
+    border-color: var(--sl-color-red);
+    background-color: var(--sl-color-red-low)
+}
+
+.starlight-aside code {
+    --sl-color-bg-inline-code: var(--sl-color-gray-7)
 }
