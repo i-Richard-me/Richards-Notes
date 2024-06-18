@@ -3,7 +3,7 @@
     --sl-hue-green: 85;
 }
 
-:root, :root[data-theme='light'] {
+.sl-badge {
     --sl-badge-success-border: mediumseagreen;
     --sl-badge-success-bg: mediumseagreen;
     --sl-badge-caution-border: darkorange;
