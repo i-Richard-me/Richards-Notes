@@ -229,9 +229,9 @@ export default defineConfig({
                                 items:
                                     [
                                         {label: 'DocSearch 网站全文搜索', link: '/mysite/docsearch'},
-                                        {label: '自定义 Astro 文档样式', link: '/mysite/site-css'},
                                         {label: '在文档中添加图片缩放功能', link: '/mysite/image-zoom'},
-                                        {label: '自定义 CSS 进阶', link: '/mysite/advanced-css',},
+                                        {label: '自定义 Astro 文档样式', link: '/mysite/site-css'},
+                                        {label: '自定义 CSS 进阶', link: '/mysite/advanced-css'},
                                     ]
                             },
                         ]

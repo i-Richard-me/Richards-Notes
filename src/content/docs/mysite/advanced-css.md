@@ -101,6 +101,44 @@ action是主页上进入文档和博客的进入按钮。
 }
 ```
 
+## Callout样式
+
+```css
+.starlight-aside {
+    border-radius: var(--border-radius-fa);
+    border: var(--border-width-fa) solid;
+    margin-block:var(--spacing-lg-fa)}
+
+.starlight-aside--note {
+    border-color: var(--sl-color-blue);
+    background-color: var(--sl-color-blue-low)
+}
+
+.starlight-aside--info {
+    border-color: var(--sl-color-blue);
+    background-color: var(--sl-color-blue-low)
+}
+
+.starlight-aside--tip {
+    border-color: var(--sl-color-green);
+    background-color: var(--sl-color-green-low)
+}
+
+.starlight-aside--caution {
+    border-color: var(--sl-color-orange);
+    background-color: var(--sl-color-orange-low)
+}
+
+.starlight-aside--danger {
+    border-color: var(--sl-color-red);
+    background-color: var(--sl-color-red-low)
+}
+
+.starlight-aside code {
+    --sl-color-bg-inline-code: var(--sl-color-gray-7)
+}
+```
+
 ## pagination
 
 * 页脚的分页链接取消阴影

@@ -90,3 +90,14 @@ export default defineConfig({
     font-size: var(--sl-text-lg);
 }
 ```
+
+## 调整 badge 颜色
+
+```css
+:root, :root[data-theme='light'] {
+    --sl-badge-success-border: mediumseagreen;
+    --sl-badge-success-bg: mediumseagreen;
+    --sl-badge-caution-border: darkorange;
+    --sl-badge-caution-bg: darkorange;
+}
+```
