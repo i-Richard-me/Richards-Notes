@@ -1,0 +1,168 @@
+---
+title: "建模与调参 (以逻辑回归模型为例)"
+description: ""
+---
+
+对于二分类问题，逻辑回归是一个可以优先尝试的模型，不仅可以作为一个基准模型，同时因其广义线性模型的特性，拥有良好的可解释性。
+
+:::note
+本文不赘述逻辑回归的数学原理，重点介绍实战过程，以及模型调优的真实路径。
+:::
+
+## Version 1: 原始数据集 + Ordinal Encoding
+
+首先我们从最原始的数据集开始尝试，由于模型只能接受数值型特征，我们需要对分类变量进行编码。这里通过`object`类型判断分类变量，并选用`OrdinalEncoder`对分类变量进行编码。
+
+```python
+X_train = train_df.drop('Attrition', axis=1)
+y_train = train_df['Attrition']
+X_test = test_df
+
+# 识别分类变量和数值变量
+categorical_cols = X_train.select_dtypes(include=['object']).columns.tolist()
+numerical_cols = X_train.select_dtypes(exclude=['object']).columns.tolist()
+
+# 创建预处理管道
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', 'passthrough', numerical_cols),
+        ('cat', OrdinalEncoder(), categorical_cols)
+    ])
+
+# 创建逻辑回归模型
+logreg = LogisticRegression(max_iter=10000000)
+
+# 创建包含预处理和模型的管道
+clf = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', logreg)
+])
+
+# 定义超参数网格
+param_grid = [
+    {'classifier__C': [0.01, 0.1, 1, 10], 'classifier__penalty': ['l2'], 'classifier__solver': ['liblinear', 'lbfgs', 'sag', 'saga']},
+    {'classifier__C': [0.01, 0.1, 1, 10], 'classifier__penalty': ['l1'], 'classifier__solver': ['liblinear', 'saga']}
+]
+
+# 创建 GridSearchCV 对象
+grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='roc_auc', n_jobs=-1)
+
+# 训练模型
+grid_search.fit(X_train, y_train)
+
+# 输出最佳参数
+best_params = grid_search.best_params_
+best_score = grid_search.best_score_
+print("最佳参数:", best_params)
+print("最佳交叉验证得分:\nROC AUC:", best_score)
+```
+
+#### 训练结果
+
+```text title="Output"
+最佳参数: {'classifier__C': 10, 'classifier__penalty': 'l1', 'classifier__solver': 'liblinear'}
+最佳交叉验证得分:
+ROC AUC: 0.8001219651855245
+```
+
+:::tip
+当我们仅有训练集时，评估模型效果的优劣，一般来说会采用交叉验证的平均得分作为评价标准。而不会直接使用模型在训练集上的得分，防止过拟合。
+:::
+
+当然，如果希望看一下模型在训练集上的表现，可以使用以下代码：
+
+```python
+# 使用最佳模型进行预测
+best_clf = grid_search.best_estimator_
+y_pred_train = best_clf.predict(X_train)
+y_pred_train_proba = best_clf.predict_proba(X_train)[:, 1]  # 获取训练集的预测概率
+
+# 计算并输出训练集的评估结果
+roc_auc = roc_auc_score(y_train, y_pred_train_proba)
+print("训练集评估结果:")
+print(f"ROC AUC: {roc_auc}")
+print("分类报告:")
+print(classification_report(y_train, y_pred_train))
+print("混淆矩阵:")
+print(confusion_matrix(y_train, y_pred_train))
+```
+
+```text title="Output"
+训练集评估结果:
+ROC AUC: 0.8365030467163168
+分类报告:
+              precision    recall  f1-score   support
+
+           0       0.90      0.99      0.94      1477
+           1       0.67      0.20      0.30       200
+
+    accuracy                           0.89      1677
+   macro avg       0.79      0.59      0.62      1677
+weighted avg       0.87      0.89      0.87      1677
+
+混淆矩阵:
+[[1458   19]
+ [ 161   39]]
+```
+
+但后续的实验中，我们将仅关注交叉验证的结果。
+
+## Version 2: One-Hot Encoding
+
+在上一版本中，我们使用了`OrdinalEncoder`对分类变量进行编码，对于逻辑回归模型来说，可能会将编码当做一种有序数据，而实际上分类变量之间并没有这种关系。
+
+另一种可以尝试的编码方式是`OneHotEncoder`，它会将每个分类变量的每个类别都转换为一个新的特征，这样可以避免有序性的问题。
+
+```python
+# 识别分类变量和数值变量
+categorical_cols = X_train.select_dtypes(include=['object']).columns.tolist()
+numerical_cols = X_train.select_dtypes(exclude=['object']).columns.tolist()
+
+# 创建预处理管道
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', 'passthrough', numerical_cols),
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
+    ])
+
+# 创建逻辑回归模型
+logreg = LogisticRegression(max_iter=10000000)
+
+# 创建包含预处理和模型的管道
+clf = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', logreg)
+])
+
+# 定义超参数网格
+param_grid = [
+    {'classifier__C': [0.01, 0.1, 1, 10], 'classifier__penalty': ['l2'],
+     'classifier__solver': ['liblinear', 'lbfgs', 'sag', 'saga']},
+    {'classifier__C': [0.01, 0.1, 1, 10], 'classifier__penalty': ['l1'], 'classifier__solver': ['liblinear', 'saga']}
+]
+
+# 创建 GridSearchCV 对象
+grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='roc_auc', n_jobs=-1)
+
+# 训练模型
+grid_search.fit(X_train, y_train)
+
+# 输出最佳参数
+best_params = grid_search.best_params_
+best_score = grid_search.best_score_
+print("最佳参数:", best_params)
+print("最佳交叉验证得分:\nROC AUC:", best_score)
+```
+
+```text title="Output"
+最佳参数: {'classifier__C': 10, 'classifier__penalty': 'l2', 'classifier__solver': 'lbfgs'}
+最佳交叉验证得分:
+ROC AUC: 0.8137899679340357
+```
+
+可以看到，使用`OneHotEncoder`编码后，模型的交叉验证得分略有提升。我们将历次实验的建模结果记录到下表中，以便后续对比。
+
+| 版本 | 版本说明 | 交叉验证得分 |
+| --- | --- | --- |
+| Version 1 | Ordinal Encoding | 0.80012 |
+| Version 2 | One-Hot Encoding | 0.81379 |
