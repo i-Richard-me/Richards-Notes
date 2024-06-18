@@ -142,6 +142,7 @@ export default defineConfig({
                             },
                             {label: '建模目标与数据质量', link: '/machine-learning/data-preprocessing'},
                             {label: '探索性分析', link: '/machine-learning/data-exploration'},
+                            {label: '特征工程之手动特征衍生', link: '/machine-learning/basic-feature-engineering'},
                             {label: '建模与调参', link: '/machine-learning/model_logisticregression'},
                             // {label: '特征筛选', link: '/machine-learning/feature-selection'},
                         ]
