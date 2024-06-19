@@ -109,7 +109,7 @@ export default defineConfig({
                         {
                             label:
                                 '进阶项目',
-                            badge: {text: 'Premium', variant: 'caution'},
+                            badge: {text: 'Hot', variant: 'caution'},
                             items:
                                 [
                                     {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
@@ -141,9 +141,15 @@ export default defineConfig({
                                 badge: {text: 'Intro', variant: 'success'},
                             },
                             {label: '建模目标与数据质量', link: '/machine-learning/data-preprocessing'},
-                            {label: '探索性分析', link: '/machine-learning/data-exploration'},
-                            // {label: '特征工程之手动特征衍生', link: '/machine-learning/basic-feature-engineering'},
-                            {label: '建模与调参', link: '/machine-learning/model_logisticregression'},
+                            {
+                                label: '数据探查与分析',
+                                badge: {text: 'Hot', variant: 'caution'},
+                                link: '/machine-learning/data-exploration'},
+                            {label: '特征工程之手动特征衍生', link: '/machine-learning/basic-feature-engineering'},
+                            {
+                                label: '建模调参流程与逻辑回归',
+                                badge: {text: 'Hot', variant: 'caution'},
+                                link: '/machine-learning/model-logisticregression'},
                             // {label: '特征筛选', link: '/machine-learning/feature-selection'},
                         ]
                 },

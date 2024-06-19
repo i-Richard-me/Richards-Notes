@@ -1,5 +1,5 @@
 ---
-title: "建模与调参 (以逻辑回归模型为例)"
+title: "建模调参流程与逻辑回归"
 description: ""
 ---
 
@@ -9,7 +9,7 @@ description: ""
 本文不赘述逻辑回归的数学原理，重点介绍实战过程，以及模型调优的真实路径。
 :::
 
-## Version 1: 原始数据集 + Ordinal Encoding
+## Version 1: Ordinal Encoding
 
 首先我们从最原始的数据集开始尝试，由于模型只能接受数值型特征，我们需要对分类变量进行编码。这里通过`object`类型判断分类变量，并选用`OrdinalEncoder`对分类变量进行编码。
 
@@ -319,11 +319,33 @@ ROC AUC: 0.8397028405956977
 
 ---
 
-## 总结
+## 总结并提交结果
 
-最终，在经过一系列的建模技巧和调参过程后，我们将逻辑回归最佳模型的交叉验证得分逐渐由 0.8001 提升到了 0.8397。
+至此，我们经历了一个完整的建模和调参过程，并介绍了其中逐步调优的常用方法和细节，最终将逻辑回归最佳模型的交叉验证得分逐渐由 0.8001 提升到了 0.8397。
 
 我们使用该模型对测试集进行预测，并提交到 Kaggle 上，查看一下最终成绩。
+
+```python
+# 使用特征工程后的测试集
+X_test = fe_test_df
+
+# 使用最佳模型进行预测
+best_clf = grid_search.best_estimator_
+y_pred_test_proba = best_clf.predict_proba(X_test)[:, 1]
+
+# 将预测结果保存为提交文件
+submission = pd.DataFrame({
+        'id': test_ids,  # 使用之前保存的 id 列
+        'Attrition': y_pred_test_proba
+    })
+submission.to_csv("logreg_submission.csv", index=False)
+
+# 提交到 Kaggle
+!kaggle competitions submit -c playground-series-s3e3 -f logreg_submission.csv -m "logreg_best"
+
+# 查看提交结果
+!kaggle competitions submissions -c playground-series-s3e3
+```
 
 ```text title="Output"
 100%|██████████████████████████████████████| 27.5k/27.5k [00:01<00:00, 23.3kB/s]
