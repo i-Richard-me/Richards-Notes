@@ -93,28 +93,134 @@ import { Steps } from '@astrojs/starlight/components';
     
     # 组合提示模板和大模型
     decision_and_standardization = prompt | llm | parser
-    
+
     # 示例调用
     initial_state = {
         "user_query": "通大"
     }
-    
-    result = decision_and_standardization.invoke({"user_query": initial_state["user_query"]})
-    action = result.action
-    official_names = result.official_names
-    
-    print(f"Action: {action}")
-    print(f"Official Names: {official_names}")
-    ```
-    
-    ```text title="output"
 
+    result = decision_and_standardization.invoke({"user_query": initial_state["user_query"]})
+    result
+    ```
+
+    以下就是我们希望模型输出的格式，包括了`action`和`official_names`两个字段：
+
+    ```text title="output"
+    RoutingAndStandardization(
+        action='direct_retrieval',
+        official_names=['南通大学', 'Nanjing University of Technology']
+    )
     ```
 </Steps>
 
+## 网络搜索结果分析任务
+
+
+1. **数据模型定义（Pydantic）**
+
+     ```python
+     class WebSearchBasedSchoolNameRecognition(BaseModel):
+         """Recognition result for top-level school names from web search."""
+         identified_school_name: str = Field(
+             ...,
+             description="The recognized top-level official name of the school, extracted from the search results."
+         )
+         status: Literal["known", "unknown"] = Field(
+             ...,
+             description="Indicates whether the top-level school name was successfully identified ('known') or not ('unknown')."
+         )
+        ```
+
+    要求大模型输出两个字段：
+
+     - identified_school_name：表示从搜索结果中识别出的顶级官方学校名称。
+     - status：表示识别结果的状态，可以是`known`（已知）或`unknown`（未知）。
+
+2. 提示词构建
+
+     ```python
+     # 初始化解析器
+     parser_web_search_based_recognition = PydanticOutputParser(pydantic_object=WebSearchBasedSchoolNameRecognition)
+
+     # 定义系统提示和指示
+     system_message_web_search_analysis = """您负责依据网络搜索结果，精准辨识与原始查询完全一致的
+     顶层学校名称，排除学院或专业等详细信息。仔细审查搜索片段，确保提取的学校名称不仅出现在结果中，而且
+     确切无误地指代查询初衷的院校。若存在任何疑问或搜索结果主要讨论另一所院校，即便提及了正确的学校名称，
+     也应标记为'unknown'，并且不提供学校名称。回复内容须包含确切的顶层学校名称且不含学院或专业（若完全
+     匹配）以及清晰的“状态”指示（'known'或'unknown'）。"""
+
+     format_instructions = """
+     Output your answer as JSON adhering to the given schema: ```json\n{schema}\n```.
+     Ensure your response is encapsulated within ```json and ``` tags.
+     """
+
+     # 创建提示模板
+     prompt_for_analyzing_search_results = ChatPromptTemplate.from_messages(
+         [
+             ("system", system_message_web_search_analysis + format_instructions),
+             ("human", "针对特定查询'{user_query}'，请仔细评估以下网络搜索片段。\
+                 仅当能确切确认与查询意图完全相符的顶层官方学校名称时，提供该名称（不含学院或专业）并标注状态为'known'。\
+                 如搜索片段未能明确指向查询中的学校，应反馈'unknown'作为状态，并省略学校名称：{snippets}"),
+         ]
+     ).partial(schema=WebSearchBasedSchoolNameRecognition.schema())
+   ```
+
+3. **任务构建和演示**
+
+    ```python
+    # 组合提示模板和大模型
+    web_search_analysis = prompt_for_analyzing_search_results | llm | parser_web_search_based_recognition
+
+    # 示例调用
+    initial_state = {
+        "user_query": "光华商学院",
+        "search_results": [{'content': '邮编：710600. 电话：029-81361999. 传真：029-81361991. '
+                                       '地址：成都市天府新区天府菁蓉中心B区2-6栋. 邮编：610000. '
+                                       '联系电话：028-86035758. 电子邮件：cd@gsm.pku.edu.cn. '
+                                       '认证机构名称：. ©2017 北京大学光华管理学院 版权所有 '
+                                       '京ICP备05065075-1.',
+                            'url': 'https://www.gsm.pku.edu.cn/index.htm'},
+                           {'content': '作为北大工商管理教育的主体，北京大学光华管理学院是亚太地区最优秀的商学院之一。 '
+                                       '秉承北大百年风骨，以"创造管理知识，培养商界领袖，推动社会进步"为使命，光华管理学院在厉以宁等历任院长和现任院长刘俏的领导下，已走过30余载春秋。',
+                            'url': 'https://www.gsm.pku.edu.cn/pkugsm/xyjj.htm'},
+                           {'content': '北京大学光华管理学院是北京大学工商管理教育的主体，是亚太地区最优秀的商学院之一。1978年，北京大学成立国民经济管理专业。1993年，北京大学经济学院经济管理系与北京大学管理科学中心合并为北京大学工商管理学院。1985年，北京大学经济学院和北京大学管理科学中心同时成立，经济学院 '
+                                       '...',
+                            'url': 'https://baike.baidu.com/item/北京大学光华管理学院/3981692'},
+                           {'content': '北大光华管理学院mba项目自1994年成立以来，一直致力于培养具有社会责任感和全球视野的高级管理者与未来商业领袖。光华mba项目坚持以"创造管理知识，培养商界领袖，推动社会进步"为使命，努力打造富有人文精神的mba项目，并借助北大深厚的人文底蕴、系统而创新的课程设置以及优秀的师资 '
+                                       '...',
+                            'url': 'https://www.gsm.pku.edu.cn/mba/index.htm'},
+                           {'content': 'Guanghua School of Management is proud to '
+                                       'announce that nine of its professors, along '
+                                       'with 107 other faculty members from various '
+                                       'fields in Peking University, were named as '
+                                       '"Highly Cited Chinese Researchers of 2020" by '
+                                       'Elsevier, a globally renowned academic '
+                                       "publication group. Professor Li Yining's "
+                                       '"Cultural Economics" Named as 2020 Best ...',
+                            'url': 'https://en.gsm.pku.edu.cn/index.htm'}],
+    }
+
+
+    result = web_search_analysis.invoke({
+         "user_query": initial_state["user_query"],
+         "snippets": initial_state["search_results"]
+    })
+
+    result
+    ```
+
+    传入上一篇文章中搜索工具的结果和原始查询，可以看到模型准确识别了学校名称，并标记为`known`：
+
+    ```text title="output"
+    WebSearchBasedSchoolNameRecognition(
+        identified_school_name='北京大学',
+        status='known'
+    )
+    ```
+
 ## 名称匹配评估任务
 
-<Steps>
+
 1. **数据模型定义（Pydantic）**
 
     ```python
@@ -155,7 +261,7 @@ import { Steps } from '@astrojs/starlight/components';
     grade_school_name_match_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system_message_grade + format_instructions_grade),
-            ("human", "Retrieved school name: {retrieved_name} \n Original user query: {original_query} \n Search results: {search_results}"),
+            ("human", "Retrieved school name: {retrieved_name} \n Original user query: {user_query} \n Search results: {search_results}"),
         ]
     ).partial(schema=GradeSchoolNameMatch.schema())
     ```
@@ -168,105 +274,47 @@ import { Steps } from '@astrojs/starlight/components';
 
     # 示例调用
     initial_state = {
-        "retrieved_name": "南京大学",
-        "original_query": "通大",
-        "search_results": "南通大学，简称'通大'，..."
+        "retrieved_name": "北京大学",
+        "user_query": "光华商学院",
+        "search_results": [{'content': '邮编：710600. 电话：029-81361999. 传真：029-81361991. '
+                                       '地址：成都市天府新区天府菁蓉中心B区2-6栋. 邮编：610000. '
+                                       '联系电话：028-86035758. 电子邮件：cd@gsm.pku.edu.cn. '
+                                       '认证机构名称：. ©2017 北京大学光华管理学院 版权所有 '
+                                       '京ICP备05065075-1.',
+                            'url': 'https://www.gsm.pku.edu.cn/index.htm'},
+                           {'content': '作为北大工商管理教育的主体，北京大学光华管理学院是亚太地区最优秀的商学院之一。 '
+                                       '秉承北大百年风骨，以"创造管理知识，培养商界领袖，推动社会进步"为使命，光华管理学院在厉以宁等历任院长和现任院长刘俏的领导下，已走过30余载春秋。',
+                            'url': 'https://www.gsm.pku.edu.cn/pkugsm/xyjj.htm'},
+                           {'content': '北京大学光华管理学院是北京大学工商管理教育的主体，是亚太地区最优秀的商学院之一。1978年，北京大学成立国民经济管理专业。1993年，北京大学经济学院经济管理系与北京大学管理科学中心合并为北京大学工商管理学院。1985年，北京大学经济学院和北京大学管理科学中心同时成立，经济学院 '
+                                       '...',
+                            'url': 'https://baike.baidu.com/item/北京大学光华管理学院/3981692'},
+                           {'content': '北大光华管理学院mba项目自1994年成立以来，一直致力于培养具有社会责任感和全球视野的高级管理者与未来商业领袖。光华mba项目坚持以"创造管理知识，培养商界领袖，推动社会进步"为使命，努力打造富有人文精神的mba项目，并借助北大深厚的人文底蕴、系统而创新的课程设置以及优秀的师资 '
+                                       '...',
+                            'url': 'https://www.gsm.pku.edu.cn/mba/index.htm'},
+                           {'content': 'Guanghua School of Management is proud to '
+                                       'announce that nine of its professors, along '
+                                       'with 107 other faculty members from various '
+                                       'fields in Peking University, were named as '
+                                       '"Highly Cited Chinese Researchers of 2020" by '
+                                       'Elsevier, a globally renowned academic '
+                                       "publication group. Professor Li Yining's "
+                                       '"Cultural Economics" Named as 2020 Best ...',
+                            'url': 'https://en.gsm.pku.edu.cn/index.htm'}],
     }
 
     result = school_name_match_grader.invoke({
         "retrieved_name": initial_state["retrieved_name"],
-        "original_query": initial_state["original_query"],
+        "user_query": initial_state["user_query"],
         "search_results": initial_state["search_results"]
     })
 
-    match_status = result.match_status
-
-    print(f"Match Status: {match_status}")
+    result
     ```
+
+    我们把搜索工具的搜做结果、原始查询和检索到的学校名称传入，可以看到模型准确判断了匹配结果：
 
     ```text title="output"
-
+    GradeSchoolNameMatch(
+        match_status='match'
+    )
     ```
-</Steps>
-
-
-## 网络搜索结果分析任务
-
-<Steps>
-1. **数据模型定义（Pydantic）**
-
-    ```python
-    class WebSearchBasedSchoolNameRecognition(BaseModel):
-        """Recognition result for top-level school names from web search."""
-        identified_school_name: str = Field(
-            ...,
-            description="The recognized top-level official name of the school, extracted from the search results."
-        )
-        status: Literal["known", "unknown"] = Field(
-            ...,
-            description="Indicates whether the top-level school name was successfully identified ('known') or not ('unknown')."
-        )
-    ```
-
-    要求大模型输出两个字段：
-
-    - identified_school_name：表示从搜索结果中识别出的顶级官方学校名称。
-    - status：表示识别结果的状态，可以是`known`（已知）或`unknown`（未知）。
-
-2. 提示词构建
-
-    ```python
-    # 初始化解析器
-    parser_web_search_based_recognition = PydanticOutputParser(pydantic_object=WebSearchBasedSchoolNameRecognition)
-
-    # 定义系统提示和指示
-    system_message_web_search_analysis = """您负责依据网络搜索结果，精准辨识与原始查询完全一致的
-    顶层学校名称，排除学院或专业等详细信息。仔细审查搜索片段，确保提取的学校名称不仅出现在结果中，而且
-    确切无误地指代查询初衷的院校。若存在任何疑问或搜索结果主要讨论另一所院校，即便提及了正确的学校名称，
-    也应标记为'unknown'，并且不提供学校名称。回复内容须包含确切的顶层学校名称且不含学院或专业（若完全
-    匹配）以及清晰的“状态”指示（'known'或'unknown'）。"""
-
-    format_instructions = """
-    Output your answer as JSON adhering to the given schema: ```json\n{schema}\n```.
-    Ensure your response is encapsulated within ```json and ``` tags.
-    """
-
-    # 创建提示模板
-    prompt_for_analyzing_search_results = ChatPromptTemplate.from_messages(
-        [
-            ("system", system_message_web_search_analysis + format_instructions),
-            ("human", "针对特定查询'{user_query}'，请仔细评估以下网络搜索片段。\
-                仅当能确切确认与查询意图完全相符的顶层官方学校名称时，提供该名称（不含学院或专业）并标注状态为'known'。\
-                如搜索片段未能明确指向查询中的学校，应反馈'unknown'作为状态，并省略学校名称：{snippets}"),
-        ]
-    ).partial(schema=WebSearchBasedSchoolNameRecognition.schema())
-    ```
-
-3. **任务构建和演示**
-
-    ```python
-    # 组合提示模板和大模型
-    web_search_analysis = prompt_for_analyzing_search_results | llm | parser_web_search_based_recognition
-
-    # 示例调用
-    initial_state = {
-        "user_query": "光华商学院",
-        "search_results": "北京大学光华管理学院，..."
-    }
-
-    result = web_search_analysis.invoke({
-        "user_query": initial_state["user_query"],
-        "snippets": initial_state["search_results"]
-    })
-
-    identified_school_name = result.identified_school_name
-    status = result.status
-
-    print(f"Identified School Name: {identified_school_name}")
-    print(f"Status: {status}")
-    ```
-
-    ```text title="output"
-
-    ```
-</Steps>

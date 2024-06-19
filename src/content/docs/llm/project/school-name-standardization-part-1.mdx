@@ -195,12 +195,28 @@ def direct_retrieval(state: Dict) -> Dict:
     state["retrieved_school_name"] = retrieved_school_name
 
     return state
+```
 
-# 示例调用
-initial_state = {'user_query': '通大', 'routing_action': 'direct_retrieval', 'standardized_name': ['南通大学', 'Nantong University']}
+#### 效果演示
+
+```python {6-6}
+from pprint import pprint
+
+initial_state = {
+    'user_query': '剑桥',
+    'routing_action': 'direct_retrieval',
+    'standardized_name': ['剑桥大学', 'University of Cambridge']
+}
 
 updated_state = direct_retrieval(initial_state)
-print(updated_state)
+pprint(updated_state)
+```
+
+```text {1-1} title="Output"
+{'retrieved_school_name': 'University of Cambridge',
+ 'routing_action': 'direct_retrieval',
+ 'standardized_name': ['剑桥大学', 'University of Cambridge'],
+ 'user_query': '剑桥'}
 ```
 
 在这个示例中，通过`retriever.invoke`方法从向量数据库中检索与`standardized_name`匹配的学校名称，然后将结果更新到状态的`retrieved_school_name`属性中。
@@ -242,12 +258,48 @@ def perform_web_search(state: Dict) -> Dict:
 
     state["search_results"] = results
     return state
-
-# 示例调用
-initial_state = {'user_query': '通大', 'routing_action': 'perform_search'}
-
-updated_state = perform_web_search(initial_state)
-print(updated_state)
 ```
 
-在这个示例中，我们首先尝试使用`TavilySearch`工具执行搜索，如果搜索失败或出现错误，则切换到`DuckDuckGoSearch`工具。搜索结果会更新到状态的`search_results`属性中。
+#### 效果演示
+
+```python {2-2}
+initial_state = {
+    'user_query': '光华商学院',
+    'routing_action': 'direct_retrieval'
+}
+
+updated_state = perform_web_search(initial_state)
+pprint(updated_state)
+```
+
+```text title="Output"
+---PERFORM WEB SEARCH---
+{'routing_action': 'direct_retrieval',
+ 'search_results': [{'content': '邮编：710600. 电话：029-81361999. 传真：029-81361991. '
+                                '地址：成都市天府新区天府菁蓉中心B区2-6栋. 邮编：610000. '
+                                '联系电话：028-86035758. 电子邮件：cd@gsm.pku.edu.cn. '
+                                '认证机构名称：. ©2017 北京大学光华管理学院 版权所有 '
+                                '京ICP备05065075-1.',
+                     'url': 'https://www.gsm.pku.edu.cn/index.htm'},
+                    {'content': '作为北大工商管理教育的主体，北京大学光华管理学院是亚太地区最优秀的商学院之一。 '
+                                '秉承北大百年风骨，以"创造管理知识，培养商界领袖，推动社会进步"为使命，光华管理学院在厉以宁等历任院长和现任院长刘俏的领导下，已走过30余载春秋。',
+                     'url': 'https://www.gsm.pku.edu.cn/pkugsm/xyjj.htm'},
+                    {'content': '北京大学光华管理学院是北京大学工商管理教育的主体，是亚太地区最优秀的商学院之一。1978年，北京大学成立国民经济管理专业。1993年，北京大学经济学院经济管理系与北京大学管理科学中心合并为北京大学工商管理学院。1985年，北京大学经济学院和北京大学管理科学中心同时成立，经济学院 '
+                                '...',
+                     'url': 'https://baike.baidu.com/item/北京大学光华管理学院/3981692'},
+                    {'content': '北大光华管理学院mba项目自1994年成立以来，一直致力于培养具有社会责任感和全球视野的高级管理者与未来商业领袖。光华mba项目坚持以"创造管理知识，培养商界领袖，推动社会进步"为使命，努力打造富有人文精神的mba项目，并借助北大深厚的人文底蕴、系统而创新的课程设置以及优秀的师资 '
+                                '...',
+                     'url': 'https://www.gsm.pku.edu.cn/mba/index.htm'},
+                    {'content': 'Guanghua School of Management is proud to '
+                                'announce that nine of its professors, along '
+                                'with 107 other faculty members from various '
+                                'fields in Peking University, were named as '
+                                '"Highly Cited Chinese Researchers of 2020" by '
+                                'Elsevier, a globally renowned academic '
+                                "publication group. Professor Li Yining's "
+                                '"Cultural Economics" Named as 2020 Best ...',
+                     'url': 'https://en.gsm.pku.edu.cn/index.htm'}],
+ 'user_query': '光华商学院'}
+```
+
+在这个示例中，我们模拟大模型不清楚光华商学院是哪所学校，尝试使用工具执行搜索，并将搜索结果更新到状态的`search_results`属性中。
