@@ -94,7 +94,7 @@ export default defineConfig({
 ## 调整 badge 颜色
 
 ```css
-:root, :root[data-theme='light'] {
+.sl-badge {
     --sl-badge-success-border: mediumseagreen;
     --sl-badge-success-bg: mediumseagreen;
     --sl-badge-caution-border: darkorange;
