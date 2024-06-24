@@ -1,0 +1,103 @@
+---
+title: "Lobechat：替代ChatGPT的AI Chat前端"
+description: ""
+---
+
+当下，各家大模型的基座能力逐步接近并在特定领域赶超OpenAI，以及国内厂商一波又一波的降价潮，订阅 ChatGPT 会员不再是最佳答案。而根据不同的任务，选择不同的模型，无论在效果还是性价比上都是更好的选择，因此一直在寻求一款替代 ChatGPT 的工具。
+
+在对比了Dify、ChatGPT Next Web等项目后，Lobechat 应该是最适合于自己需求的项目，且在我的场景下，是比Chatgpt更加顺手的工具。
+
+这里记录以下部署在 Vercel 上的过程。
+
+## 一键部署过程
+
+import { Steps } from '@astrojs/starlight/components';
+
+<Steps>
+1. Fork 项目到自己的 Github 账号下
+
+    LobeChat 项目地址：[lobehub/lobe-chat](https://github.com/lobehub/lobe-chat)
+
+2. 在 Vercel 上新建项目
+
+    选择该项目进行部署，需要配置变量：
+
+    | 变量名 | 变量值 |
+    | --- | --- |
+    | `OPENAI_API_KEY` | OpenAI API Key |
+    | `ACCESS_CODE` | 访问密码，防止任何人都来使用 |
+    | `OPENAI_PROXY_URL` | 代理接口，或自己部署了兼容Openai接口的模型服务，需要填写 |
+
+3. 绑定自定义域名
+
+    Vercel绑定域名只需要一个CNAME的验证即可。
+
+4. 部署完成
+
+    访问自定义域名即可使用。
+</Steps>
+
+## 配置服务端数据库
+
+一键部署后，所有的配置和聊天记录都是保存在本地浏览器当中的，如果需要多端同步，则需要配置服务端数据库。
+
+<Steps>
+1. 在 Vercel 上新建 Serverless Postgres 服务
+
+    Vercel 提供了免费的基础版 Serverless Postgres 服务，实际是由 Neon 提供的。
+
+    地区可以选择新加坡，理论上我们的访问速度会更快一些。
+
+    创建后在项目变量中添加参数：
+
+    | 变量名 | 变量值 |
+    | --- | --- |
+    | `DATABASE_URL` | `postgres://username:password@host:port/database` |
+    | `NEXT_PUBLIC_SERVICE_MODE` | 填写 `server`，表示使用服务端数据库 |
+    | `KEY_VAULTS_SECRET` | 用于加密数据库中的数据 |
+
+    > `DATABASE_URL` 可以从Vercel的数据库管理界面直接复制链接
+    >
+    > `KEY_VAULTS_SECRET`: 可以在命令行使用 `openssl rand -base64 32` 生成
+
+2. 配置 Clerk 身份验证服务
+
+    LobeChat支持Clerk身份验证服务。
+
+    首先到 [Clerk](https://clerk.com/) 注册账号，创建一个新的项目。
+
+    创建后需要添加用户、绑定网站和域名、启动生产环境。
+
+    完成后，在 Vercel 项目变量中添加参数：
+
+    | 变量名 | 变量值 |
+    | --- | --- |
+    | `CLERK_SECRET_KEY` | Clerk项目的Secret Key |
+    | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk项目的Publishable Key |
+
+3. 配置对象存储
+
+    LobeChat支持所有S3兼容的对象存储服务，国内的阿里云OSS、腾讯云COS等都可以使用。我这里购买了阿里云的OSS服务，一年50G只需要9块钱。
+
+    在 Vercel 项目变量中添加参数：
+
+    | 变量名 | 变量值 |
+    | --- | --- |
+    | `S3_ACCESS_KEY_ID` | 阿里云的 Access Key ID |
+    | `S3_SECRET_ACCESS_KEY` | 阿里云的 Access Key Secret |
+    | `S3_ENDPOINT` | 阿里云的 Endpoint |
+    | `S3_BUCKET` | 阿里云的 Bucket 名称 |
+    | `NEXT_PUBLIC_S3_DOMAIN` | 对外的访问域名 |
+
+    > 其中，前两个参数是在案例云的个人账号中获取的，后三个参数是在阿里云的对象存储管理界面中获取的。
+
+    :::caution
+    对象存储记得设置跨域访问，否则会导致无法访问。
+    :::
+
+4. 重新部署
+
+    在所有参数配置完成后，重新部署项目，进入口需要登录Clerk账号才能使用的话，就算是配置服务端数据库成功了。
+</Steps>
+
+![LobeChat](../../../assets/llm-assets/LobeChat.webp)

@@ -5,7 +5,10 @@ description: ""
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-## 进阶项目
+## 实战应用一(数据清洗)
+
+以清洗不规范的学校名称为例，展示如何利用Langgraph框架和大模型完成数据清洗任务。
+
 ---
 <CardGrid>
     <LinkCard
@@ -27,31 +30,6 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
         title="(四) Graph构建与效果演示"
         description="介绍如何创建最终的图，并展示多个实际案例的效果演示。"
         href="/llm/project/school-name-standardization-part-4"
-    />
-</CardGrid>
-
-## 模型部署
----
-<CardGrid>
-    <LinkCard
-        title="使用Ollama部署Qwen-110B大模型"
-        description="介绍如何在 Linux 系统中使用 Ollama 部署模型，包括安装、配置和运行过程。"
-        href="/llm/ollama-deploy"
-    />
-    <LinkCard
-        title="搭建大模型部署容器环境"
-        description="介绍如何搭建一个支持大模型部署的容器环境，包括安装 NVIDIA Container Toolkit、构建 Docker 镜像、配置和使用容器。"
-        href="/llm/llm-docker-env"
-    />
-    <LinkCard
-        title="Milvus向量数据库"
-        description="介绍如何使用Docker部署Milvus向量数据库，并通过实际案例演示其存储和查询功能。"
-        href="/llm/milvus"
-    />
-    <LinkCard
-        title="开源大模型兼容Openai接口"
-        description="介绍如何通过 api-for-open-llm 项目部署并调用开源大模型，实现与 OpenAI API 兼容的后端接口。"
-        href="/llm/openai-api-for-open-llm"
     />
 </CardGrid>
 
@@ -158,6 +136,11 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 ## 模型部署
 ---
 <CardGrid>
+    <LinkCard
+        title="Lobechat：替代ChatGPT的AI Chat前端"
+        description="介绍如何在Vercel上部署Lobechat，并配置服务端数据库实现多端同步。"
+        href="/llm/lobe-chat-deployment"
+    />
     <LinkCard
         title="使用Ollama部署Qwen-110B大模型"
         description="介绍如何在 Linux 系统中使用 Ollama 部署模型，包括安装、配置和运行过程。"

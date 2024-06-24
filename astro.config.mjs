@@ -108,7 +108,7 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '进阶项目',
+                                '实战应用(数据清洗)',
                             badge: {text: 'Hot', variant: 'caution'},
                             items:
                                 [
@@ -120,9 +120,22 @@ export default defineConfig({
                         },
                         {
                             label:
+                                '实战应用(文本挖掘)',
+                            badge: {text: 'Coming', variant: 'note'},
+                            items:
+                                [
+                                    // {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
+                                    // {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
+                                    // {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
+                                    // {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
+                                ]
+                        },
+                        {
+                            label:
                                 '模型部署',
                             items:
                                 [
+                                    {label: 'Lobechat AI对话前端', link: '/llm/lobe-chat-deployment'},
                                     {label: '使用Ollama部署Qwen-110B', link: '/llm/ollama-deploy'},
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
                                     {label: 'Milvus 向量数据库', link: '/llm/milvus'},
