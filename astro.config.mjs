@@ -147,23 +147,42 @@ export default defineConfig({
                 {
                     label:
                         '机器学习',
-                    items:
-                        [
-                            {
-                                label: 'Introduction', link: '/machine-learning/machine-learning-intro',
-                                badge: {text: 'Intro', variant: 'success'},
-                            },
-                            {label: '建模目标与数据质量', link: '/machine-learning/data-preprocessing'},
-                            {
-                                label: '数据探查与分析',
-                                badge: {text: 'Hot', variant: 'caution'},
-                                link: '/machine-learning/data-exploration'},
-                            {label: '特征工程之手动特征衍生', link: '/machine-learning/basic-feature-engineering'},
-                            {
-                                label: '建模调参流程与逻辑回归',
-                                badge: {text: 'Hot', variant: 'caution'},
-                                link: '/machine-learning/model-logisticregression'},
-                            // {label: '特征筛选', link: '/machine-learning/feature-selection'},
+                    items: [
+                        {
+                            label: 'Introduction', link: '/machine-learning/machine-learning-intro',
+                            badge: {text: 'Intro', variant: 'success'},
+                        },
+                        {
+                            label:
+                                '机器学习基础',
+                            items:
+                                [
+                                    {label: '建模目标与数据质量', link: '/machine-learning/data-preprocessing'},
+                                    {
+                                        label: '数据探查与分析',
+                                        badge: {text: 'Hot', variant: 'caution'},
+                                        link: '/machine-learning/data-exploration'
+                                    },
+                                    {
+                                        label: '特征工程之手动特征衍生',
+                                        link: '/machine-learning/basic-feature-engineering'
+                                    },
+                                    {
+                                        label: '建模调参流程与逻辑回归',
+                                        badge: {text: 'Hot', variant: 'caution'},
+                                        link: '/machine-learning/model-logisticregression'
+                                    },
+                                    // {label: '特征筛选', link: '/machine-learning/feature-selection'},
+                                ],
+                        },
+                        {
+                            label:
+                                '集成学习',
+                            items:
+                                [
+                                    {label: '随机森林与贝叶斯优化器', link: '/machine-learning/random-forest-bayesian-optimizer'},
+                                ]
+                        },
                         ]
                 },
                 {
