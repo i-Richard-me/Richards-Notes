@@ -180,3 +180,20 @@ description: ""
 :::tip
 由于贝叶斯优化器的原理在于构建一个概率模型来估计目标函数的后验分布，因此，当我们多次执行该学习优化器，得到的结果会有所不同。但我们可以寻求在多次搜索中，共性的参数区间，以此为基础，进一步精调模型。
 :::
+
+经过几次尝试后，最终得到的交叉验证分数为：
+
+```text title="Output"
+最佳参数:
+ {'classifier__n_estimators': 273, 'classifier__max_depth': 17, 'classifier__min_samples_split': 14, 'classifier__min_samples_leaf': 3, 'classifier__max_features': 6}
+最佳交叉验证得分 (ROC AUC):
+ 0.8415392235455794
+```
+
+但提交到 kaggle 上可以发现，得到的分数还不如使用逻辑回归模型，这说明该数据集对于随机森林模型并不友好，下一节我们将尝试使用其他集成学习算法。
+
+```text title="Output"
+fileName               date                 description    status    publicScore  privateScore  
+---------------------  -------------------  -------------  --------  -----------  ------------ 
+submission.csv         2023-04-19 08:05:34  rf_best        complete  0.88468      0.87128 
+```
