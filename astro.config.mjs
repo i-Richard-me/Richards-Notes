@@ -116,6 +116,7 @@ export default defineConfig({
                                     {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
                                     {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
                                     {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
+                                    {label: 'LangGraph项目之公司标签清洗', link: '/llm/project/data-cleaning-case'},
                                 ]
                         },
                         {
