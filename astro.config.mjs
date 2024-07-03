@@ -64,7 +64,7 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '模型应用',
+                                '大模型应用探索',
                             items:
                                 [
                                     {
@@ -85,7 +85,7 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '优化技巧',
+                                '高效优化策略',
                             items:
                                 [
                                     {label: '大模型高效微调-训练集准备', link: '/llm/optimizing/fine-tuning-data-preparation'},
@@ -108,7 +108,7 @@ export default defineConfig({
                         },
                         {
                             label:
-                                '实战应用(数据清洗)',
+                                '实战案例详解',
                             badge: {text: 'Hot', variant: 'caution'},
                             items:
                                 [
@@ -116,24 +116,20 @@ export default defineConfig({
                                     {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
                                     {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
                                     {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
+                                ]
+                        },
+                        {
+                            label:
+                                '特色案例拓展',
+                            badge: {text: 'Hot', variant: 'caution'},
+                            items:
+                                [
                                     {label: 'LangGraph项目: 公司标签清洗', link: '/llm/project/data-cleaning-case'},
                                 ]
                         },
                         {
                             label:
-                                '实战应用(文本挖掘)',
-                            badge: {text: 'Coming', variant: 'note'},
-                            items:
-                                [
-                                    // {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
-                                    // {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
-                                    // {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
-                                    // {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
-                                ]
-                        },
-                        {
-                            label:
-                                '模型部署',
+                                '模型部署指南',
                             items:
                                 [
                                     {label: 'Langfuse: 开源大模型监控工具', link: '/llm/tools/langfuse'},
