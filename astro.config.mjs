@@ -136,7 +136,7 @@ export default defineConfig({
                                 '模型部署',
                             items:
                                 [
-                                    {label: 'Langfuse开源llm监控', link: '/llm/tools/langfuse'},
+                                    {label: 'Langfuse: 开源大模型监控工具', link: '/llm/tools/langfuse'},
                                     {label: 'Lobechat AI对话前端', link: '/llm/lobe-chat-deployment'},
                                     {label: '使用Ollama部署Qwen-110B', link: '/llm/ollama-deploy'},
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
