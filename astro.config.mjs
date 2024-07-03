@@ -116,7 +116,7 @@ export default defineConfig({
                                     {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
                                     {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
                                     {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
-                                    {label: 'LangGraph项目之公司标签清洗', link: '/llm/project/data-cleaning-case'},
+                                    {label: 'LangGraph项目: 公司标签清洗', link: '/llm/project/data-cleaning-case'},
                                 ]
                         },
                         {
@@ -136,6 +136,7 @@ export default defineConfig({
                                 '模型部署',
                             items:
                                 [
+                                    {label: 'Langfuse开源llm监控', link: '/llm/tools/langfuse'},
                                     {label: 'Lobechat AI对话前端', link: '/llm/lobe-chat-deployment'},
                                     {label: '使用Ollama部署Qwen-110B', link: '/llm/ollama-deploy'},
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
@@ -182,6 +183,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '随机森林与贝叶斯优化器', link: '/machine-learning/random-forest-bayesian-optimizer'},
+                                    {label: 'XGBoost 极端梯度提升树', link: '/machine-learning/xgboost'},
                                 ]
                         },
                         ]
