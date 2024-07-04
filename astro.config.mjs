@@ -112,10 +112,10 @@ export default defineConfig({
                             badge: {text: 'Hot', variant: 'caution'},
                             items:
                                 [
-                                    {label: '(一) 项目概览与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
-                                    {label: '(二) 大模型任务构建', link: '/llm/project/school-name-standardization-part-2'},
-                                    {label: '(三) 函数封装与决策路由逻辑', link: '/llm/project/school-name-standardization-part-3'},
-                                    {label: '(四) Graph构建与效果演示', link: '/llm/project/school-name-standardization-part-4'},
+                                    {label: '框架设计与工具节点实现', link: '/llm/project/school-name-standardization-part-1'},
+                                    {label: '数据模型与高效提示词设计', link: '/llm/project/school-name-standardization-part-2'},
+                                    {label: '任务节点函数与决策路由实现', link: '/llm/project/school-name-standardization-part-3'},
+                                    {label: '构建完整流程图及案例展示', link: '/llm/project/school-name-standardization-part-4'},
                                 ]
                         },
                         {
@@ -180,6 +180,7 @@ export default defineConfig({
                                 [
                                     {label: '随机森林与贝叶斯优化器', link: '/machine-learning/random-forest-bayesian-optimizer'},
                                     {label: 'XGBoost 极端梯度提升树', link: '/machine-learning/xgboost'},
+                                    {label: 'LightGBM 轻量梯度提升树', link: '/machine-learning/lightgbm'},
                                 ]
                         },
                         ]
