@@ -7,47 +7,56 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 ## 实战案例详解
 
-以清洗不规范的学校名称为例，展示如何利用Langgraph框架和大模型完成数据清洗任务。
-
 ---
+
+通过清洗不规范学校名称的实例，深入展示如何利用Langgraph框架和大模型技术来高效完成数据清洗任务。本系列分为四个部分，全面覆盖从项目概览到实际效果演示的完整流程。
+
 <CardGrid>
     <LinkCard
-        title="(一) 项目概览与工具节点实现"
-        description="概述项目的整体思路和流程逻辑，Langgraph框架的基本规范，并完成项目的准备工作，重点关注图状态的定义和工具节点函数的实现。"
+        title="大模型数据清洗项目：框架设计与工具节点实现"
+        description="深入探讨Langgraph框架在数据清洗项目中的应用，包括项目整体架构、图状态定义和核心工具节点的实现过程。"
         href="/llm/project/school-name-standardization-part-1"
     />
     <LinkCard
-        title="(二) 大模型任务构建"
-        description="重点介绍三个核心的大模型任务的构建过程，包括如何使用Pydantic定义数据模型和创建提示词（prompt）。"
+        title="构建大模型任务：Pydantic数据模型与高效提示词设计"
+        description="详解如何利用Pydantic构建数据模型，并设计有效的提示词，以优化大模型在数据清洗任务中的表现。"
         href="/llm/project/school-name-standardization-part-2"
     />
     <LinkCard
-        title="(三) 函数封装与决策路由逻辑"
-        description="介绍项目中所有函数的封装，包括大模型任务节点函数、决策路由节点函数和结果汇总节点函数的构建。"
+        title="大模型数据清洗：任务节点函数与决策路由实现"
+        description="介绍项目中各类函数的封装技巧，重点阐述大模型任务节点、决策路由和结果汇总的实现逻辑。"
         href="/llm/project/school-name-standardization-part-3"
     />
     <LinkCard
-        title="(四) Graph构建与效果演示"
-        description="介绍如何创建最终的图，并展示多个实际案例的效果演示。"
+        title="Langgraph最终实现：构建完整数据清洗流程图及案例展示"
+        description="step by step指导如何构建最终的数据清洗流程图，并通过多个实际案例，展示大模型在数据清洗中的强大效果。"
         href="/llm/project/school-name-standardization-part-4"
     />
 </CardGrid>
 
 ## 特色案例拓展
+
 ---
+
+探索LangGraph在企业级数据处理中的创新应用。本案例聚焦公司标签清洗，展示如何结合大模型、网络搜索和向量数据库等技术，构建高效的数据处理流程。
+
 <CardGrid>
     <LinkCard
-        title="LangGraph项目: 公司标签清洗"
-        description="介绍利用LangGraph进行公司标签清洗的实现流程，包括使用大模型进行公司名称验证、网络搜索、结果分析、向量数据库检索等步骤。"
+        title="LangGraph高级应用：智能化公司标签清洗流程"
+        description="深入剖析利用LangGraph框架进行公司标签清洗的全流程，包括大模型验证、智能网络搜索、结果分析及向量数据库检索等创新技术的整合应用。"
         href="/llm/project/school-name-standardization-part-4"
     />
 </CardGrid>
 
 ## 大模型应用探索
+
 ---
+
+深入探讨大模型在各类数据分析任务中的实际应用。从情感分析到实体抽取，从行业动态获取到知识图谱构建，展示大模型突破传统数据分析流程的可能，提升效率与准确性。
+
 <CardGrid>
     <LinkCard
-        title="利用大模型提升情感分类任务准确性"
+        title="突破传统NLP的情感分类精度瓶颈"
         description="通过实际案例探讨大模型在文本情感分类任务中相比传统NLP方法的优势。"
         href="/llm/application/sentiment_classification/"
     />
@@ -89,7 +98,11 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 </CardGrid>
 
 ## 高效优化策略
+
 ---
+
+介绍提升大模型性能的各种策略和技巧。涵盖模型微调、示例选择器构建、问题拆解技巧、多向量检索等高级方法，构建更智能、更精准的AI应用。
+
 <CardGrid>
     <LinkCard
         title="大模型高效微调（一）训练集准备"
@@ -144,7 +157,11 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 </CardGrid>
 
 ## 模型部署指南
+
 ---
+
+从本地开发到生产环境部署，覆盖大模型应用的落地过程。包括模型监控工具的使用、开源替代方案的部署、容器化环境搭建，以及向量数据库的集成，为AI项目提供全方位的技术支持。
+
 <CardGrid>
     <LinkCard
         title="Langfuse: 本地部署大模型监控利器"

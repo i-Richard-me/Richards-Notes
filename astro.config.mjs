@@ -124,7 +124,7 @@ export default defineConfig({
                             badge: {text: 'Hot', variant: 'caution'},
                             items:
                                 [
-                                    {label: 'LangGraph项目: 公司标签清洗', link: '/llm/project/data-cleaning-case'},
+                                    {label: '智能化公司标签清洗流程', link: '/llm/project/data-cleaning-case'},
                                 ]
                         },
                         {
