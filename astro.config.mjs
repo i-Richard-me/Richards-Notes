@@ -68,10 +68,10 @@ export default defineConfig({
                             items:
                                 [
                                     {
-                                        label: '提升情感分类任务准确性',
+                                        label: '突破传统NLP情感分类精度瓶颈',
                                         link: '/llm/application/sentiment_classification'
                                     },
-                                    {label: '文本分类任务中的模型效果对比', link: '/llm/application/llm_compare'},
+                                    {label: '不同模型尺寸的文本任务对比', link: '/llm/application/llm_compare'},
                                     {
                                         label: '利用大模型进行实体及属性抽取',
                                         link: '/llm/application/performance-eval-analysis'
@@ -132,8 +132,8 @@ export default defineConfig({
                                 '模型部署指南',
                             items:
                                 [
-                                    {label: 'Langfuse: 开源大模型监控工具', link: '/llm/tools/langfuse'},
-                                    {label: 'Lobechat AI对话前端', link: '/llm/lobe-chat-deployment'},
+                                    {label: 'Langfuse: 本地大模型监控利器', link: '/llm/tools/langfuse'},
+                                    {label: 'Lobechat 个人专属AI聊天平台', link: '/llm/lobe-chat-deployment'},
                                     {label: '使用Ollama部署Qwen-110B', link: '/llm/ollama-deploy'},
                                     {label: '大模型部署容器环境', link: '/llm/llm-docker-env'},
                                     {label: 'Milvus 向量数据库', link: '/llm/milvus'},
