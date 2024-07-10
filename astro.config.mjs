@@ -126,6 +126,7 @@ export default defineConfig({
                                 [
                                     {label: '智能化公司标签清洗流程', link: '/llm/project/data-cleaning-case'},
                                     {label: '非结构化文本数据分析解决方案', link: '/llm/project/feedback-clustering-classification-workflow'},
+                                    {label: '大模型批量调用技巧与实践', link: '/llm/project/batch-processing-efficiency'},
                                 ]
                         },
                         {
