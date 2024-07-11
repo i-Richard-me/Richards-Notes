@@ -131,6 +131,14 @@ export default defineConfig({
                         },
                         {
                             label:
+                                '工具模块分享',
+                            items:
+                                [
+                                    {label: '文本处理工具模块', link: '/llm/modules/text-processing-tools-for-llm'},
+                                ]
+                        },
+                        {
+                            label:
                                 '模型部署指南',
                             items:
                                 [
