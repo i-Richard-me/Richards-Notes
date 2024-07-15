@@ -10,7 +10,7 @@ description: "本文介绍一个用于文本预处理的Python工具集,包文�
 
 我们将详细解析每个函数的功能，探讨它们的具体应用场景和特点，帮助你在LLM分析任务中更加得心应手。
 
-## 模块概览
+### 模块概览
 
 该模块提供了以下核心功能：
 
@@ -32,7 +32,7 @@ import regex as re
 import random
 ```
 
-## 1. 参数验证
+### 1. 参数验证
 
 ```python
 def validate_params(
@@ -104,7 +104,7 @@ def validate_params(
 
 `validate_params`函数不仅检查参数类型，还验证指定的列是否存在于DataFrame中，有效防止后续处理中可能出现的KeyError。
 
-## 2. 文本清洗
+### 2. 文本清洗
 
 ```python
 def clean_text_column(df: pd.DataFrame, text_col: str) -> pd.DataFrame:
@@ -150,7 +150,7 @@ def clean_text(text: str) -> str:
 
 这个函数适用于处理网页爬取内容、用户评论等数据，可以减少特殊字符对后续任务的干扰。
 
-## 3. 无效文本过滤
+### 3. 无效文本过滤
 
 ```python
 def filter_invalid_text(df: pd.DataFrame, text_col: str) -> pd.DataFrame:
@@ -186,7 +186,7 @@ def filter_invalid_text(df: pd.DataFrame, text_col: str) -> pd.DataFrame:
 
 这个函数特别适合清理用户生成内容，如评论或帖子中的无意义文本。
 
-## 4. 语言类型检查
+### 4. 语言类型检查
 
 ```python
 def check_language_type(df: pd.DataFrame, text_col: str) -> pd.DataFrame:
@@ -220,7 +220,7 @@ def check_language_type(df: pd.DataFrame, text_col: str) -> pd.DataFrame:
 
 这个函数在进行跨语言分析或翻译任务时特别有用。 
 
-## 5. 字符和单词计数
+### 5. 字符和单词计数
 
 ```python
 def count_chars_and_words(text: str) -> int:
@@ -246,7 +246,7 @@ def count_chars_and_words(text: str) -> int:
 
 这个函数为文本批处理提供了重要的基础，特别是在需要按字符数限制进行文本切分时。
 
-## 6. DataFrame转Markdown表格
+### 6. DataFrame转Markdown表格
 
 ```python
 def dataframe_to_markdown_tables(
@@ -299,7 +299,7 @@ def dataframe_to_markdown_tables(
 
 这个函数在需要将大型数据集转换为Markdown格式时特别有用，便于将表格数据提供给大模型。
 
-## 7. 文本批处理
+### 7. 文本批处理
 
 ```python
 def dataframe_to_batched_texts(

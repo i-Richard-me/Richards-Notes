@@ -135,6 +135,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '文本处理工具模块', link: '/llm/modules/text-processing-tools-for-llm'},
+                                    {label: '大模型调用工具模块', link: '/llm/modules/language-model-utilities'},
                                 ]
                         },
                         {
