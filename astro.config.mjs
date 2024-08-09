@@ -59,9 +59,9 @@ export default defineConfig({
                 github: 'https://github.com/i-Richard-me/docs',
             },
             sidebar: [
-                // {label: 'Welcome', link: '/guides/intro/'},
+                {label: 'Welcome', link: '/guides/intro/'},
                 {
-                    label: "项目文档",
+                    label: "Intelligent HR 产品文档",
                     items: [{
                         label:
                             '功能模块详解',
@@ -75,6 +75,7 @@ export default defineConfig({
                                 {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai_researcher'},
                                 {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text_clustering'},
                                 {label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature_importance'},
+                                {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
 
                             ]
                     }]
