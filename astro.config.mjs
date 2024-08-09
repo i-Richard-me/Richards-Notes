@@ -73,6 +73,7 @@ export default defineConfig({
                                 // },
 
                                 {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai_researcher'},
+                                {label: '🧮 表格处理助手', link: '/intelligenthr/function_modules/table_operation'},
                                 {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text_clustering'},
                                 {label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature_importance'},
                                 {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
