@@ -71,8 +71,11 @@ export default defineConfig({
                                 //     label: 'Introduction', link: '/mysite/mysite-intro',
                                 //     badge: {text: 'Intro', variant: 'success'},
                                 // },
+
                                 {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai_researcher'},
                                 {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text_clustering'},
+                                {label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature_importance'},
+
                             ]
                     }]
                 },
