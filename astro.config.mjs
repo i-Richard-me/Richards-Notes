@@ -50,7 +50,7 @@ export default defineConfig({
                     tag: 'script',
                     attrs: {
                         src: 'https://plausible.homelab.wang/js/script.js',
-                        'data-domain': 'docs.irichard.me',
+                        'data-domain': 'docs.irichard.wang',
                         defer: true,
                     },
                 },
