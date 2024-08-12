@@ -77,6 +77,7 @@ export default defineConfig({
                                 {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text_clustering'},
                                 {label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature_importance'},
                                 {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
+                                {label: '📄 简历信息提取', link: '/intelligenthr/function_modules/resume-extractor'},
                                 {label: '👥 简历推荐助手', link: '/intelligenthr/function_modules/resume_recommender'},
                             ]
                     }]
