@@ -9,7 +9,7 @@ import starlightImageZoom from 'starlight-image-zoom';
 export default defineConfig({
 
     // Enable sitemap generation
-    site: 'https://docs.irichard.me',
+    site: 'https://docs.irichard.wang',
 
     integrations: [
         starlight({
@@ -21,8 +21,8 @@ export default defineConfig({
             ],
             plugins: [
                 starlightDocSearch({
-                        appId: 'PBF4GAL3QH',
-                        apiKey: 'cb8d1d8562fd6d9e77d1556afb91145e',
+                        appId: 'SA6K3EPNJ6',
+                        apiKey: 'bd88af8b218fcda47a26e09d9c11465f',
                         indexName: 'irichard',
                     },
                 ),
@@ -39,7 +39,7 @@ export default defineConfig({
                                 name: 'Richard Wang',
                                 title: '博主',
                                 picture: '/avatar_128x128.png',
-                                url: 'https://docs.irichard.me',
+                                url: 'https://docs.irichard.wang',
                             },
                         },
                     }
