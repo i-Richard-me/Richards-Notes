@@ -65,6 +65,7 @@ export default defineConfig({
                     items: [
                         {
                             label: 'Introduction', link: '/intelligenthr/intelligenthr-intro',
+                            badge: {text: 'Intro', variant: 'success'},
                         },
                         {
                             label:
@@ -73,7 +74,8 @@ export default defineConfig({
                                 [
                                     {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
                                     {
-                                        label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature-importance'
+                                        label: '📊 驱动因素分析',
+                                        link: '/intelligenthr/function_modules/feature-importance'
                                     },
 
                                     {label: '🧮 表格处理助手', link: '/intelligenthr/function_modules/table-operation'},
