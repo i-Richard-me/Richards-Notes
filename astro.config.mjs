@@ -62,30 +62,37 @@ export default defineConfig({
                 {label: 'Welcome', link: '/guides/intro/'},
                 {
                     label: "Intelligent HR 产品文档",
-                    items: [{
-                        label:
-                            '功能模块详解',
-                        items:
-                            [
-                                // {
-                                //     label: 'Introduction', link: '/mysite/mysite-intro',
-                                //     badge: {text: 'Intro', variant: 'success'},
-                                // },
+                    items: [
+                        {
+                            label: 'Introduction', link: '/intelligenthr/intelligenthr-intro',
+                        },
+                        {
+                            label:
+                                '功能模块详解',
+                            items:
+                                [
+                                    {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
+                                    {
+                                        label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature-importance'
+                                    },
 
-                                {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
-                                {label: '📊 驱动因素分析', link: '/intelligenthr/function_modules/feature-importance'},
+                                    {label: '🧮 表格处理助手', link: '/intelligenthr/function_modules/table-operation'},
+                                    {label: '🏢 数据标签清洗', link: '/intelligenthr/function_modules/data-cleaning'},
 
-                                {label: '🧮 表格处理助手', link: '/intelligenthr/function_modules/table-operation'},
-                                {label: '🏢 数据标签清洗', link: '/intelligenthr/function_modules/data-cleaning'},
+                                    {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
+                                    {
+                                        label: '🏷️ 情感分析与标注',
+                                        link: '/intelligenthr/function_modules/text-classification'
+                                    },
+                                    {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text-clustering'},
 
-                                {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
-                                {label: '🏷️ 情感分析与标注', link: '/intelligenthr/function_modules/text-classification'},
-                                {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text-clustering'},
-
-                                {label: '📄 简历信息提取', link: '/intelligenthr/function_modules/resume-extractor'},
-                                {label: '👥 简历推荐助手', link: '/intelligenthr/function_modules/resume-recommender'},
-                            ]
-                    }]
+                                    {label: '📄 简历信息提取', link: '/intelligenthr/function_modules/resume-extractor'},
+                                    {
+                                        label: '👥 简历推荐助手',
+                                        link: '/intelligenthr/function_modules/resume-recommender'
+                                    },
+                                ]
+                        }]
                 },
                 {
                     label: 'AI与大模型',
