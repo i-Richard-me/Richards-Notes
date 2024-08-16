@@ -15,17 +15,41 @@ import { LinkCard, Card, CardGrid } from '@astrojs/starlight/components';
 
 </Card>
 
-## 导航
+
+## 个人项目
+
+---
+
+<Card title="IntelligentHR: AI驱动的HR分析工具集" icon="puzzle">
+
+    IntelligentHR 是我在工作之余结合行业经验和大语言模型研究开发的一个实验性的人力资源分析工具集，旨在探索AI技术在人力资源管理领域的应用潜力。
+
+    工具集涵盖了从数据处理、文本分析到决策支持的多个HR工作分析环节，致力于为人力资源管理提供全方位的智能化解决方案。
+
+    <CardGrid>
+        <LinkCard
+            title="产品文档"
+            href="/intelligenthr/intelligenthr-intro"
+        />
+        <LinkCard
+            title="GitHub 仓库"
+            href="https://github.com/i-Richard-me/IntelligentHR.git"
+        />
+    </CardGrid>
+
+</Card>
+
+## 内容导航
 
 ---
 <CardGrid>
 
-    <LinkCard title="AI与大模型" href="/llm/llm-intro"/>
-    <LinkCard title="机器学习" href="/machine-learning/machine-learning-intro"/>
-    <LinkCard title="数据分析" href="/analysis/analysis-intro"/>
-    <LinkCard title="实用工具" href="/utility/utility-intro"/>
-    <LinkCard title="Homelab及应用部署" href="/selfhosted/homelab-intro"/>
-    <LinkCard title="个人网站搭建" href="/mysite/mysite-intro"/>
+    <LinkCard title="AI与大模型" description="探索大语言模型在HR和数据分析领域的创新应用" href="/llm/llm-intro"/>
+    <LinkCard title="机器学习实践" description="从基础到进阶的机器学习算法应用" href="/machine-learning/machine-learning-intro"/>
+    <LinkCard title="数据分析进阶" description="高级数据处理和可视化技术" href="/analysis/analysis-intro"/>
+    <LinkCard title="实用工具集" description="提升开发效率的工具和技巧" href="/utility/utility-intro"/>
+    <LinkCard title="Homelab搭建" description="个人服务器和自托管应用实践" href="/selfhosted/homelab-intro"/>
+    <LinkCard title="个人网站开发" description="分享网站搭建和优化的经验" href="/mysite/mysite-intro"/>
 
 </CardGrid>
 
