@@ -97,6 +97,10 @@ export default defineConfig({
                                         label: '🤖 机器学习建模',
                                         link: '/intelligenthr/function_modules/machine-learning-modeling'
                                     },
+                                    {
+                                        label: '🔮 模型预测',
+                                        link: '/intelligenthr/function_modules/model-prediction'
+                                    },
                                 ]
                         }]
                 },
