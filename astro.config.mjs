@@ -93,6 +93,10 @@ export default defineConfig({
                                         label: '👥 简历推荐助手',
                                         link: '/intelligenthr/function_modules/resume-recommender'
                                     },
+                                    {
+                                        label: '🤖 机器学习建模',
+                                        link: '/intelligenthr/function_modules/machine-learning-modeling'
+                                    },
                                 ]
                         }]
                 },
