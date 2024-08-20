@@ -3,104 +3,116 @@ title: "IntelligentHR 项目概览"
 description: "探索AI技术在人力资源管理领域的应用"
 ---
 
-import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import {LinkCard, CardGrid} from '@astrojs/starlight/components';
 
 ## 项目简介
 
 :::note
-IntelligentHR 是一个源于实际工作经验和技术探索的个人项目。这个项目是我在工作之余，结合自身的行业经验和对大语言模型应用的学习，开发的一套实验性工具集。旨在探索AI技术在HR领域的应用潜力，涵盖了从数据处理、文本分析到决策支持的多个HR工作环节，致力于为人力资源管理提供智能化的解决方案。
+IntelligentHR 是一个源于实际工作经验和技术探索的个人项目。这个项目是在工作之余,结合行业经验和对大语言模型应用的学习,开发的一套实验性工具集。旨在探索AI技术在HR领域的应用潜力,涵盖了从数据处理、文本分析到决策支持的多个HR工作环节,致力于为人力资源管理提供智能化的解决方案。
 :::
 
 ## 核心功能模块
 
-IntelligentHR 项目包含九个核心功能模块，每个模块都针对HR工作中的特定需求设计。以下是各模块的详细介绍：
+IntelligentHR 项目包含十一个核心功能模块,每个模块都针对HR工作中的特定需求设计。
+
+以下是各模块的详细介绍:
 
 <CardGrid>
     <LinkCard
-        title="🔍 AI研究助手"
-        description="利用AI技术自动生成多维度搜索策略，进行网络爬虫信息采集，并生成结构化研究报告。"
-        href="/intelligenthr/function_modules/ai-researcher"
+        title="🧮 智能数据整理"
+        description="通过自然语言交互理解用户意图,智能选择适当的数据处理工具,提供多样化的数据操作功能。"
+        href="/intelligenthr/function_modules/table-operation"
     />
     <LinkCard
-        title="🏢 数据标签清洗"
-        description="结合大语言模型和规则引擎，实现复杂企业标签的智能识别和标准化，提高数据清洗的准确性。"
+        title="🏢 自动化数据清洗"
+        description="结合大语言模型和规则引擎,实现复杂企业标签的智能识别和标准化,提高数据清洗的准确性。"
         href="/intelligenthr/function_modules/data-cleaning"
     />
     <LinkCard
-        title="📄 简历信息提取"
-        description="应用自然语言处理技术，从多种格式的简历中准确提取关键信息，生成结构化的简历摘要。"
-        href="/intelligenthr/function_modules/resume-extractor"
+        title="🔍 AI研究助手"
+        description="利用AI技术自动生成多维度搜索策略,进行网络爬虫信息采集,并生成结构化研究报告。"
+        href="/intelligenthr/function_modules/ai-researcher"
     />
     <LinkCard
-        title="👥 简历推荐助手"
-        description="通过深度分析招聘需求，结合向量化技术和语义理解，实现多维度的简历匹配和个性化推荐。"
-        href="/intelligenthr/function_modules/resume-recommender"
-    />
-    <LinkCard
-        title="🌐 AI数据集翻译"
-        description="支持大规模文本数据的批量翻译，保持翻译的上下文一致性和专业术语准确性。"
+        title="🌐 AI语境翻译"
+        description="支持大规模文本数据的批量翻译,保持翻译的上下文一致性和专业术语准确性。"
         href="/intelligenthr/function_modules/translation"
     />
     <LinkCard
-        title="🏷️ 情感分析与标注"
-        description="运用大语言模型进行灵活的文本分类，支持自定义分类标签和多维度分析。"
-        href="/intelligenthr/function_modules/text-classification"
-    />
-    <LinkCard
-        title="🔬 文本聚类分析"
-        description="利用AI技术自动识别和分组相似的文本内容，提供可视化的聚类结果展示。"
+        title="🗂️ 文本聚类分析"
+        description="利用AI技术自动识别和分组相似的文本内容,提供可视化的聚类结果展示。"
         href="/intelligenthr/function_modules/text-clustering"
     />
     <LinkCard
+        title="😊 情感分析与文本标注"
+        description="运用大语言模型进行灵活的文本分类,支持自定义分类标签和多维度分析。"
+        href="/intelligenthr/function_modules/text-classification"
+    />
+    <LinkCard
+        title="📄 智能简历解析"
+        description="应用自然语言处理技术,从多种格式的简历中准确提取关键信息,生成结构化的简历摘要。"
+        href="/intelligenthr/function_modules/resume-extractor"
+    />
+    <LinkCard
+        title="🧩 智能简历推荐"
+        description="通过深度分析招聘需求,结合向量化技术和语义理解,实现多维度的简历匹配和个性化推荐。"
+        href="/intelligenthr/function_modules/resume-recommender"
+    />
+    <LinkCard
         title="📊 驱动因素分析"
-        description="运用机器学习算法分析多维度数据之间的关系，识别并量化影响目标变量的关键因素。"
+        description="运用机器学习算法分析多维度数据之间的关系,识别并量化影响目标变量的关键因素。"
         href="/intelligenthr/function_modules/feature-importance"
     />
     <LinkCard
-        title="🧮 表格处理助手"
-        description="通过自然语言交互理解用户意图，智能选择适当的数据处理工具，提供多样化的数据操作功能。"
-        href="/intelligenthr/function_modules/table-operation"
+        title="🤖 机器学习建模"
+        description="提供多种机器学习算法,支持模型训练、评估和特征重要性分析,助力HR数据的预测分析。"
+        href="/intelligenthr/function_modules/machine-learning-modeling"
+    />
+    <LinkCard
+        title="🔮 模型预测"
+        description="加载预训练的机器学习模型,对新数据进行预测,并提供直观的结果展示和解释。"
+        href="/intelligenthr/function_modules/model-prediction"
     />
 </CardGrid>
 
 ## 技术特点
 
-IntelligentHR 项目利用了多种先进的技术来实现其功能：
+IntelligentHR 项目利用了多种先进的技术来实现其功能:
 
-- **大语言模型应用**：利用大模型进行文本理解、生成和分析。
-- **向量数据库**：使用Milvus进行高效的相似度匹配和检索。
-- **机器学习算法**：应用Scikit-learn库进行数据分析和预测。
-- **数据可视化**：通过Plotly创建交互式的数据可视化图表。
-- **Web应用框架**：使用Streamlit构建用户友好的前端界面。
-- **API开发**：采用FastAPI搭建高性能的后端服务。
+- **大语言模型应用**: 利用大模型进行文本理解、生成和分析。
+- **向量数据库**: 使用Milvus进行高效的相似度匹配和检索。
+- **机器学习算法**: 应用Scikit-learn库进行数据分析和预测。
+- **数据可视化**: 通过Plotly创建交互式的数据可视化图表。
+- **Web应用框架**: 使用Streamlit构建用户友好的前端界面。
+- **自动化参数调优**: 集成Optuna框架进行模型参数优化。
 
 ## 快速开始
 
-要开始使用IntelligentHR项目，请按照以下步骤操作：
+要开始使用IntelligentHR项目,请按照以下步骤操作:
 
-1. 克隆项目仓库并安装依赖：
-   ```
-   git clone https://github.com/i-Richard-me/IntelligentHR
-   cd IntelligentHR
-   pip install -r requirements.txt
-   ```
+1. 克隆项目仓库并安装依赖:
+    ```
+    git clone https://github.com/i-Richard-me/IntelligentHR
+    cd IntelligentHR
+    pip install -r requirements.txt
+    ```
 
-2. 配置环境变量：
-   复制 `.env.example` 文件为 `.env`，并填写必要的API密钥。
+2. 配置环境变量:
 
-3. 启动服务：
-   ```
-   uvicorn backend.main:app --reload
-   streamlit run frontend/00_🏠_首页.py
-   ```
+    复制 `.env.example` 文件为 `.env`,并填写必要的API密钥。
+
+3. 启动服务:
+    ```
+    streamlit run frontend/00_🏠_首页.py
+    ```
 
 ## 项目贡献
 
-IntelligentHR 是一个开源项目，欢迎贡献代码、报告问题或提出改进建议。请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目。
+IntelligentHR 是一个开源项目,欢迎贡献代码、报告问题或提出改进建议。请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目。
 
 ## 免责声明
 
-请注意，IntelligentHR 项目目前处于实验阶段，主要用于学习和研究目的。在实际应用中使用时请谨慎，并自行承担相关风险。
+请注意,IntelligentHR 项目目前处于实验阶段,主要用于学习和研究目的。在实际应用中使用时请谨慎,并自行承担相关风险。
 
 ## 许可证
 
