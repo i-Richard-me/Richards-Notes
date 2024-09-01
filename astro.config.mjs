@@ -72,34 +72,27 @@ export default defineConfig({
                                 '功能模块详解',
                             items:
                                 [
-                                    {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
-                                    {
-                                        label: '📊 驱动因素分析',
-                                        link: '/intelligenthr/function_modules/feature-importance'
-                                    },
-
                                     {label: '🧮 表格处理助手', link: '/intelligenthr/function_modules/table-operation'},
                                     {label: '🏢 数据标签清洗', link: '/intelligenthr/function_modules/data-cleaning'},
-
+                                    {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
                                     {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
                                     {
                                         label: '🏷️ 情感分析与标注',
                                         link: '/intelligenthr/function_modules/text-classification'
                                     },
                                     {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text-clustering'},
-
                                     {label: '📄 简历信息提取', link: '/intelligenthr/function_modules/resume-extractor'},
                                     {
                                         label: '👥 简历推荐助手',
                                         link: '/intelligenthr/function_modules/resume-recommender'
                                     },
                                     {
-                                        label: '🤖 机器学习建模',
-                                        link: '/intelligenthr/function_modules/machine-learning-modeling'
+                                        label: '📊 驱动因素分析',
+                                        link: '/intelligenthr/function_modules/feature-importance'
                                     },
                                     {
-                                        label: '🔮 模型预测',
-                                        link: '/intelligenthr/function_modules/model-prediction'
+                                        label: '🤖 机器学习建模',
+                                        link: '/intelligenthr/function_modules/machine-learning-modeling'
                                     },
                                 ]
                         }]
