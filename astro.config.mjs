@@ -81,7 +81,7 @@ export default defineConfig({
                                         link: '/intelligenthr/function_modules/sentiment-analysis'
                                     },
                                     {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text-clustering'},
-                                    {label: '📄 简历信息提取', link: '/intelligenthr/function_modules/resume-extractor'},
+                                    {label: '📇 智能简历解析', link: '/intelligenthr/function_modules/resume-extractor'},
                                     {
                                         label: '👥 简历推荐助手',
                                         link: '/intelligenthr/function_modules/resume-recommender'
