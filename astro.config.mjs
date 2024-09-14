@@ -87,7 +87,7 @@ export default defineConfig({
                                         link: '/intelligenthr/function_modules/resume-recommender'
                                     },
                                     {
-                                        label: '🤖 机器学习建模',
+                                        label: '🤖 算法建模分析',
                                         link: '/intelligenthr/function_modules/machine-learning-modeling'
                                     },
                                 ]
