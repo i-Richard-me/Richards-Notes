@@ -87,10 +87,6 @@ export default defineConfig({
                                         link: '/intelligenthr/function_modules/resume-recommender'
                                     },
                                     {
-                                        label: '📊 驱动因素分析',
-                                        link: '/intelligenthr/function_modules/feature-importance'
-                                    },
-                                    {
                                         label: '🤖 机器学习建模',
                                         link: '/intelligenthr/function_modules/machine-learning-modeling'
                                     },
