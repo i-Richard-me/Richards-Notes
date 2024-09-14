@@ -75,7 +75,7 @@ export default defineConfig({
                                     {label: '🧮 智能数据整理', link: '/intelligenthr/function_modules/table-operation'},
                                     {label: '🏢 自动化数据清洗', link: '/intelligenthr/function_modules/data-cleaning'},
                                     {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
-                                    {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
+                                    {label: '🌐 智能语境翻译', link: '/intelligenthr/function_modules/ai-translation'},
                                     {
                                         label: '🏷️ 情感分析与标注',
                                         link: '/intelligenthr/function_modules/sentiment-analysis'
