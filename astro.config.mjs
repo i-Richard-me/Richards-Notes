@@ -73,7 +73,7 @@ export default defineConfig({
                             items:
                                 [
                                     {label: '🧮 智能数据整理', link: '/intelligenthr/function_modules/table-operation'},
-                                    {label: '🏢 数据标签清洗', link: '/intelligenthr/function_modules/data-cleaning'},
+                                    {label: '🏢 自动化数据清洗', link: '/intelligenthr/function_modules/data-cleaning'},
                                     {label: '🔍 AI 研究助手', link: '/intelligenthr/function_modules/ai-researcher'},
                                     {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
                                     {
