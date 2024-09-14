@@ -78,7 +78,7 @@ export default defineConfig({
                                     {label: '🌐 AI数据集翻译', link: '/intelligenthr/function_modules/translation'},
                                     {
                                         label: '🏷️ 情感分析与标注',
-                                        link: '/intelligenthr/function_modules/text-classification'
+                                        link: '/intelligenthr/function_modules/sentiment-analysis'
                                     },
                                     {label: '🔬 文本聚类分析', link: '/intelligenthr/function_modules/text-clustering'},
                                     {label: '📄 简历信息提取', link: '/intelligenthr/function_modules/resume-extractor'},
